@@ -1,0 +1,9 @@
+extends ../layouts/default
+
+block main
+ h2= title
+
+block content
+ each result in results
+  .message=result._source.user
+  .user=result._source.message
