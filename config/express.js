@@ -55,9 +55,13 @@ module.exports = function (app, config, passport) {
     })
   }))
 
-  // Passport session
-  app.use(passport.initialize())
-  app.use(passport.session())
+  require("express-persona")(app, {
+    audience: "http://localhost:8888" // Must match your browser's address bar
+  });
+
+  // // Passport session
+  // app.use(passport.initialize())
+  // app.use(passport.session())
 
   // Flash messages
   app.use(flash())
