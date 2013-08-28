@@ -36,12 +36,12 @@ exports.index = function (req, res) {
 
 
 
-elasticSearchMain=function(queary, cb){
+elasticSearchMain=function(query, cb){
 
 
    var qryObj = {
         "query" : {
-            "term" : { "message" : queary }
+            "term" : { "message" : query }
         }
     };
 

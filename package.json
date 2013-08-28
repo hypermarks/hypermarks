@@ -27,7 +27,12 @@
     "jade": "latest",
     "async": "latest",
     "forever": "latest",
-    "elasticsearchclient": "latest"
+    "elasticsearchclient": "latest",
+    "request": "~2.27.0",
+    "browserify": "~2.29.0",
+    "browserify-middleware": "~1.17.2",
+    "passport-persona": "~0.1.7",
+    "express-persona": "0.0.9"
   },
   "devDependencies": {
     "nodemon": "latest",
