@@ -1,54 +1,10 @@
-
-/*!
- * Module dependencies
- */
-
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema
-var userPlugin = require('mongoose-user');
+var Schema = mongoose.Schema;
 
-/**
- * User schema
- */
+var userSchema = new Schema({
+  email: String
+  , created: Date
+});
 
-var UserSchema = new Schema({
-  name: { type: String, default: '' },
-  email: { type: String, default: '' },
-  hashed_password: { type: String, default: '' },
-  salt: { type: String, default: '' }
-})
 
-/**
- * User plugin
- */
-
-UserSchema.plugin(userPlugin, {})
-
-/**
- * Add your
- * - pre-save hooks
- * - validations
- * - virtuals
- */
-
-/**
- * Methods
- */
-
-UserSchema.method({
-
-})
-
-/**
- * Statics
- */
-
-UserSchema.static({
-
-})
-
-/**
- * Register
- */
-
-mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', userSchema);

@@ -5,10 +5,6 @@
 
 var mongoose = require('mongoose');
 var browserify = require('browserify-middleware');
-var passportOptions = {
-  failureFlash: 'Invalid email or password.',
-  failureRedirect: '/login'
-}
 
 // controllers
 var home = require('../app/controllers/home.js')
@@ -39,11 +35,17 @@ module.exports = function (app, passport) {
     });
   });
 
+  app.post('/auth/logout', function(req, res) {
+    req.logout();
+    res.send('ok');
+  });
+
   app.post('/auth/browserid',
     passport.authenticate('persona', {
-      failureRedirect: '/login'
+      failureRedirect: '/'
     }),
     function (req, res) {
+      console.log('auth attempt');
       res.redirect('/');
     }
   );

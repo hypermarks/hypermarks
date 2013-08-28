@@ -1,29 +1,50 @@
 extends layouts/default
 
 block content
-	script(src="https://login.persona.org/include.js")
+  script(src="https://login.persona.org/include.js")
 
-	form(action="/auth/browserid", method="post", style="display: none;")
-		input(type="text", name="assertion")
+  img(src="https://developer.mozilla.org/files/3969/plain_sign_in_blue.png", id="login")
 
-	img(src="https://developer.mozilla.org/files/3969/plain_sign_in_blue.png", id="browserid")
+  #logout Log Out
 
-	if user
-		h2 Hello, #{user.email}
-	else
-		h2 Not logged in. :P
+  if user
+    h2 Hello, #{user.email}
+  else
+    h2 Not logged in. :P
 
-	script.
-		window.onload = function() {
-			document.getElementById("browserid").onclick = function() {
-				console.log('input clicked');
-				navigator.id.get(function(assertion) {
-					if (assertion) {
-						$("input").val(assertion);
-						$("form").submit();
-					} else {
-						location.reload();
-					}
-				});
-			}
-		}
+  script.
+    document.addEventListener("DOMContentLoaded", function() {
+
+      document.querySelector("#login").addEventListener("click", function() {
+        navigator.id.get(function(assertion) {
+          if (!assertion) {
+            return;
+          }
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/auth/browserid", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+
+          xhr.addEventListener("loadend", function(e) {
+            window.location.reload();
+          }, false);
+
+          xhr.send(JSON.stringify({
+            assertion: assertion
+          }));
+        });
+
+      }, false);
+
+      document.querySelector("#logout").addEventListener("click", function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/auth/logout", true);
+        
+        xhr.addEventListener("loadend", function(e) {
+          window.location.reload();
+        });
+
+        xhr.send();
+      }, false);
+
+    }, false);
