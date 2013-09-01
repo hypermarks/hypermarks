@@ -1,14 +1,12 @@
 var serverOptions = {
-    hosts:[
-        {
-            host: 'localhost',
-            port: 9200
-        }]
+  hosts: [{
+    host: 'localhost',
+    port: 9200
+  }]
 };
 ElasticSearchClient = require('elasticsearchclient');
 var elasticSearchClient = new ElasticSearchClient(serverOptions);
 var elasticSearchMain;
-
 
 
 
@@ -18,48 +16,50 @@ var elasticSearchMain;
 
 
 
-exports.index = function (req, res) {
+exports.index = function(req, res) {
 
-    elasticSearchMain("trying", function(err, results){
+  elasticSearchMain("trying", function(err, results) {
 
-        res.render('home', {
-            title: 'Home',
-            results:results
-        });
-
-
+    res.render('home', {
+      title: 'Home',
+      results: results
     });
 
 
-  
+  });
+
+
+
 };
 
 
 
-elasticSearchMain=function(query, cb){
+elasticSearchMain = function(query, cb) {
 
 
-   var qryObj = {
-        "query" : {
-            "term" : { "message" : query }
-        }
-    };
+  var qryObj = {
+    "query": {
+      "term": {
+        "message": query
+      }
+    }
+  };
 
-    elasticSearchClient.search('twitter', '', qryObj)
-        .on('data', function(data) {
+  elasticSearchClient.search('twitter', '', qryObj)
+    .on('data', function(data) {
 
-            cb(null, JSON.parse(data).hits.hits);
+      cb(null, JSON.parse(data).hits.hits);
 
-        })
-        .on('done', function(){
-            //always returns 0 right now
+    })
+    .on('done', function() {
+      //always returns 0 right now
 
 
-        })
-        .on('error', function(error){
-            console.log(error);
-        })
-        .exec();
+    })
+    .on('error', function(error) {
+      console.log(error);
+    })
+    .exec();
 
 
 };

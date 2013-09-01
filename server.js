@@ -2,11 +2,13 @@
 /**
  * Module dependencies
  */
+ 
+//get environment config
+var env = process.env.NODE_ENV || 'development'
+var config = require('./config/config')[env]
 
 var express = require('express')
 var passport = require('passport')
-var env = process.env.NODE_ENV || 'development'
-var config = require('./config/config')[env]
 var mongoose = require('mongoose')
 var fs = require('fs')
 
@@ -31,7 +33,7 @@ require('./config/express')(app, config, passport)
 require('./config/routes')(app, passport)
 
 // Start the app by listening on <port>
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 1337
 app.listen(port)
 console.log('Express app started on port '+port)
 

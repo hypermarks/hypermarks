@@ -12,19 +12,21 @@ var rootPath = path.resolve(__dirname + '../..')
 
 module.exports = {
   development: {
-    root: rootPath,
-    db: 'mongodb://localhost/hypermarks_dev'
+    root: rootPath
+    , db: 'mongodb://localhost/hypermarks_dev'
+    , es: 'localhost:9200'
   },
   test: {
-    root: rootPath,
-    db: 'mongodb://localhost/hypermarks_test'
+    root: rootPath
+    , db: 'mongodb://localhost/hypermarks_test'
+    , es: 'localhost:9200'
   },
   staging: {
-    root: rootPath,
-    db: process.env.MONGOHQ_URL
+    root: rootPath
+    , db: process.env.MONGOHQ_URL
   },
   production: {
-    root: rootPath,
-    db: process.env.MONGOHQ_URL
+    root: rootPath
+    , db: process.env.MONGOHQ_URL
   }
 }

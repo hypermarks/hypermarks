@@ -1,51 +1,50 @@
-
 /*!
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 var PersonaStrategy = require('passport-persona').Strategy;
-var User = mongoose.model('User')
+var User = mongoose.model('User');
 
 /**
  * Expose
  */
 
-module.exports = function (passport, config) {
-  // serialize sessions
+module.exports = function(passport, config) {
+
+  //serialize sessions
   passport.serializeUser(function(user, done) {
-    console.log('serializeUser', user)
     done(null, user.id)
   });
 
+  //deserialize sessions
   passport.deserializeUser(function(id, done) {
-    console.log('deserializeUser', id)
-    User.findById(id, function (err, user) {
+    User.findById(id, function(err, user) {
       done(err, user)
     })
   });
 
 
   passport.use(new PersonaStrategy({
-      audience: 'localhost:3000'
+      audience: 'localhost:1337'
     },
 
-    function (email, done) {
-      console.log('Strategy CB')
-      var options = {
+    function(email, done) {
+      User.findOne({
         'email': email
-      };
-
-      User.findOne(options, function (err, user) {
-        if (err) { return done(err) }
+      }, function(err, user) {
+        console.log(user._id)
+        if (err) {
+          return done(err)
+        }
 
         if (!user) {
           user = new User({
-              email: email
-            , created: Date.now()
+            email: email,
+            created: Date.now()
           })
 
-          user.save(function (err) {
+          user.save(function(err) {
             if (err) console.log(err)
             return done(err, user)
           })
@@ -55,5 +54,5 @@ module.exports = function (passport, config) {
       });
     }
   ));
-
 }
+

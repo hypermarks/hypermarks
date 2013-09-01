@@ -1,0 +1,1 @@
+ElasticSearchClient = require('elasticsearchclient');

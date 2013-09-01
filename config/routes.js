@@ -24,10 +24,17 @@ function ensureAuthenticated(req, res, next) {
 
 module.exports = function (app, passport) {
 
-  app.get('/', home.index)
+  app.get('/', function(req, res){
+    res.end('hello');
+  })
+
 
   // browserify bookmarklet code
-  app.get('/js/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js'));
+  app.get('/bookmarklet.js', browserify('../external/bookmarklet.js'));
+
+  app.post('/import', function (req, res) {
+    console.log(req.files);
+  })
 
   app.get('/login', function (req, res) {
     res.render('login', {
@@ -35,7 +42,7 @@ module.exports = function (app, passport) {
     });
   });
 
-  app.post('/auth/logout', function(req, res) {
+  app.post('/auth/logout', function (req, res) {
     req.logout();
     res.send('ok');
   });
