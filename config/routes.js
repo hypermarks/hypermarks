@@ -32,18 +32,26 @@ module.exports = function (app, passport) {
 
 
   // browserify bookmarklet code
-  app.get('/bookmarklet.js', browserify('../external/bookmarklet.js'));
+  app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
 
-  app.post('/api/new', function(req, res) {
+  // app.get('/permanent/extension.js', browserify('../external/extension.js')); //On hold for now
+
+  app.post('/api/new', ensureAuthenticated, function(req, res) {
     newHypermark(req.body.url, 'hello', req.user, function(err){
       if (err) return res.end(err); //TODO: possibly do something better with this.
       return res.end('success') //TODO: Replace with something useful
     });
   });
 
+  app.post('/api/posttest', function(req, res) {
+    console.log(req.body.url);
+  });
+
   app.get('/login', function (req, res) {
     res.render('login', {
       user: req.user
+      , bookmarklet: "javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/permanent/bookmarklet.js');document.body.appendChild(jsCode);}();" //TODO: some sort of a better solution for bookmarklet loader inclusion
+
     });
   });
 

@@ -49,8 +49,8 @@ module.exports = function(url, add_date, user, callback) { //TODO: possibly set 
 
 function bookmarkCreate(url, add_date, user, cb) {
 	user.bookmarks.push({
-		url: url,
-		add_date: add_date
+		url: url
+		, add_date: add_date
 	});
 	user.save(function(err) {
 		if (err) return cb(err);

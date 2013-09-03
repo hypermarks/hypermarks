@@ -1,8 +1,4 @@
 var xhr = new XMLHttpRequest();
-xhr.open('POST', 'http://localhost:3000/api', true);
+xhr.open('POST', 'http://localhost:1337/api/new', true); //TODO: dynamically substitute urls for dev, prod, etc.
 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-xhr.onload = function () {
-    // do something to response
-    console.log(this.responseText);
-};
-xhr.send('user=person&pwd=password&organization=place&requiredkey=key');
+xhr.send("url="+window.location);
