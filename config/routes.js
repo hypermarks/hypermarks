@@ -30,7 +30,6 @@ module.exports = function (app, passport) {
     res.end('hello');
   })
 
-
   // browserify bookmarklet code
   app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
 
