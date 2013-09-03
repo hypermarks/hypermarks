@@ -84,7 +84,8 @@ function resolveURLs(base, links) {
 
 function getPage(saniUrl, callback) {
 	var urlStrs = [
-		'http://' + saniUrl, 'https://' + saniUrl
+		'http://' + saniUrl
+		, 'https://' + saniUrl
 	];
 
 	var result, urlStr;
@@ -93,6 +94,7 @@ function getPage(saniUrl, callback) {
 			return result
 		}, function(cb) {
 			urlStr = urlStrs.shift();
+			console.log(urlStr)
 			if (urlStr) {
 				request(urlStr, function(error, response, body) {
 					result = body;
@@ -117,7 +119,9 @@ function scrapeElements(body) {
 		}
 
 	page.favi_urls = [
-		$('link[rel="icon"]').attr('href'), $('link[rel="shortcut icon"]').attr('href'), '/favicon.ico'
+		$('link[rel="icon"]').attr('href')
+		, $('link[rel="shortcut icon"]').attr('href')
+		, '/favicon.ico'
 	]
 
 	return page;

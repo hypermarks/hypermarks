@@ -4,12 +4,12 @@ var mongoose = require('mongoose')
 var bookmarkSchema = new Schema({
 	address: { type: Schema.ObjectId, ref: 'Address'}
   , url: String
-	, created: Date
+	, created: { type : Date, default : Date.now }
 });
 
 var userSchema = new Schema({
   email: String
-  , created: Date
+  , created: { type : Date, default : Date.now }
   , searches: [String]
   , bookmarks: [bookmarkSchema]
 });

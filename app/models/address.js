@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
   , mongoosastic = require('mongoosastic')
-  , Schema = mongoose.Schema;
+  , Schema = mongoose.Schema
+  ;
 
 var addressSchema = new Schema({
   url: String
