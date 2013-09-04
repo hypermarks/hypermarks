@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 
 var bookmarkSchema = new Schema({
 	address: { type: Schema.ObjectId, ref: 'Address'}
-  , url: String
+  	, url: String
 	, created: { type : Date, default : Date.now }
 });
 

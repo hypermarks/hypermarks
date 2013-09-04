@@ -10,27 +10,14 @@ var mongoStore = require('connect-mongo')(express);
  * Expose
  */
 
-//CORS middleware
-var allowCrossOrigin = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-    next();
-}
-
 module.exports = function (app, config, passport) {
 
   // views config
   app.set('views', config.root + '/app/views')
   app.set('view engine', 'jade');
-
-
-  //Servering static files
-  app.use(express.static(config.root + '/public'));
   
-  //CORS
-  //app.use(allowCrossOrigin);
+  //Serving static files
+  app.use(express.static(config.root + '/public'));
 
   // bodyParser should be above methodOverride
   app.use(express.bodyParser())
