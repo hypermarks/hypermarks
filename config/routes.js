@@ -26,8 +26,9 @@ function ensureAuthenticated(req, res, next) {
 
 module.exports = function (app, passport) {
 
-  app.get('/', function(req, res){
-    res.end('hello');
+  //Temporary template rendering
+  app.get('/temp-temp/home', function(req, res){
+    res.render('home');
   })
 
   // browserify bookmarklet code
