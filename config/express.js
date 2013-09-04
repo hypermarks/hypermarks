@@ -23,10 +23,14 @@ module.exports = function (app, config, passport) {
 
   // views config
   app.set('views', config.root + '/app/views')
-  app.set('view engine', 'jade')
+  app.set('view engine', 'jade');
 
+
+  //Servering static files
+  app.use(express.static(config.root + '/public'));
+  
   //CORS
-  app.use(allowCrossOrigin);
+  //app.use(allowCrossOrigin);
 
   // bodyParser should be above methodOverride
   app.use(express.bodyParser())
