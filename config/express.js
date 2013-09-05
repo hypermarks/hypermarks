@@ -14,7 +14,9 @@ module.exports = function(app, config, passport) {
   // views config
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
-  app.use(require('stylus').middleware(__dirname + '/public'));
+
+  //Stylsheet render
+  app.use(require('stylus').middleware(config.root + '/public'));
 
   //Serving static files
   app.use(express.static(config.root + '/public'));
