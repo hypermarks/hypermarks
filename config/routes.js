@@ -6,19 +6,15 @@
 var mongoose = require('mongoose');
 var browserify = require('browserify-middleware');
 var multiparty = require('multiparty');
-var newHypermark = require('../app/controllers/new-hypermark');
+var auth = require('./middleware/auth');
+
 
 // controllers
 var home = require('../app/controllers/home.js')
+var newHome = require('../app/controllers/new-home.js') //This is because I don't want to disturb the home.js controller right now.
+var newHypermark = require('../app/controllers/new-hypermark');
 
 
-// authentication utility
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login')
-}
 
 /**
  * Expose
@@ -26,34 +22,33 @@ function ensureAuthenticated(req, res, next) {
 
 module.exports = function (app, passport) {
 
-  //Temporary template rendering
-  app.get('/temp-temp/home', function(req, res){
-    res.render('home');
+  //Home
+  app.get('/', function(req, res){
+    newHome(req, res);
   })
 
-  // browserify bookmarklet code
+  //Browserify bookmarklet code
   app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
 
-  // app.get('/permanent/extension.js', browserify('../external/extension.js')); //On hold for now
-
-  app.post('/api/new', ensureAuthenticated, function(req, res) {
+  //Submit new hypermark
+  app.post('/api/new', auth.requiresLogin, function(req, res) {
     newHypermark(req.body.url, 'hello', req.user, function(err){
       if (err) return res.end(err); //TODO: possibly do something better with this.
       return res.end('success') //TODO: Replace with something useful
     });
   });
 
-  app.post('/api/posttest', function(req, res) {
-    console.log(req.body.url);
-  });
 
-  app.get('/login', function (req, res) {
-    res.render('login', {
-      user: req.user
-      , bookmarklet: "javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/permanent/bookmarklet.js');document.body.appendChild(jsCode);}();" //TODO: some sort of a better solution for bookmarklet loader inclusion
+  //Auth Routes
 
-    });
-  });
+  //TODO: do something better with this
+  // app.get('/login', function (req, res) {
+  //   res.render('login', {
+  //     user: req.user
+  //     , bookmarklet: "javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/permanent/bookmarklet.js');document.body.appendChild(jsCode);}();" //TODO: some sort of a better solution for bookmarklet loader inclusion
+
+  //   });
+  // });
 
   app.post('/auth/logout', function (req, res) {
     req.logout();

@@ -1,5 +1,6 @@
 extends layouts/default
 
+
 block content
 	nav.controls
 		.searchbox
@@ -9,6 +10,8 @@ block content
 		.timeline
 			._divider
 				|Today
-			.hypermark
-				img._favicon(src="#{}")
-				a._link(src="#{}") #{}
+			for result in results
+				favicon = result.favicon === "false" ? "images/no_favicon.ico" : result.favicon
+				.hypermark(data-date_added="#{result.date_added}")
+					img._favicon(src="#{favicon}")
+					a._link(src="#{result.link}") #{result.title}
