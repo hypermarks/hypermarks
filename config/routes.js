@@ -23,9 +23,7 @@ var newHypermark = require('../app/controllers/new-hypermark');
 module.exports = function (app, passport) {
 
   //Home
-  app.get('/', function(req, res){
-    newHome(req, res);
-  })
+  app.get('/', auth.requiresLogin, newHome)
 
   //Browserify bookmarklet code
   app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
@@ -39,16 +37,15 @@ module.exports = function (app, passport) {
   });
 
 
-  //Auth Routes
+  // Auth Routes
+  // TODO: do something better with this
+  app.get('/login', function (req, res) {
+    res.render('login', {
+      user: req.user
+      , bookmarklet: "javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/permanent/bookmarklet.js');document.body.appendChild(jsCode);}();" //TODO: some sort of a better solution for bookmarklet loader inclusion
 
-  //TODO: do something better with this
-  // app.get('/login', function (req, res) {
-  //   res.render('login', {
-  //     user: req.user
-  //     , bookmarklet: "javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/permanent/bookmarklet.js');document.body.appendChild(jsCode);}();" //TODO: some sort of a better solution for bookmarklet loader inclusion
-
-  //   });
-  // });
+    });
+  });
 
   app.post('/auth/logout', function (req, res) {
     req.logout();
