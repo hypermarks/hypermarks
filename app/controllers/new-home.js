@@ -3,26 +3,26 @@ module.exports = function(req, res) {
 		{
 			"favicon": "false"
 			, "date_added": ""
-			, "title": ""
-			, "link": ""
+			, "title": "Da Mystery of Chessboxing"
+			, "link": "#"
 		}
 		, {
-			"favicon": "false"
+			"favicon": "http://roots.cx/favicon.ico"
 			, "date_added": ""
-			, "title": ""
-			, "link": ""
+			, "title": "Weird Times in the Gold Mines"
+			, "link": "#"
 		}
 		, {
 			"favicon": "https://github.com/favicon.ico"
 			, "date_added": ""
-			, "title": ""
-			, "link": ""
+			, "title": "Github - Shell script linter"
+			, "link": "#"
 		}
 		, {
 			"favicon": "false"
 			, "date_added": ""
-			, "title": ""
-			, "link": ""
+			, "title": "Ufo Research"
+			, "link": "#"
 		}
 	];
 

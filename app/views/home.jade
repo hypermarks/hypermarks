@@ -14,4 +14,4 @@ block content
 				favicon = result.favicon === "false" ? "images/no_favicon.ico" : result.favicon
 				.hypermark(data-date_added="#{result.date_added}")
 					img._favicon(src="#{favicon}")
-					a._link(src="#{result.link}") #{result.title}
+					a._link(href="#{result.link}") #{result.title}
