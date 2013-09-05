@@ -1,9 +1,23 @@
 @import "axis/axis"
+@import url(http://fonts.googleapis.com/css?family=Roboto);
 
 global-reset()
 normalize()
 
 html
-	background blue
-	// transform: rotate(45deg)
-	// box-shadow: 0 0 5px rgba(#000, .3)
+	font-family "Roboto"
+
+.topnav
+	fixed: top left right
+	background white
+
+.logo
+	font-size 2em
+	padding .5em
+	img
+		size(1em)
+		margin-right .25em
+	._text
+		vertical-align top
+
+
