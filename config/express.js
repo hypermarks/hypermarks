@@ -19,7 +19,7 @@ module.exports = function(app, config, passport) {
   app.use(require('stylus').middleware(config.root + '/public'));
 
   //Serving static files
-  app.use(express.static(config.root + '/public'));
+  app.use(express.static(config.root + '/public'))
 
   // bodyParser should be above methodOverride
   app.use(express.bodyParser());
