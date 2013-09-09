@@ -6,7 +6,8 @@
 //COLORS
 brand = #7C0090
 accent = #006BCF
-offwhite = #F7F8F7
+accent2 = #2E8000
+offwhite = #fcfbfc
 lightgrey = #bbb
 
 //TYPOGRAPHIC
@@ -18,7 +19,7 @@ label()
 	upcase()
 
 
-// *, *:before, *:after
+// *
 //   -moz-box-sizing border-box
 //   -webkit-box-sizing border-box
 //   box-sizing border-box
@@ -120,3 +121,21 @@ h6
 
 .main-info
 	col(2, 3, dbl-gutter)
+
+.timeline
+	._divider
+		label()
+		border-bottom 1px solid lightgrey
+		margin-bottom 20px
+
+.hypermark
+	margin-bottom 1.5em
+	._link
+		font-size large-text
+		margin-bottom 5px
+		display block
+	._sani-url
+		font-size small-text
+		margin-bottom 5px
+		display block
+		color accent2

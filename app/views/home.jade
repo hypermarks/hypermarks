@@ -22,7 +22,7 @@ block content
 			._divider
 				|Today
 			for result in results
-				.hypermark(data-date_added="#{result.date_added}")
+				article.hypermark(data-date_added="#{result.date_added}")
 					a._link(href="#{result.url}") #{result.title}
 					._sani-url #{result.sani_url}
 					._excerpt #{result.excerpt}
