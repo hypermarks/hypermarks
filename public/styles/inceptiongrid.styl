@@ -1,0 +1,121 @@
+//GRID SETTINGS
+gutter = 40px
+page-width = 966px
+number-of-columns = 12
+
+
+//BREAKPOINTS
+tablet = 767px
+phone = 480px
+
+under-tablet = "screen and (max-width: " + tablet + ")"
+under-phone  = "screen and (max-width: " + phone + ")"
+
+over-tablet = "screen and (min-width: " + tablet + ")"
+over-phone  = "screen and (min-width: " + phone + ")"
+
+only-tablet = "screen and (max-width: " + tablet + ") and (min-width: " + phone + ")"
+
+
+/*
+ * Hide on breakpoint
+ * 
+ * Synopsis:
+ * 
+ *   hide([breakpoint])
+ * 
+ * Examples:
+ *
+ * hide(under-tablet)
+ * hide(over-phone)
+ * hide(only-tablet)
+ * 
+ */
+hide(breakpoint)
+	@media breakpoint
+		display none
+
+
+//calculates the width and max-width given the intended number of columns.
+col-width(num, denom)
+	one-col-width = 100% / denom
+	one-col-max-width = page-width / denom
+	width one-col-width * num
+	max-width one-col-max-width * num
+
+col-props()
+	padding-right gutter * .5
+	padding-left gutter * .5
+	float left
+	box-sizing border-box
+	-webkit-sizing border-box
+	-moz-box-sizing border-box
+	-o-box-sizing border-box
+	&:after
+		content ""
+		display table
+		clear both
+
+center()
+	float none
+	margin-left auto
+	margin-right auto
+	
+no-gutter()
+	padding-left 0
+	padding-right 0
+
+dbl-gutter()
+	padding-right gutter
+	padding-left gutter
+
+inner-bottom-gutter()
+	> *
+		padding-bottom gutter
+
+bottom-gutter()
+	padding-bottom gutter
+
+top-gutter()
+	padding-top gutter
+
+/*
+ * Column
+ * 
+ * Synopsis:
+ * 
+ *   col([numerator, denominator])
+ * 
+ * Examples:
+ * 
+ *     col(1, 6) 
+ *     col(2, 12)
+ *     col(4, 24)
+ */
+col(num, denom, args = null)
+	col-width(num, denom)
+	col-props()
+	for arg in args
+		arg()
+
+ 
+
+//CLASSES
+[class*='col-']
+	col-props()
+
+
+//iteratively creates the proper classes for use in html.
+for num in 1..number-of-columns
+	.col-{num}-{number-of-columns}
+		col-width(num, number-of-columns)
+
+@media under-tablet
+	for num in 1..number-of-columns
+		.t_col-{num}-{number-of-columns}
+			col-width(num, number-of-columns)
+
+@media under-phone
+	for num in 1..number-of-columns
+		.p_col-{num}-{number-of-columns}
+			col-width(num, number-of-columns)

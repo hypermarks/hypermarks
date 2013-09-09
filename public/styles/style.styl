@@ -1,24 +1,122 @@
 @import "axis/axis"
+@import "jehanutils"
+@import "inceptiongrid"
 @import url(http://fonts.googleapis.com/css?family=Roboto);
+
+//COLORS
+brand = #7C0090
+accent = #006BCF
+offwhite = #F7F8F7
+lightgrey = #bbb
+
+//TYPOGRAPHIC
+small-text = 90%
+large-text = 120%
+
+label()
+	font-size small-text
+	upcase()
+
+
+// *, *:before, *:after
+//   -moz-box-sizing border-box
+//   -webkit-box-sizing border-box
+//   box-sizing border-box
 
 global-reset()
 normalize()
+base()
+headers()
+bold-italic()
 
-html
-	font-family "Roboto"
-	color #333
+
+
+body
+	background offwhite
+
+input
+	background offwhite
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+	font-weight 400
+
 
 .topnav
-	fixed top left right
-	background #848490
+	nav-height = 50px
+	clearfix()
+	background white
+	border-bottom 1px solid brand
 
-.logo
-	font-size 2em
-	padding .5em
-	img
-		size(1em)
-		margin-right .25em
-	._text
-		vertical-align top
+	._logo
+		middle-parent()
+		height nav-height
+		font-size 2em
+		color brand
+		col(1, 3, no-gutter)
+		padding-left gutter
+		.middle-child
+			middle-child()
+		img
+			vertical-align bottom
+			size(1em)
+			margin-right .25em
+		._text
+			vertical-align top
+
+	._controls
+		col(2, 3, dbl-gutter)
+		._searchbox
+			float left
+			middle-parent()
+			height nav-height
+			input
+				input(color = brand)
+				middle-child()
+				height 32px
+				padding-right 2em
+			i 
+				position relative
+				right 1.5em
+				vertical-align middle
+
+		._links
+			float right
+			._link
+				height nav-height
+				middle-parent()
+				padding 0 1em
+				span
+					middle-child()
+				&:last-child
+					padding-right 0
+					border-left 1px solid brand
 
 
+.sidebar
+	col(1, 3, no-gutter)
+	background white
+	._menu
+		margin-bottom 2em
+		ul 
+			reset-list()
+		._sectitle
+			label()
+			padding-left gutter
+			line-height 200%
+			border-bottom 1px solid lightgrey
+		._item
+			padding-left gutter
+			line-height 250%
+			border-top 1px solid lightgrey
+			font-size large-text
+			&:first-child
+				border none
+
+
+.main-info
+	col(2, 3, dbl-gutter)
