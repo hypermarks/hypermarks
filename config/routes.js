@@ -28,7 +28,7 @@ module.exports = function (app, passport) {
   app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
 
   //Submit new hypermark
-  app.post('/api/bookmarks', auth.requiresLogin, hypermarks.newHypermark);
+  app.post('/api/bookmarks', hypermarks.newHypermark);
 
   app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
