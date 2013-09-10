@@ -9,8 +9,8 @@ var auth = require('./middleware/auth');
 
 // controllers
 var home = require('../app/controllers/home.js'); //This is because I don't want to disturb the home.js controller right now.
-var newHypermark = require('../app/controllers/new-hypermark');
 var users = require('../app/controllers/users');
+var hypermarks = require('../app/controllers/hypermarks.js');
 
 
 /**
@@ -28,12 +28,7 @@ module.exports = function (app, passport) {
   app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
 
   //Submit new hypermark
-  app.post('/api/bookmarks', auth.requiresLogin, function(req, res) {
-    newHypermark(req.body.url, 'hello', req.user, function(err){
-      if (err) return res.end(err); //TODO: possibly do something better with this.
-      return res.end('success'); //TODO: Replace with something useful
-    });
-  });
+  app.post('/api/bookmarks', auth.requiresLogin, hypermarks.newHypermark);
 
   app.get('/auth/login', users.login);
   app.post('/auth/logout', users.logout);

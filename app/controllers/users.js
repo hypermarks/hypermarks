@@ -8,7 +8,7 @@ exports.login = function (req, res) {
 
 	if (req.user) {
 		console.log('is user');
-		res.redirect(req.body.referer);
+		res.redirect('http://google.com');
 	} else {
 		res.render('login');
 	}
