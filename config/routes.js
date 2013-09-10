@@ -30,9 +30,10 @@ module.exports = function (app, passport) {
   //Submit new hypermark
   app.post('/api/bookmarks', auth.requiresLogin, hypermarks.newHypermark);
 
-  app.get('/auth/login', users.login);
+  app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
 
+  app.post('/auth/browserid', passport.authenticate('persona'));
 
 
 
@@ -46,15 +47,9 @@ module.exports = function (app, passport) {
     });
   });
 
+  // app.post('/auth/browserid', function (req, res) {
+  //   users.browserid(req, res, passport);
+  // });
 
-
-  app.post('/auth/browserid',
-    passport.authenticate('persona', {
-      failureRedirect: '/'
-    }),
-    function (req, res) {
-      res.redirect('/');
-    }
-  );
 
 };

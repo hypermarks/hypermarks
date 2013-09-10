@@ -1,40 +1,42 @@
 'use strict';
 
 
-var mongoose = require('mongoose')
+// var mongoose = require('mongoose');
 
 
 //This checks if the user is logged in.
 //If so, the user is sent back where they came from
-//If not, the user is served a page that simply makes a browserid request
-exports.login = function (req, res) {
+//If not, the user is served a page that makes a 
+//browserid request, with the redirect url templated in
+exports.externalLogin = function (req, res) {
 
-	var url=req.param("redirecturl");
+  // This gets the redirect url from the query string
+  var redirectUrl = req.param('redirectUrl');
 
-	console.log(url);
+  console.log('redirectUrl', redirectUrl);
 
-	console.log(new Date().getTime());
-
-
-	console.log(req.user);
-
-	if (req.user) {
-
-		//At this point we have verified they have logged in.
-		//Here is where we put the username
-
-
-		res.redirect(url);
-	} else {
-		///here is where you ahve to pass in the parameter for the page to redirect to.
-		res.render('login',{
-			url:url
-		});
-	}
+  if (req.user) {
+    res.redirect(redirectUrl || '/'); // This guards against an undefined redirectUrl
+  } else {
+    // Pass the redirectUrl to the template
+    res.render('login',{
+      url: redirectUrl
+    });
+  }
 };
 
+exports.browserid = function (req, res) {
+  // This gets the redirect url from the query string
+  var redirectUrl = req.param('redirectUrl');
+
+  console.log('users.browserid', redirectUrl);
+
+  res.redirect(redirectUrl || '/'); // This guards against an undefined redirectUrl
+};
+
+
 exports.logout = function (req, res) {
-	console.log('exports.logout');
-	req.logout();
-	res.send(200);
+  console.log('exports.logout');
+  req.logout();
+  res.send(200);
 };
