@@ -12,9 +12,9 @@ var request = require('request'),
  *
  * Examples:
  *
- *      parse.urlSanitize("https://www.website.com#canoe") // saniUrl = "website.com
+ *      parse.urlSanitize("https://www.website.com#canoe") // sani_url = "website.com
  *
- * @param {String} saniUrl
+ * @param {String} sani_url
  * @param {Function} done
  * @api public
  */
@@ -46,21 +46,21 @@ exports.urlSanitize = function (urlStr) {
  *      doSomething(page);
  *    });
  *
- * @param {String} saniUrl
+ * @param {String} sani_url
  * @param {Function} done
  * @api public
  */
 
-exports.pageHarvest = function (saniUrl, callback) {
+exports.pageHarvest = function (sani_url, callback) {
   // This controls the process using named functions
-  getPage(saniUrl, function(error, result, urlStr) {
+  getPage(sani_url, function(error, result, urlStr) {
     if (error) {
       callback(error);
     } else {
       var page = scrapeElements(result); //Extract relevant strings
       var favi_urls = resolveURLs(urlStr, page.favi_urls); //Resolve favicon URLs with checked url
       page.url = urlStr;
-      page.saniUrl = saniUrl; //Add sanitized URL
+      page.sani_url = sani_url; //Add sanitized URL
       delete page.favi_urls;
 
       findFavicon(favi_urls, urlStr, function(full_favi_url) {
@@ -84,10 +84,10 @@ function resolveURLs(base, links) {
 }
 
 
-function getPage(saniUrl, callback) {
+function getPage(sani_url, callback) {
   var urlStrs = [
-    'http://' + saniUrl
-    , 'https://' + saniUrl
+    'http://' + sani_url
+    , 'https://' + sani_url
   ];
 
   var result, urlStr;
