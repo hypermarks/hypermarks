@@ -1,14 +1,17 @@
 nav.topnav
-	._logo
-		img(src="/images/hypermarks-logo_64.png")
-		span._text Hypermarks
-	._controls
-		._searchbox
-			img(src="/images/hypermarks-logo_64.png")
-			input.search(placeholder="Search...")
-			i.icon-search
-		._links
-			._link.-account
-				span.js-logout 
-					i.icon-caret-down 
-					| Jehan
+  ._logo
+    img(src="/images/hypermarks-logo_64.png")
+    span._text Hypermarks
+  ._controls
+    ._searchbox
+      img(src="/images/hypermarks-logo_64.png")
+      input.search(placeholder="Search...")
+      i.icon-search
+    ._links
+      ._link.-account
+        span.js-logout 
+          i.icon-caret-down 
+            if user
+              | #{user.email}
+            else
+              | Sign In
