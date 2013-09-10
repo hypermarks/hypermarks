@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var browserify = require('browserify-middleware');
+// var browserify = require('browserify-middleware');
 var auth = require('./middleware/auth');
 
 
@@ -25,7 +25,11 @@ module.exports = function (app, passport) {
 
 
   //Browserify bookmarklet code
-  app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
+  // app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
+  // 
+  app.get('/permanent/bookmarklet.js', function (req, res) {
+    res.send('../external/bookmarklet.js');
+  });
 
   //Submit new hypermark
   app.post('/api/bookmarks', hypermarks.newHypermark);
