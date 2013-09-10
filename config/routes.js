@@ -37,16 +37,18 @@ module.exports = function (app, passport) {
   app.post('/auth/logout', users.logout);
   
 
-  // Auth Routes
-  // TODO: do something better with this
-  app.get('/fakelogin', function (req, res) {
-    console.log(req.user ? req.user.email : 'nope');
-    res.render('fakelogin', {
+
+
+  //TEST PAGE
+  app.get('/testpage', function (req, res) {
+    console.log(req.user ? req.user.email : 'not logged in');
+    res.render('testpage', {
       user: req.user
       , bookmarklet: require('../external/loader.js')
 
     });
   });
+
 
 
   app.post('/auth/browserid',

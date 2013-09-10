@@ -14,6 +14,8 @@ exports.login = function (req, res) {
 	}
 };
 
-exports.logout = function (req) {
+exports.logout = function (req, res) {
+	console.log('exports.logout');
 	req.logout();
+	res.send(200);
 };
