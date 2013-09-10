@@ -33,11 +33,10 @@ module.exports = function(passport, config) {
       User.findOne({
         'email': email
       }, function(err, user) {
-        console.log(user._id)
+        console.log(user)
         if (err) {
           return done(err)
         }
-
         if (!user) {
           user = new User({
             email: email,

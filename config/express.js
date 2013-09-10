@@ -28,11 +28,11 @@ module.exports = function(app, config, passport) {
   // cookieParser should be above session
   app.use(express.cookieParser());
   app.use(express.session({
-    secret: 'lolasaurus',
-    store: new mongoStore({
-      url: config.db,
-      collection: 'sessions'
-    })
+    secret: 'lolasaurus'
+    // , store: new mongoStore({
+    //   url: config.db,
+    //   collection: 'sessions'
+    // })
   }))
 
   // Passport session

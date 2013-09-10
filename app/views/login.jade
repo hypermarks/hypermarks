@@ -1,59 +1,23 @@
-//- This page is really messy right now and will probably be completely refactored. Sort of a testing ground at this point.
+//- This login page is very simple and does not present any interface to the user.
+//- It simply exists to make a post request to the browserid endpoint
+script(src="https://login.persona.org/include.js")
+script.
+  navigator.id.get(function(assertion) {
+    if (!assertion) {
+      return;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:1337/auth/browserid", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
 
-extends layouts/default
-
-bookmarklet = "javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:3000/permanent/bookmarklet.js');document.body.appendChild(jsCode);}();"
-
-block content
-  script(src="https://login.persona.org/include.js")
-
-  img(src="https://developer.mozilla.org/files/3969/plain_sign_in_blue.png", id="login")
-
-  #logout Log Out
-
-  if user
-    h2 Hello, #{user.email}
-  else
-    h2 Not logged in. :P
-
-  form(action="/import", method="post", enctype="multipart/form-data")
-    input(type="file", name="bookmarks")
-    button(type="submit")
-
-  a(href="#{bookmarklet}") bookmarklet
-
-  script.
-    document.addEventListener("DOMContentLoaded", function() {
-
-      document.querySelector("#login").addEventListener("click", function() {
-        navigator.id.get(function(assertion) {
-          if (!assertion) {
-            return;
-          }
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", "/auth/browserid", true);
-          xhr.setRequestHeader("Content-Type", "application/json");
-
-          xhr.addEventListener("loadend", function(e) {
-            window.location.reload();
-          }, false);
-
-          xhr.send(JSON.stringify({
-            assertion: assertion
-          }));
-        }, {backgroundColor: '#563444', siteName: 'Hypermarks'});
-
-      }, false);
-
-      document.querySelector("#logout").addEventListener("click", function() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/auth/logout", true);
-        
-        xhr.addEventListener("loadend", function(e) {
-          window.location.reload();
-        });
-
-        xhr.send();
-      }, false);
-
+    xhr.addEventListener("loadend", function(e) {
+      window.location.reload();
     }, false);
+
+    xhr.send(JSON.stringify({
+      assertion: assertion
+    }));
+  }, {
+    backgroundColor: '#75557A',
+    siteName: 'Hypermarks'
+  });
