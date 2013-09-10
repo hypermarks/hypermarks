@@ -1,16 +1,35 @@
 'use strict';
 
+
+var mongoose = require('mongoose')
+
+
 //This checks if the user is logged in.
 //If so, the user is sent back where they came from
 //If not, the user is served a page that simply makes a browserid request
 exports.login = function (req, res) {
-	console.log('users.login');
+
+	var url=req.param("redirecturl");
+
+	console.log(url);
+
+	console.log(new Date().getTime());
+
+
+	console.log(req.user);
 
 	if (req.user) {
-		console.log('is user');
-		res.redirect('http://google.com');
+
+		//At this point we have verified they have logged in.
+		//Here is where we put the username
+
+
+		res.redirect(url);
 	} else {
-		res.render('login');
+		///here is where you ahve to pass in the parameter for the page to redirect to.
+		res.render('login',{
+			url:url
+		});
 	}
 };
 
