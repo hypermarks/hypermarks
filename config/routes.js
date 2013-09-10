@@ -23,10 +23,6 @@ module.exports = function (app, passport) {
   app.get('/', auth.requiresLogin, home.index);
   app.get('/poster', auth.requiresLogin, home.poster);
 
-
-  //Browserify bookmarklet code
-  // app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
-  // 
   app.get('/permanent/bookmarklet.js', function (req, res) {
     res.send('../external/bookmarklet.js');
   });
