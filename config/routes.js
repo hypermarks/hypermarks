@@ -35,7 +35,7 @@ module.exports = function (app, passport) {
 
   app.get('/auth/login', users.login);
   app.post('/auth/logout', users.logout);
-  
+
 
 
 
