@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * Module dependencies.
  */
@@ -19,7 +21,7 @@ module.exports = function(app, config, passport) {
   app.use(require('stylus').middleware(config.root + '/public'));
 
   //Serving static files
-  app.use(express.static(config.root + '/public'))
+  app.use(express.static(config.root + '/public'));
 
   // bodyParser should be above methodOverride
   app.use(express.bodyParser());
@@ -33,7 +35,7 @@ module.exports = function(app, config, passport) {
       url: config.db,
       collection: 'sessions'
     })
-  }))
+  }));
 
   // Passport session
   app.use(passport.initialize());
@@ -42,4 +44,4 @@ module.exports = function(app, config, passport) {
   // routes should be at the last
   app.use(app.router);
 
-}
+};

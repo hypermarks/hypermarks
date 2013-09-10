@@ -1,30 +1,17 @@
 'use strict';
 
-!function() {
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', 'http://localhost:1337/auth/login', true);
-	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhr.send('referer='+window.location);
-}();
-
-
-
-// navigator.id.get(function(assertion) {
-// 	if (!assertion) {
-// 		return;
-// 	}
+// !function () {
 // 	var xhr = new XMLHttpRequest();
-// 	xhr.open('POST', 'localhost:1337/auth/browserid', true);
-// 	xhr.setRequestHeader('Content-Type', 'application/json');
-
-// 	xhr.addEventListener('loadend', function() {
-// 		window.location.reload();
+// 	xhr.open('POST', 'http://localhost:1337/api/bookmarks', true); //TODO: dynamically substitute urls for dev, prod, etc.
+// 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	
+// 	xhr.addEventListener('error', function(e) {
+// 		console.log(xhr.status);
 // 	}, false);
+	
+// 	xhr.send('url=' + window.location);
+// }();
 
-// 	xhr.send(JSON.stringify({
-// 		assertion: assertion
-// 	}));
-// }, {
-// 	backgroundColor: '#75557A',
-// 	siteName: 'Hypermarks'
-// });
+//Testing external login
+var redirectUrl = window.location;
+window.location.href = 'http://localhost:1337/auth/externalLogin?redirectUrl=' + redirectUrl;

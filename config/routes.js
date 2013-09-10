@@ -3,14 +3,14 @@
  */
 'use strict';
 
-var browserify = require('browserify-middleware');
+// var browserify = require('browserify-middleware');
 var auth = require('./middleware/auth');
 
 
 // controllers
 var home = require('../app/controllers/home.js'); //This is because I don't want to disturb the home.js controller right now.
-var newHypermark = require('../app/controllers/new-hypermark');
 var users = require('../app/controllers/users');
+var hypermarks = require('../app/controllers/hypermarks.js');
 
 
 /**
@@ -23,21 +23,17 @@ module.exports = function (app, passport) {
   app.get('/', auth.requiresLogin, home.index);
   app.get('/poster', auth.requiresLogin, home.poster);
 
-
-  //Browserify bookmarklet code
-  app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
-
-  //Submit new hypermark
-  app.post('/api/bookmarks', auth.requiresLogin, function(req, res) {
-    newHypermark(req.body.url, 'hello', req.user, function(err){
-      if (err) return res.end(err); //TODO: possibly do something better with this.
-      return res.end('success'); //TODO: Replace with something useful
-    });
+  app.get('/permanent/bookmarklet.js', function (req, res) {
+    res.send('../external/bookmarklet.js');
   });
 
-  app.get('/auth/login', users.login);
+  //Submit new hypermark
+  app.post('/api/bookmarks', hypermarks.newHypermark);
+
+  app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
 
+  app.post('/auth/browserid', passport.authenticate('persona'));
 
 
 
@@ -51,15 +47,5 @@ module.exports = function (app, passport) {
     });
   });
 
-
-
-  app.post('/auth/browserid',
-    passport.authenticate('persona', {
-      failureRedirect: '/'
-    }),
-    function (req, res) {
-      res.redirect('/');
-    }
-  );
 
 };

@@ -14,5 +14,4 @@ var userSchema = new Schema({
   , bookmarks: [bookmarkSchema]
 });
 
-
 module.exports = mongoose.model('User', userSchema);
