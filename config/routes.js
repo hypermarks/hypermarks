@@ -47,9 +47,5 @@ module.exports = function (app, passport) {
     });
   });
 
-  // app.post('/auth/browserid', function (req, res) {
-  //   users.browserid(req, res, passport);
-  // });
-
 
 };

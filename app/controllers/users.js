@@ -9,29 +9,16 @@
 //If not, the user is served a page that makes a 
 //browserid request, with the redirect url templated in
 exports.externalLogin = function (req, res) {
-
   // This gets the redirect url from the query string
   var redirectUrl = req.param('redirectUrl');
 
-  console.log('redirectUrl', redirectUrl);
+  console.log('externalLogin from:', redirectUrl);
 
   if (req.user) {
     res.redirect(redirectUrl || '/'); // This guards against an undefined redirectUrl
   } else {
-    // Pass the redirectUrl to the template
-    res.render('login',{
-      url: redirectUrl
-    });
+    res.render('login');
   }
-};
-
-exports.browserid = function (req, res) {
-  // This gets the redirect url from the query string
-  var redirectUrl = req.param('redirectUrl');
-
-  console.log('users.browserid', redirectUrl);
-
-  res.redirect(redirectUrl || '/'); // This guards against an undefined redirectUrl
 };
 
 

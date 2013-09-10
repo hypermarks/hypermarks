@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * Module dependencies.
  */
@@ -14,14 +16,16 @@ module.exports = function(passport, config) {
 
   //serialize sessions
   passport.serializeUser(function(user, done) {
-    done(null, user.id)
+    console.log('passport.serializeUser');
+    done(null, user.id);
   });
 
   //deserialize sessions
   passport.deserializeUser(function(id, done) {
+    console.log('passport.deserializeUser');
     User.findById(id, function(err, user) {
-      done(err, user)
-    })
+      done(err, user);
+    });
   });
 
 
@@ -33,24 +37,30 @@ module.exports = function(passport, config) {
       User.findOne({
         'email': email
       }, function(err, user) {
+
         if (err) {
-          return done(err)
+          return done(err);
         }
+
         if (!user) {
           user = new User({
-            email: email,
-            created: Date.now()
-          })
+            email: email
+            , created: Date.now()
+          });
 
           user.save(function(err) {
-            if (err) console.log(err)
-            return done(err, user)
-          })
-        }
+            if (err) {
+              return done(err);
+            } else {
+              return done(null, user);
+            }
+          });
 
-        return done(null, user)
+        } else {
+          return done(null, user);
+        }
       });
     }
   ));
-}
+};
 
