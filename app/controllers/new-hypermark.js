@@ -33,19 +33,15 @@ module.exports = function(opts, callback) { //TODO: possibly set some sort of de
     if (err) {
       callback(err);
     } else {
-      async.parallel([ //TODO: Replace with waterfall and populate bookmark with correct _id from url
+      async.waterfall([ //TODO: Replace with waterfall and populate bookmark with correct _id from url
         function (cb) {
-          addressUpsert(page, opts.user, function(err) {
-            if (err) {
-              console.log(err);
-              cb(err);
-            } else {
-              cb(null);
-            }
+          addressUpsert(page, opts.user, function(err, _id) {
+            if (err) return cb(err);
+            cb(null, _id);
           });
         }
-        , function (cb) {
-          bookmarkCreate(opts.url, opts.add_date, opts.user, function(err) {
+        , function (_id, cb) {
+          bookmarkCreate(opts.url, _id, opts.add_date, opts.user, function(err) {
             if (err) return cb(err);
             cb(null);
           });
@@ -59,10 +55,11 @@ module.exports = function(opts, callback) { //TODO: possibly set some sort of de
 };
 
 
-function bookmarkCreate(url, add_date, user, cb) {
+function bookmarkCreate(url, address_id, add_date, user, cb) {
   user.bookmarks.push({
     url: url
     , add_date: add_date
+    , address: address_id
   });
   user.save(function(err) {
     if (err) return cb(err);
@@ -89,9 +86,9 @@ function addressUpsert(page, user, cb) {
   }, {
     upsert: true //Creates new document if one does not exist :-)
     , select: '_id' //Select only fields we need //TODO: put everything in right order and populate bookmark with this
-  }, function(err, arg) {
-    console.log(arg);
+  }, function(err, _id) {
+    console.log('_id', _id);
     if (err) return cb(err);
-    return cb(null);
+    return cb(null, _id);
   });
 }
