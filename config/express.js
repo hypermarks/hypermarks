@@ -29,10 +29,10 @@ module.exports = function(app, config, passport) {
   app.use(express.cookieParser());
   app.use(express.session({
     secret: 'lolasaurus'
-    // , store: new mongoStore({
-    //   url: config.db,
-    //   collection: 'sessions'
-    // })
+    , store: new mongoStore({
+      url: config.db,
+      collection: 'sessions'
+    })
   }))
 
   // Passport session

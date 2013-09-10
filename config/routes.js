@@ -8,7 +8,7 @@ var auth = require('./middleware/auth');
 
 
 // controllers
-var newHome = require('../app/controllers/new-home.js'); //This is because I don't want to disturb the home.js controller right now.
+var home = require('../app/controllers/home.js'); //This is because I don't want to disturb the home.js controller right now.
 var newHypermark = require('../app/controllers/new-hypermark');
 var users = require('../app/controllers/users');
 
@@ -20,7 +20,9 @@ var users = require('../app/controllers/users');
 module.exports = function (app, passport) {
 
   //Home
-  app.get('/', auth.requiresLogin, newHome);
+  app.get('/', auth.requiresLogin, home.index);
+  app.get('/poster', auth.requiresLogin, home.poster);
+
 
   //Browserify bookmarklet code
   app.get('/permanent/bookmarklet.js', browserify('../external/bookmarklet.js'));
