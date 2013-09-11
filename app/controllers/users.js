@@ -14,11 +14,9 @@ exports.externalLogin = function (req, res) {
 
   console.log('externalLogin from:', redirectUrl);
 
-  if (req.user) {
-    res.redirect(redirectUrl || '/'); // This guards against an undefined redirectUrl
-  } else {
-    res.render('login');
-  }
+  res.render('login', {
+    redirectUrl: redirectUrl
+  });
 };
 
 
