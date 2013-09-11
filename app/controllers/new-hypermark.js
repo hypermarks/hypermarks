@@ -1,7 +1,8 @@
+'use strict';
+
 var parse = require('../../logic/parse.js');
 var mongoose = require('mongoose');
 var async = require('async');
-var User = mongoose.model('User');
 var Address = mongoose.model('Address');
 
 /**
@@ -11,74 +12,79 @@ var Address = mongoose.model('Address');
  * the page. It then checks the address index and inserts a new record if the address does not yet
  * exist, or updates an existing record. It then inserts a record in the user's 'bookmarks' sub index,
  * containing the url, the add_date and the _id of the address record.
+ *
+ * Example
+ *  var opts = {
+ *    url: req.body.url
+ *    , add_date: null //Model will set current date
+ *    , user: req.user
+ *  };
+ *  newHypermark(opts, function(err){
+ *    //Do something...
+ *  });
+ * 
+ * 
  */
 
-module.exports = function(url, add_date, user, callback) { //TODO: possibly set some sort of default date
-	var saniUrl = parse.urlSanitize(url);
-	parse.pageHarvest(saniUrl, function(err, page) { //Scrapes page
-		if (err) {
-			callback(err);
-		} else {
-			async.parallel([ //TODO: Replace with waterfall and populate bookmark with correct _id from url
-				function (cb) {
-					bookmarkCreate(url, add_date, user, function(err) {
-						if (err) return cb(err);
-						cb(null);
-						console.log('bmc')
-					})
-				}
-				, function (cb) {
-					addressUpsert(page, user, function(err) {
-						console.log('adu-call', page.saniUrl)
-						if (err) {
-							console.log(err)
-							cb(err);
-						} else {
-							cb(null);
-						}
-					})
-				}
-			], function(err) {
-				if (err) return callback(err)
-				return callback(null);
-			});
-		}
-	});
-}
-
-
-function bookmarkCreate(url, add_date, user, cb) {
-	user.bookmarks.push({
-		url: url
-		, add_date: add_date
-	});
-	user.save(function(err) {
-		if (err) return cb(err);
-		return cb(null);
-	});
-}
+module.exports = function(opts, callback) {
+  var saniUrl = parse.urlSanitize(opts.url);
+  parse.pageHarvest(saniUrl, function(err, page) { //Scrapes page
+    if (err) {
+      callback(err);
+    } else {
+      async.waterfall([ //TODO: Replace with waterfall and populate bookmark with correct _id from url
+        function (cb) {
+          addressUpsert(page, opts.user, cb);
+        }
+        , function (_id, cb) {
+          bookmarkCreate(opts, _id, cb);
+        }
+      ], function(err) {
+        if (err) return callback(err);
+        return callback(null);
+      });
+    }
+  });
+};
 
 
 function addressUpsert(page, user, cb) {
-	// var saniUrl = page.saniUrl
-	console.log('adu-func', page.saniUrl)
-	Address.findOneAndUpdate({
-		saniUrl: page.saniUrl //Sanitizes URL to avoid multiples of the same page
-	}, {
-		$set: { //Creates or overwrite items with new scrape data
-			url: page.url,
-			favicon: page.favicon || 'false', //Guards against trying to write a boolean to the db
-			body: page.body,
-			title: page.title
-		},
-		$addToSet: { //Adds reference to the user for filtering later
-			users: user._id
-		}
-	}, {
-		upsert: true //Creates new document if one does not exist :-)
-		, select: '_id' //Select only fields we need //TODO: put everything in right order and populate bookmark with this
-	}, function(err) {
-		if (err) return cb(err);
-		return cb(null);
-	})
+  console.log(page);
+  // var saniUrl = page.saniUrl
+  console.log('addressUpsert', page.saniUrl);
+  Address.findOneAndUpdate({
+    saniUrl: page.saniUrl //Sanitizes URL to avoid multiples of the same page
+  }, {
+    $set: { //Creates or overwrite items with new scrape data
+      url: page.url
+      , sani_url: page.sani_url
+      , favicon: page.favi_url || 'false' //Guards against trying to write a boolean to the db
+      , content: page.content
+      , title: page.title
+    },
+    $addToSet: { //Adds reference to the user for filtering later
+      users: user._id
+    }
+  }, {
+    upsert: true //Creates new document if one does not exist :-)
+    , select: '_id' //Select only fields we need //TODO: put everything in right order and populate bookmark with this
+  }, function(err, _id) {
+    console.log('_id', _id);
+    if (err) return cb(err);
+    return cb(null, _id);
+  });
+}
+
+
+function bookmarkCreate(opts, _id, cb) {
+  console.log('bookmarkCreate', opts);
+  opts.user.bookmarks.push({
+    url: opts.url
+    , add_date: opts.add_date
+    , address: opts.address_id
+  });
+  opts.user.save(function(err) {
+    if (err) return cb(err);
+    return cb(null);
+  });
 }
