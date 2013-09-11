@@ -15,6 +15,8 @@ small-text = 90%
 large-text = 120%
 
 label()
+	line-height 200%
+	border-bottom 1px solid lightgrey
 	font-size small-text
 	upcase()
 
@@ -99,28 +101,34 @@ h6
 		._links
 			float right
 			._link
+				font-size small-text
 				height nav-height
 				middle-parent()
 				padding 0 1em
 				span
 					middle-child()
-				&:last-child
+				&.-account
 					padding-right 0
 					border-left 1px solid brand
+					i 
+						padding-left .5em
 
 
 .sidebar
 	col(1, 3, no-gutter)
-	opacity 0
+	@media under-tablet
+		col(1, 4)
+	@media under-phone
+		display none
+	// opacity 0s
+	background white
 	._menu
 		margin-bottom 2em
 		ul 
 			reset-list()
 		._sectitle
-			padding-left gutter * .5
 			label()
-			line-height 200%
-			border-bottom 1px solid lightgrey
+			padding-left gutter * .5
 		._item
 			padding 1em 0
 			padding-left gutter * .5
