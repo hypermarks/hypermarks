@@ -10,8 +10,8 @@ nav.topnav
     ._links
       ._link.-account
         span.js-logout 
+          if user
+            span.js-toggle #{user.email}
+          else
+            span#login Sign In
           i.icon-caret-down 
-            if user
-              | #{user.email}
-            else
-              | Sign In
