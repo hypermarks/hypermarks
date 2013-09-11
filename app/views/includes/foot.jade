@@ -1,37 +1,4 @@
-script.
-  document.addEventListener("DOMContentLoaded", function() {
-
-    document.querySelector("#login").addEventListener("click", function() {
-      navigator.id.get(function(assertion) {
-        console.log(assertion)
-        if (!assertion) {
-          return;
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:1337/auth/browserid", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.addEventListener("loadend", function(e) {
-          window.location.reload();
-        }, false);
-
-        xhr.send(JSON.stringify({
-          assertion: assertion
-        }));
-      }, {backgroundColor: '#75557A', siteName: 'Hypermarks'});
-
-    }, false);
-
-    document.querySelector("#logout").addEventListener("click", function() {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://localhost:1337/auth/logout", true);
-      
-      xhr.addEventListener("loadend", function(e) {
-        window.location.reload();
-      });
-
-      xhr.send();
-    }, false);
-
-  }, false);
+script(src="https://login.persona.org/include.js")
+script(src="/vendor/jquery.1.10.2.min.js")
+script(src="/javascript/internal_login.js")
+script(src="/javascript/presentational.js")

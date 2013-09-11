@@ -8,17 +8,22 @@ brand = #7C0090
 accent = #006BCF
 accent2 = #2E8000
 offwhite = #fcfbfc
-lightgrey = #bbb
+medgrey = #bbb
+lightgrey = #eaeaea
+dull-brand = #75557A
 
 //TYPOGRAPHIC
 small-text = 90%
 large-text = 120%
 
+//MISC
+micro-shadow = 1px 1px 12px rgba(black, .1)
+
 label()
-	line-height 200%
-	border-bottom 1px solid lightgrey
-	font-size small-text
-	upcase()
+  line-height 200%
+  border-bottom 1px solid medgrey
+  font-size small-text
+  upcase()
 
 
 *,
@@ -38,10 +43,10 @@ bold-italic()
 
 
 body
-	background offwhite
+  background offwhite
 
 input
-	background offwhite
+  background offwhite
 
 h1,
 h2,
@@ -49,120 +54,171 @@ h3,
 h4,
 h5,
 h6
-	font-weight 400
+  font-weight 400
 
+//GLOBAL
+.dropdown
+  position relative
+  span
+    cursor pointer
+  ul
+    box-shadow micro-shadow
+    reset-list()
+    border 1px solid medgrey
+    position absolute
+    top 2em
+    left 0
+    display none
+    z-index 1
+
+    &:after
+      content ''
+      position absolute 
+      top -5px 
+      left 30px
+      size(10px)
+      background black
+      z-index -1
+      transform rotate(45deg)
+      background lightgrey
+      border 1px solid medgrey
+
+    li
+      cursor pointer
+      display block
+      padding .75em
+  ._header
+    cursor auto
+    background lightgrey
+    border-bottom 1px solid medgrey
+
+  &.-right
+    ul
+      left auto
+      right 0
+      &:after
+        left auto
+        right 30px
+      li 
+        text-align right
+
+  &.toggle-on
+    ul
+      display block
+    
 
 .topnav
-	nav-height = 50px
-	clearfix()
-	background white
-	border-bottom 1px solid brand
+  nav-height = 50px
+  clearfix()
+  background white
+  border-bottom 1px solid brand
 
-	._logo
-		middle-parent()
-		height nav-height
-		font-size 1.8em
-		color brand
-		col(1, 3, no-gutter)
-		padding-left gutter * .5
-		hide(under-tablet)
-			
-		img
-			middle-child()
-			size(28px)
-			margin-right .25em
-		._text
-			middle-child()
+  ._logo
+    middle-parent()
+    height nav-height
+    font-size 1.8em
+    color brand
+    col(1, 3, no-gutter)
+    padding-left gutter * .5
+    hide(under-tablet)
+      
+    img
+      middle-child()
+      size(28px)
+      margin-right .25em
+    ._text
+      middle-child()
 
-	._controls
-		col(2, 3)
-		@media under-tablet
-			col(1, 1)
-		._searchbox
-			float left
-			middle-parent()
-			height nav-height
-			max-width 70%
-			input
-				input(color = brand)
-				middle-child()
-				height 32px
-				padding-right 2em
-			i 
-				position relative
-				right 1.5em
-				vertical-align middle
-			img
-				hide(over-tablet)
-				middle-child()
-				size(28px)
-				margin-right .5em
+  ._controls
+    col(2, 3)
+    @media under-tablet
+      col(1, 1)
+    ._searchbox
+      float left
+      middle-parent()
+      height nav-height
+      max-width 70%
+      input
+        input(color = brand)
+        middle-child()
+        height 32px
+        padding-right 2em
+      i 
+        position relative
+        right 1.5em
+        vertical-align middle
+      img
+        hide(over-tablet)
+        middle-child()
+        size(28px)
+        margin-right .5em
 
-		._links
-			float right
-			._link
-				font-size small-text
-				height nav-height
-				middle-parent()
-				padding 0 1em
-				span
-					middle-child()
-				&.-account
-					padding-right 0
-					border-left 1px solid brand
-					i 
-						padding-left .5em
+    ._links
+      float right
+      ._link
+        font-size small-text
+        height nav-height
+        middle-parent()
+        padding 0 1em
+        span
+          cursor pointer
+          middle-child()
+        &.-account
+          padding-right 0
+          border-left 1px solid brand
+          i 
+            padding-left .5em
 
 
 .sidebar
-	col(1, 3, no-gutter)
-	@media under-tablet
-		col(1, 4)
-	@media under-phone
-		display none
-	// opacity 0s
-	background white
-	._menu
-		margin-bottom 2em
-		ul 
-			reset-list()
-		._sectitle
-			label()
-			padding-left gutter * .5
-		._item
-			padding 1em 0
-			padding-left gutter * .5
-			line-height 120%
-			border-top 1px solid lightgrey
-			font-size large-text
-			&:first-child
-				border none
+  col(1, 3, no-gutter)
+  @media under-tablet
+    col(1, 4)
+  @media under-phone
+    display none
+  // opacity 0s
+  background white
+  ._menu
+    margin-bottom 2em
+    ul 
+      reset-list()
+    ._sectitle
+      label()
+      padding-left gutter * .5
+    ._item
+      padding 1em 0
+      padding-left gutter * .5
+      line-height 120%
+      border-top 1px solid medgrey
+      font-size large-text
+      &:first-child
+        border none
 
 
 .page
-	col(2, 3)
-	@media under-tablet
-		col(3, 4)
-	@media under-phone
-		col(1,1)
-	._page-title
-		margin-bottom 1em
-		font-size 180%
+  col(2, 3)
+  @media under-tablet
+    col(3, 4)
+  @media under-phone
+    col(1,1)
+  ._page-title
+    margin-bottom 1em
+    font-size 180%
 
 .timeline
-	._divider
-		label()
-		border-bottom 1px solid lightgrey
-		margin-bottom 20px
+  ._divider
+    label()
+    border-bottom 1px solid medgrey
+    margin-bottom 20px
 
 .hypermark
-	margin-bottom 1.5em
-	._link
-		font-size large-text
-		margin-bottom 5px
-		display block
-	._sani-url
-		font-size small-text
-		margin-bottom 5px
-		display block
-		color accent2
+  margin-bottom 1.5em
+  ._link
+    font-size large-text
+    margin-bottom 5px
+    display block
+  ._sani-url
+    font-size small-text
+    margin-bottom 5px
+    display block
+    color accent2

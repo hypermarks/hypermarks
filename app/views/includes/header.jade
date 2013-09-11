@@ -9,9 +9,15 @@ nav.topnav
       i.icon-search
     ._links
       ._link.-account
-        span.js-logout 
+        span
           if user
-            span.js-toggle #{user.email}
+            .dropdown.js-toggle.-right 
+              span Settings
+              i.icon-caret-down 
+              ul
+                li._header #{user.email}
+                li#logout Sign Out
+
           else
             span#login Sign In
-          i.icon-caret-down 
+            i.icon-caret-down 
