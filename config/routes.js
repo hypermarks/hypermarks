@@ -21,7 +21,7 @@ module.exports = function (app, passport) {
 
   //Home
   app.get('/', home.index);
-  app.get('/poster', auth.requiresLogin, home.poster);  
+  app.get('/poster', auth.requiresLogin, home.poster);
 
   //Submit new hypermark
   app.post('/api/bookmarks', hypermarks.newHypermark);
