@@ -1,5 +1,6 @@
 //- This login page is very simple and does not present any interface to the user.
 //- It exists to make a post request to the browserid endpoint
+//- It redirects to where the user came from when the request is done 
 script(src="https://login.persona.org/include.js")
 script.
   navigator.id.get(function(assertion) {
@@ -7,12 +8,12 @@ script.
       return;
     }
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:1337/auth/browserid", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.open('POST', 'http://localhost:1337/auth/browserid', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
 
-    xhr.addEventListener("loadend", function(e) {
-      window.location.reload();
+    xhr.addEventListener('loadend', function(e) {
+      window.location.href = '!{redirectUrl}';
     }, false);
 
     xhr.send(JSON.stringify({
