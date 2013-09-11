@@ -1,7 +1,7 @@
 @import "axis/axis"
 @import "jehanutils"
 @import "inceptiongrid"
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700);
 
 //COLORS
 brand = #7C0090
@@ -9,7 +9,7 @@ accent = #006BCF
 accent2 = #2E8000
 offwhite = #fcfbfc
 medgrey = #bbb
-lightgrey = #eaeaea
+lightgrey = #e8e7e8
 dull-brand = #75557A
 
 //TYPOGRAPHIC
@@ -17,7 +17,8 @@ small-text = 90%
 large-text = 120%
 
 //MISC
-micro-shadow = 1px 1px 12px rgba(black, .1)
+soft-shadow = 1px 1px 12px rgba(black, .1)
+micro-shadow = 0px 1px 1px rgba(black, .2)
 
 label()
   line-height 200%
@@ -62,7 +63,7 @@ h6
   span
     cursor pointer
   ul
-    box-shadow micro-shadow
+    box-shadow soft-shadow
     reset-list()
     border 1px solid medgrey
     position absolute
@@ -176,7 +177,7 @@ h6
     col(1, 4)
   @media under-phone
     display none
-  // opacity 0s
+  box-shadow micro-shadow
   background white
   ._menu
     margin-bottom 2em
@@ -191,6 +192,7 @@ h6
       line-height 120%
       border-top 1px solid medgrey
       font-size large-text
+      font-weight 300
       &:first-child
         border none
 
@@ -202,6 +204,7 @@ h6
   @media under-phone
     col(1,1)
   ._page-title
+    font-weight 300
     margin-bottom 1em
     font-size 180%
 
@@ -212,6 +215,9 @@ h6
     margin-bottom 20px
 
 .hypermark
+  box-shadow micro-shadow
+  background white
+  padding .5em
   margin-bottom 1.5em
   ._link
     font-size large-text
