@@ -6,7 +6,6 @@
 
 var express = require('express');
 var mongoStore = require('connect-mongo')(express);
-var browserify = require('browserify');
 
 /*!
  * Expose
@@ -41,12 +40,6 @@ module.exports = function(app, config, passport) {
   // Passport session
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // var bundle = browserify()
-  //     .use(jadeify(__dirname + '/views'))
-  //     .addEntry(__dirname + '/main.js')
-  // ;
-  // app.use(bundle);
 
   //CORS 
   //TODO: Refactor into middleware

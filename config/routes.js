@@ -16,12 +16,6 @@ var hypermarks = require('../app/controllers/hypermarks.js');
 
 module.exports = function (app, passport) {
 
-  // var bundleStream = browserify()
-  //   .transform(simpleJadeify)
-  //   .add(stuffPath("entry.js"))
-  //   .bundle()
-  //   ;
-
   //Home
   app.get('/', home.index);
   app.get('/poster', auth.requiresLogin, home.poster);
@@ -32,7 +26,7 @@ module.exports = function (app, passport) {
   app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
 
-  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/main.js', {transform: 'simple-jadeify'}));
+  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: 'simple-jadeify'}));
 
   app.post('/auth/browserid', passport.authenticate('persona'));
 

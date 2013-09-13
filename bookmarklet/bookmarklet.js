@@ -10,9 +10,6 @@ console.log(view());
 
 require('./test.js')();
 
-// window.getElementById('page-header').innerHTML = view({
-//     localVar: 'value'
-// });
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
