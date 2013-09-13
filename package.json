@@ -2,10 +2,6 @@
   "name": "Hypermarks",
   "description": "More Memory",
   "version": "0.0.1",
-  "author": {
-    "name": "Madhusudhan Srinivasa",
-    "email": "me@madhums.me"
-  },
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"
@@ -29,13 +25,15 @@
     "forever": "latest",
     "elasticsearchclient": "latest",
     "request": "~2.27.0",
-    "browserify": "~2.29.0",
     "browserify-middleware": "~1.17.2",
     "passport-persona": "~0.1.7",
-    "express-persona": "0.0.9",
-    "elmongo": "~0.1.4",
     "lodash": "~1.3.1",
-    "url-tools": "0.0.1"
+    "url-tools": "0.0.1",
+    "mongoosastic": "0.1.0-rc.1",
+    "stylus": "~0.37.0",
+    "cheerio": "~0.12.2",
+    "browserify": "~2.29.1",
+    "simple-jadeify": "~2.0.1"
   },
   "devDependencies": {
     "nodemon": "latest",
