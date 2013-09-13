@@ -33,7 +33,9 @@
     "stylus": "~0.37.0",
     "cheerio": "~0.12.2",
     "browserify": "~2.29.1",
-    "simple-jadeify": "~2.0.1"
+    "simple-jadeify": "~2.0.1",
+    "sml": "0.0.1",
+    "brfs": "0.0.8"
   },
   "devDependencies": {
     "nodemon": "latest",

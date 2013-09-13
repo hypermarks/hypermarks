@@ -1,15 +1,8 @@
 'use strict';
 
-// //Testing external login
-// var redirectUrl = window.location;
-// window.location.href = 'http://localhost:1337/auth/externalLogin?redirectUrl=' + redirectUrl;
-
-var view = require('./test.jade');
-
-console.log(view());
-
-require('./test.js')();
-
+var successHandler = require('./successHandler.js');
+var loginHandler = require('./loginHandler.js');
+var errorHandler = require('./errorHandler.js');
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
@@ -41,6 +34,15 @@ function makeCorsRequest() {
   xhr.onload = function() {
     var text = xhr.responseText;
     alert('Response from CORS request to ' + url + ': ' + text);
+    if (text === 200) {
+      return successHandler();
+    } 
+    if (text === 401) {
+      return loginHandler();
+    } 
+    if (text === 500) {
+      return errorHandler();
+    }
   };
 
   xhr.onerror = function() {
@@ -51,4 +53,5 @@ function makeCorsRequest() {
   xhr.send('url=' + window.location);
 }
 
+//Fire the request
 makeCorsRequest();

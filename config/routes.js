@@ -26,7 +26,7 @@ module.exports = function (app, passport) {
   app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
 
-  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: 'simple-jadeify'}));
+  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: ['simple-jadeify']}));
 
   app.post('/auth/browserid', passport.authenticate('persona'));
 
