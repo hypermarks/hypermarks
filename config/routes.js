@@ -1,16 +1,16 @@
 'use strict';
 
+//Middleware
 var browserify = require('browserify-middleware')
+  , auth = require('./middleware/auth')
 ;
 
 
-//Middleware
-var auth = require('./middleware/auth');
-
 // controllers
-var home = require('../app/controllers/home.js');
-var users = require('../app/controllers/users');
-var hypermarks = require('../app/controllers/hypermarks.js');
+var home = require('../app/controllers/home.js')
+  , users = require('../app/controllers/users')
+  , hypermarks = require('../app/controllers/hypermarks.js')
+;
 
 
 
@@ -37,7 +37,7 @@ module.exports = function (app, passport) {
     console.log(req.user ? req.user.email : 'not logged in');
     res.render('testpage', {
       user: req.user
-      , bookmarklet: require('../external/loader.js')
+      , bookmarklet: require('../bookmarklet/loader.js')
 
     });
   });

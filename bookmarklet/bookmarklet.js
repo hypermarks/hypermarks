@@ -34,14 +34,13 @@ function makeCorsRequest() {
   xhr.onload = function() {
     var text = xhr.responseText;
     alert('Response from CORS request to ' + url + ': ' + text);
-    if (text === 200) {
-      return successHandler();
-    } 
-    if (text === 401) {
-      return loginHandler();
-    } 
-    if (text === 500) {
-      return errorHandler();
+    if (text === '200') {
+      console.log('200')
+      successHandler();
+    } else if (text === '401') {
+      loginHandler();
+    } else if (text === '500') {
+      errorHandler();
     }
   };
 

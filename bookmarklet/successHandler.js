@@ -1,7 +1,13 @@
 'use strict';
+
 var $ = require('zepto-browserify').$
-  , view = require('./views/successFlash.jade')
+  , view = $(require('./views/success-flash.jade')())
 ;
 
+module.exports = function () {
+  console.log('successHandler');
+  var body = $(document.body);
+  body.append(view);
 
-$(document.body).append(view());
+  setTimeout( function(){ view.remove() }, 2000);
+};
