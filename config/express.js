@@ -6,7 +6,7 @@
 
 var express = require('express');
 var mongoStore = require('connect-mongo')(express);
-
+var browserify = require('browserify');
 
 /*!
  * Expose
@@ -42,8 +42,15 @@ module.exports = function(app, config, passport) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // var bundle = browserify()
+  //     .use(jadeify(__dirname + '/views'))
+  //     .addEntry(__dirname + '/main.js')
+  // ;
+  // app.use(bundle);
+
   //CORS 
   //TODO: Refactor into middleware
+  //TODO: Secure!
   app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', req.header('Origin'));
     res.header('Access-Control-Allow-Headers', 'Content-Type');

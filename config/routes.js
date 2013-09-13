@@ -1,5 +1,9 @@
 'use strict';
 
+var browserify = require('browserify-middleware')
+;
+
+
 //Middleware
 var auth = require('./middleware/auth');
 
@@ -21,6 +25,8 @@ module.exports = function (app, passport) {
 
   app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
+
+  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/main.js'));
 
   app.post('/auth/browserid', passport.authenticate('persona'));
 

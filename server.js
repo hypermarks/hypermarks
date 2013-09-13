@@ -1,17 +1,17 @@
 'use strict';
- 
-//get environment config
-var env = process.env.NODE_ENV || 'development';
-var config = require('./config/config')[env];
 
-var express = require('express');
-var passport = require('passport');
-var mongoose = require('mongoose');
-var fs = require('fs');
+var env = process.env.NODE_ENV || 'development'
+  , config = require('./config/config')[env]
+  , express = require('express')
+  , passport = require('passport')
+  , mongoose = require('mongoose')
+  , fs = require('fs')
+;
 
 require('express-namespace');
 
 mongoose.connect(config.db);
+
 
 // Bootstrap models
 fs.readdirSync(__dirname + '/app/models').forEach(function (file) {
@@ -28,6 +28,7 @@ require('./config/express')(app, config, passport);
 
 // Bootstrap routes
 require('./config/routes')(app, passport);
+
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 1337;
