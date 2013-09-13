@@ -38,6 +38,7 @@ function createCORSRequest(method, url) {
     // XHR for Chrome/Firefox/Opera/Safari.
     xhr.open(method, url, true);
     xhr.withCredentials = true;
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   } else {
     // CORS not supported.
     xhr = null;
