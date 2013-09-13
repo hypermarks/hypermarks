@@ -1,11 +1,7 @@
-/**
- * Module dependencies.
- */
 'use strict';
 
-// var browserify = require('browserify-middleware');
+//Middleware
 var auth = require('./middleware/auth');
-
 
 // controllers
 var home = require('../app/controllers/home.js');
@@ -13,9 +9,6 @@ var users = require('../app/controllers/users');
 var hypermarks = require('../app/controllers/hypermarks.js');
 
 
-/**
- * Expose
- */
 
 module.exports = function (app, passport) {
 
@@ -24,7 +17,7 @@ module.exports = function (app, passport) {
   app.get('/poster', auth.requiresLogin, home.poster);
 
   //Submit new hypermark
-  app.post('/api/bookmarks', hypermarks.newHypermark);
+  app.post('/api/bookmarks', hypermarks.postHypermark);
 
   app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);

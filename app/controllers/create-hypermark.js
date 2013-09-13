@@ -19,7 +19,7 @@ var Address = mongoose.model('Address');
  *    , add_date: null //Model will set current date
  *    , user: req.user
  *  };
- *  newHypermark(opts, function(err){
+ *  createHypermark(opts, function(err){
  *    //Do something...
  *  });
  * 
@@ -27,12 +27,13 @@ var Address = mongoose.model('Address');
  */
 
 module.exports = function(opts, callback) {
+  console.log('createHypermark', opts)
   var saniUrl = parse.urlSanitize(opts.url);
   parse.pageHarvest(saniUrl, function(err, page) { //Scrapes page
     if (err) {
       callback(err);
     } else {
-      async.waterfall([ //TODO: Replace with waterfall and populate bookmark with correct _id from url
+      async.waterfall([
         function (cb) {
           addressUpsert(page, opts.user, cb);
         }
@@ -40,8 +41,11 @@ module.exports = function(opts, callback) {
           bookmarkCreate(opts, _id, cb);
         }
       ], function(err) {
-        if (err) return callback(err);
-        return callback(null);
+        if (err) {
+          return callback(err);
+        } else {
+          return callback(null);
+        }
       });
     }
   });
@@ -49,8 +53,7 @@ module.exports = function(opts, callback) {
 
 
 function addressUpsert(page, user, cb) {
-  console.log(page);
-  // var saniUrl = page.saniUrl
+  // console.log(page);
   console.log('addressUpsert', page.saniUrl);
   Address.findOneAndUpdate({
     saniUrl: page.saniUrl //Sanitizes URL to avoid multiples of the same page
@@ -70,8 +73,11 @@ function addressUpsert(page, user, cb) {
     , select: '_id' //Select only fields we need //TODO: put everything in right order and populate bookmark with this
   }, function(err, _id) {
     console.log('_id', _id);
-    if (err) return cb(err);
-    return cb(null, _id);
+    if (err) { 
+      return cb(err);
+    } else {
+      return cb(null, _id);
+    }
   });
 }
 
@@ -84,7 +90,10 @@ function bookmarkCreate(opts, _id, cb) {
     , address: opts.address_id
   });
   opts.user.save(function(err) {
-    if (err) return cb(err);
-    return cb(null);
+    if (err) {
+      return cb(err);
+    } else {
+      return cb(null);
+    }
   });
 }
