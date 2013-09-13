@@ -4,7 +4,15 @@
 // var redirectUrl = window.location;
 // window.location.href = 'http://localhost:1337/auth/externalLogin?redirectUrl=' + redirectUrl;
 
+var view = require('./test.jade');
 
+console.log(view());
+
+require('./test.js')();
+
+// window.getElementById('page-header').innerHTML = view({
+//     localVar: 'value'
+// });
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
