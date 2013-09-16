@@ -102,7 +102,7 @@ function getPage(sani_url, callback) {
           cb();
         });
       } else {
-        callback(new Error('No site found'));
+        callback(new Error('No site found at: ' + sani_url));
       }
     }, function() {
       callback(null, result, urlStr);

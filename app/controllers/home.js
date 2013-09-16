@@ -15,7 +15,7 @@ var results = [
     'favicon': 'false'
     , 'date_added': ''
     , 'title': 'Da Mystery of Chessboxing'
-    , 'url': '#'
+    , 'url': 'http://wutang.com/discography/da-mystery-of-chessboxin'
     , 'sani_url': 'wutang.com/discography/da-mystery-of-chessboxin'
     , 'excerpt': 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
   }
@@ -32,7 +32,7 @@ var results = [
     'favicon': 'https://github.com/favicon.ico'
     , 'date_added': ''
     , 'title': 'Github - Shell script linter'
-    , 'url': '#'
+    , 'url': 'http://wutang.com/discography/da-mystery-of-chessboxin'
     , 'sani_url': 'github.com/staylor/UI-Toolbox'
     , 'excerpt': 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
 

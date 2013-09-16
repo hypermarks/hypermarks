@@ -41,6 +41,16 @@ module.exports = function(app, config, passport) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  //CORS 
+  //TODO: Refactor into middleware
+  //TODO: Secure!
+  app.all('/*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', req.header('Origin'));
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
+
   // routes should be at the last
   app.use(app.router);
 

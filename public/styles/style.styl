@@ -1,31 +1,8 @@
 @import "axis/axis"
 @import "jehanutils"
 @import "inceptiongrid"
+@import "base"
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700);
-
-//COLORS
-brand = #7C0090
-accent = #006BCF
-accent2 = #2E8000
-offwhite = #fcfbfc
-medgrey = #bbb
-lightgrey = #e8e7e8
-dull-brand = #75557A
-
-//TYPOGRAPHIC
-small-text = 90%
-large-text = 120%
-
-//MISC
-soft-shadow = 1px 1px 12px rgba(black, .1)
-micro-shadow = 0px 1px 1px rgba(black, .2)
-
-label()
-  line-height 200%
-  border-bottom 1px solid medgrey
-  font-size small-text
-  upcase()
-
 
 *,
 *:before,
@@ -41,7 +18,11 @@ base()
 headers()
 bold-italic()
 
+.btn 
+  button()
 
+a 
+  link()
 
 body
   background offwhite
@@ -63,9 +44,8 @@ h6
   span
     cursor pointer
   ul
-    box-shadow soft-shadow
+    modal-style()
     reset-list()
-    border 1px solid medgrey
     position absolute
     top 2em
     left 0
@@ -82,16 +62,15 @@ h6
       z-index -1
       transform rotate(45deg)
       background lightgrey
-      border 1px solid medgrey
 
     li
       cursor pointer
       display block
       padding .75em
+      menu-style()
   ._header
     cursor auto
     background lightgrey
-    border-bottom 1px solid medgrey
 
   &.-right
     ul
@@ -106,8 +85,9 @@ h6
   &.toggle-on
     ul
       display block
-    
 
+
+//LOCAL
 .topnav
   nav-height = 50px
   clearfix()
@@ -154,21 +134,20 @@ h6
         size(28px)
         margin-right .5em
 
-    ._links
-      float right
-      ._link
-        font-size small-text
-        height nav-height
-        middle-parent()
-        padding 0 1em
-        span
-          cursor pointer
-          middle-child()
-        &.-account
-          padding-right 0
-          border-left 1px solid brand
-          i 
-            padding-left .5em
+  ._links
+    float right
+    ._link
+      height nav-height
+      middle-parent()
+      padding 0 1em
+      span
+        cursor pointer
+        middle-child()
+      &.-account
+        padding-right 0
+        border-left 1px solid brand
+        i 
+          padding-left .5em
 
 
 .sidebar
@@ -189,12 +168,7 @@ h6
     ._item
       padding 1em 0
       padding-left gutter * .5
-      line-height 120%
-      border-top 1px solid medgrey
-      font-size large-text
-      font-weight 300
-      &:first-child
-        border none
+      menu-style()
 
 
 .page
@@ -215,9 +189,7 @@ h6
     margin-bottom 20px
 
 .hypermark
-  box-shadow micro-shadow
-  background white
-  padding .5em
+  card()
   margin-bottom 1.5em
   ._link
     font-size large-text
