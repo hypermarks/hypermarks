@@ -40,9 +40,8 @@ h6
   span
     cursor pointer
   ul
-    box-shadow soft-shadow
+    modal()
     reset-list()
-    border 1px solid medgrey
     position absolute
     top 2em
     left 0
@@ -59,7 +58,6 @@ h6
       z-index -1
       transform rotate(45deg)
       background lightgrey
-      border 1px solid medgrey
 
     li
       cursor pointer
@@ -67,8 +65,7 @@ h6
       padding .75em
   ._header
     cursor auto
-    background lightgrey
-    border-bottom 1px solid medgrey
+    modal-header()
 
   &.-right
     ul
@@ -83,8 +80,12 @@ h6
   &.toggle-on
     ul
       display block
+
+.btn 
+  button()
     
 
+//LOCAL
 .topnav
   nav-height = 50px
   clearfix()
@@ -192,9 +193,7 @@ h6
     margin-bottom 20px
 
 .hypermark
-  box-shadow micro-shadow
-  background white
-  padding .5em
+  card()
   margin-bottom 1.5em
   ._link
     font-size large-text

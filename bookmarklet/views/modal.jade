@@ -1,8 +1,6 @@
-._modal
-  .titlebar
-    ._logo
-      img(src="/images/hypermarks-logo_64.png")
-      span._text Hypermarks
-    ._close close
+extends layout
 
-  block content
+block content
+  ._modal
+    i._close.js-close.icon-remove
+    block message

@@ -1,25 +1,26 @@
 @import "axis/axis"
 @import "base"
+@import "icons"
 
 .hypermarks_overlay
-  font-family sans-serif !important
+  line-height 1 !important
+  font-family helvetica !important
+  font-size 16px !important
+  color font-color !important
   position fixed
   z-index 99999
   size(100%)
   top 0
   left 0
   text-align center
-  background-color rgba(white, .7)
+  background-color rgba(black, .5)
   transition background-color 1s ease
+  a
+    link()
 
   ._flash
     color brand
-    padding 20px
-    margin-top 20%
-    display inline-block
-    text-align center
-    background white
-    micro-shadow()
+    modal-window()
     transition opacity 2s ease
     ._title
       font-size 48px
@@ -30,3 +31,10 @@
     background-color rgba(white, .1)
     ._flash
       opacity 0
+
+  ._modal
+    modal-window()
+    ._close
+      modal-close()
+      
+      
