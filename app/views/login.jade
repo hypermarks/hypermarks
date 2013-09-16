@@ -13,7 +13,7 @@ script.
 
 
     xhr.addEventListener('loadend', function(e) {
-      window.location.href = '!{redirectUrl}';
+      window.history.back();
     }, false);
 
     xhr.send(JSON.stringify({
