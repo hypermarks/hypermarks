@@ -1,14 +1,14 @@
 'use strict';
+var $ = require('zepto-browserify').$
+  , responseHandler = require('./responseHandlers.js');
 
-var successHandler = require('./successHandler.js');
-var loginHandler = require('./loginHandler.js');
-var errorHandler = require('./errorHandler.js');
+//Put our styles in head
+$('head').append('<link rel="stylesheet" href="http://localhost:1337/styles/bookmarklet.css">');
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
   if ('withCredentials' in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
     xhr.open(method, url, true);
     xhr.withCredentials = true;
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -26,26 +26,26 @@ function makeCorsRequest() {
 
   var xhr = createCORSRequest('POST', url);
   if (!xhr) {
-    alert('CORS not supported');
+    console.log('CORS not supported');
     return;
   }
 
   // Response handlers.
   xhr.onload = function() {
     var text = xhr.responseText;
-    alert('Response from CORS request to ' + url + ': ' + text);
+    console.log('Response from CORS request to ' + url + ': ' + text);
+
     if (text === '200') {
-      console.log('200')
-      successHandler();
+      responseHandler.success();
     } else if (text === '401') {
-      loginHandler();
-    } else if (text === '500') {
-      errorHandler();
+      responseHandler.login();
+    } else {
+      responseHandler.error();
     }
   };
 
   xhr.onerror = function() {
-    alert('Woops, there was an error making the request.');
+    console.log('Woops, there was an error making the request.');
   };
 
   // xhr.send();

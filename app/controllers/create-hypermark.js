@@ -70,7 +70,7 @@ function addressUpsert(page, user, cb) {
     }
   }, {
     upsert: true //Creates new document if one does not exist :-)
-    , select: '_id' //Select only fields we need //TODO: put everything in right order and populate bookmark with this
+    , select: '_id' //Select only fields we need
   }, function(err, _id) {
     console.log('_id', _id);
     if (err) { 
