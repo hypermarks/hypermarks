@@ -18,7 +18,11 @@ base()
 headers()
 bold-italic()
 
+.btn 
+  button()
 
+a 
+  link()
 
 body
   background offwhite
@@ -40,7 +44,7 @@ h6
   span
     cursor pointer
   ul
-    modal()
+    modal-style()
     reset-list()
     position absolute
     top 2em
@@ -63,9 +67,10 @@ h6
       cursor pointer
       display block
       padding .75em
+      menu-style()
   ._header
     cursor auto
-    modal-header()
+    background lightgrey
 
   &.-right
     ul
@@ -81,9 +86,6 @@ h6
     ul
       display block
 
-.btn 
-  button()
-    
 
 //LOCAL
 .topnav
@@ -132,21 +134,20 @@ h6
         size(28px)
         margin-right .5em
 
-    ._links
-      float right
-      ._link
-        font-size small-text
-        height nav-height
-        middle-parent()
-        padding 0 1em
-        span
-          cursor pointer
-          middle-child()
-        &.-account
-          padding-right 0
-          border-left 1px solid brand
-          i 
-            padding-left .5em
+  ._links
+    float right
+    ._link
+      height nav-height
+      middle-parent()
+      padding 0 1em
+      span
+        cursor pointer
+        middle-child()
+      &.-account
+        padding-right 0
+        border-left 1px solid brand
+        i 
+          padding-left .5em
 
 
 .sidebar
@@ -167,12 +168,7 @@ h6
     ._item
       padding 1em 0
       padding-left gutter * .5
-      line-height 120%
-      border-top 1px solid medgrey
-      font-size large-text
-      font-weight 300
-      &:first-child
-        border none
+      menu-style()
 
 
 .page

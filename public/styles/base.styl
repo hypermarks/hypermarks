@@ -8,8 +8,9 @@ lightgrey = #e8e7e8
 dull-brand = #75557A
 
 //TYPOGRAPHIC
-small-text = 90%
-large-text = 120%
+small-text = unit(.9 * font-size, px)
+reg-text =  unit(font-size, px)
+large-text = unit(1.2 * font-size, px)
 
 //MEASURES
 sm-radius = 3px
@@ -57,8 +58,13 @@ modal-close()
   background white
   box-shadow micro-shadow
 
-modal-header()
-  background lightgrey
+menu-style()
+  border-top 1px solid medgrey
+  line-height 120%
+  font-size large-text
+  font-weight 300
+  &:first-child
+    border none
 
 button()
   font-size large-text
