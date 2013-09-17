@@ -23,6 +23,8 @@ module.exports = function (app, passport) {
   //Submit new hypermark
   app.post('/api/bookmarks', hypermarks.postHypermark);
 
+  app.get('/api/bookmarks', hypermarks.getHypermarks);
+
   app.get('/auth/externalLogin', users.externalLogin);
   app.post('/auth/logout', users.logout);
 

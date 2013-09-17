@@ -4,6 +4,7 @@ var parse = require('../../logic/parse.js');
 var mongoose = require('mongoose');
 var async = require('async');
 var Address = mongoose.model('Address');
+var Bookmark = mongoose.model('Bookmark');
 
 /**
  * Scrape page info and save to db's
@@ -16,7 +17,7 @@ var Address = mongoose.model('Address');
  * Example
  *  var opts = {
  *    url: req.body.url
- *    , add_date: null //Model will set current date
+ *    , add_date: null //If null, model will set current date
  *    , user: req.user
  *  };
  *  createHypermark(opts, function(err){
@@ -27,18 +28,21 @@ var Address = mongoose.model('Address');
  */
 
 module.exports = function(opts, callback) {
-  console.log('createHypermark', opts)
-  var saniUrl = parse.urlSanitize(opts.url);
-  parse.pageHarvest(saniUrl, function(err, page) { //Scrapes page
+  opts.sani_url = parse.urlSanitize(opts.url);
+  parse.pageHarvest(opts.sani_url, function(err, page) { //Scrapes page
+
+    //Adds page onto opts object
+    opts.page = page;
+
     if (err) {
       callback(err);
     } else {
       async.waterfall([
         function (cb) {
-          addressUpsert(page, opts.user, cb);
+          addressUpsert(opts, cb);
         }
-        , function (_id, cb) {
-          bookmarkCreate(opts, _id, cb);
+        , function (opts, cb) {
+          bookmarkCreate(opts, cb);
         }
       ], function(err) {
         if (err) {
@@ -52,44 +56,44 @@ module.exports = function(opts, callback) {
 };
 
 
-function addressUpsert(page, user, cb) {
-  // console.log(page);
-  console.log('addressUpsert', page.saniUrl);
+function addressUpsert(opts, cb) {
+  console.log(opts)
   Address.findOneAndUpdate({
-    saniUrl: page.saniUrl //Sanitizes URL to avoid multiples of the same page
+    saniUrl: opts.sani_url
   }, {
-    $set: { //Creates or overwrite items with new scrape data
-      url: page.url
-      , sani_url: page.sani_url
-      , favicon: page.favi_url || 'false' //Guards against trying to write a boolean to the db
-      , content: page.content
-      , title: page.title
+    $set: { //Creates or overwrites items with new scrape data
+      sani_url: opts.sani_url
+      , url: opts.page.url
+      , favicon: opts.page.favi_url || 'false' //Guards against trying to write a boolean to the db
+      , content: opts.page.content
+      , title: opts.page.title
     },
     $addToSet: { //Adds reference to the user for filtering later
-      users: user._id
+      users: opts.user._id
     }
   }, {
     upsert: true //Creates new document if one does not exist :-)
     , select: '_id' //Select only fields we need
   }, function(err, _id) {
-    console.log('_id', _id);
-    if (err) { 
+    if (err) {
       return cb(err);
     } else {
-      return cb(null, _id);
+      opts.address_id = _id;
+      return cb(null, opts); //Calls back with opts with _id added
     }
   });
 }
 
 
-function bookmarkCreate(opts, _id, cb) {
-  console.log('bookmarkCreate', opts);
-  opts.user.bookmarks.push({
-    url: opts.url
-    , add_date: opts.add_date
-    , address: opts.address_id
+function bookmarkCreate (opts, cb) {
+  var bookmark = new Bookmark({
+    address: opts.address_id
+    , user: opts.user
+    , sani_url: opts.sani_url
+    , working_url: opts.page.url
+    , add_date: opts.add_date //If undefined, model will set current date
   });
-  opts.user.save(function(err) {
+  bookmark.save(function (err) {
     if (err) {
       return cb(err);
     } else {
