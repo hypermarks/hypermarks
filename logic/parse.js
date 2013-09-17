@@ -124,10 +124,13 @@ function getPage(sani_url, callback) {
 function scrapeElements(body) {
   var $ = cheerio.load(body);
 
+  var raw_content = $('p').text()
+    , content = raw_content.replace(/\s{2,}/g, ' ');
+
   //This is a list of elements to be scraped out of the page.
   var page = {
-      title: $('title').text(),
-      content: $('p').text()
+      title: $('title').text()
+      , content: content
     };
 
   //This is a list of possible favicon links

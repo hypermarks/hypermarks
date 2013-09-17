@@ -57,7 +57,6 @@ module.exports = function(opts, callback) {
 
 
 function addressUpsert(opts, cb) {
-  console.log(opts)
   Address.findOneAndUpdate({
     saniUrl: opts.sani_url
   }, {
