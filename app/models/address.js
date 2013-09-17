@@ -1,18 +1,18 @@
 var mongoose = require('mongoose')
-  , mongoosastic = require('mongoosastic')
+  , elmongo = require('elmongo')
   , Schema = mongoose.Schema
-  ;
+;
 
 var addressSchema = new Schema({
   url: String
   , sani_url: String
   , favicon: String
-  , content: { type: String, es_indexed: true }
-  , title: { type: String, es_indexed: true }
-  , users: { type: [String], es_indexed: true }
+  , content: String
+  , title: String
+  , users: [ String ]
 });
 
-// add the mongoosastic plugin
-addressSchema.plugin(mongoosastic);
+// add the plugin
+addressSchema.plugin(elmongo, { host: 'localhost', port: 9200, prefix: 'test' });
 
 module.exports = mongoose.model('Address', addressSchema);

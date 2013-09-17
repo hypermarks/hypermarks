@@ -34,7 +34,7 @@ test('finds favicon type 1', function(t) {
 
 	server.setOptions({'html': '<html><head><link rel="icon" href="/favicon.ico" /></head><body></body></html>'},
 		parse.pageHarvest('localhost:7357', function(error, page) {
-			t.equal(page.favi_url, 'http://localhost:7357/favicon.ico', 'correct url');
+			t.equal(page.favicon_url, 'http://localhost:7357/favicon.ico', 'correct url');
 		})
 	);
 });
@@ -44,7 +44,7 @@ test('finds favicon type 2', function(t) {
 
 	server.setOptions({'html': '<html><head><link rel="shortcut icon" href="/favicon.ico" /></head><body></body></html>'},
 		parse.pageHarvest('localhost:7357', function(error, page) {
-			t.equal(page.favi_url, 'http://localhost:7357/favicon.ico', 'correct url');
+			t.equal(page.favicon_url, 'http://localhost:7357/favicon.ico', 'correct url');
 		})
 	);
 });
@@ -54,7 +54,7 @@ test('finds favicon in root', function(t) {
 
 	server.setOptions({'html': '<html><head></head><body></body></html>'},
 		parse.pageHarvest('localhost:7357', function(error, page) {
-			t.equal(page.favi_url, 'http://localhost:7357/favicon.ico', 'correct url');
+			t.equal(page.favicon_url, 'http://localhost:7357/favicon.ico', 'correct url');
 		})
 	);
 });
@@ -64,7 +64,7 @@ test('deals with incorrect favicon link', function(t) {
 
 	server.setOptions({'html': '<html><head><link rel="icon" href="/no_file_here.ico" /><link rel="shortcut icon" href="/favicon.ico" /></head><body></body></html>'},
 		parse.pageHarvest('localhost:7357', function(error, page) {
-			t.equal(page.favi_url, 'http://localhost:7357/favicon.ico', 'correct url');
+			t.equal(page.favicon_url, 'http://localhost:7357/favicon.ico', 'correct url');
 		})
 	);
 });
@@ -74,7 +74,7 @@ test('deals with no favicon, plus incorrect link', function(t) {
 
 	server.setOptions({'html': '<html><head><link rel="icon" href="/no_file_here.ico" /><link rel="shortcut icon" href="/favicon.ico" /></head><body></body></html>', 'no_favicon': true},
 		parse.pageHarvest('localhost:7357', function(error, page) {
-			t.equal(page.favi_url, false, 'no url');
+			t.equal(page.favicon_url, false, 'no url');
 		})
 	);
 });

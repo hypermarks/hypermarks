@@ -56,14 +56,14 @@ module.exports = function(opts, callback) {
 };
 
 
-function addressUpsert(opts, cb) {
+function oldAddressUpsert(opts, cb) {
   Address.findOneAndUpdate({
     saniUrl: opts.sani_url
   }, {
     $set: { //Creates or overwrites items with new scrape data
       sani_url: opts.sani_url
       , url: opts.page.url
-      , favicon: opts.page.favi_url || 'false' //Guards against trying to write a boolean to the db
+      , favicon: opts.page.favicon_url || 'false' //Guards against trying to write a boolean to the db
       , content: opts.page.content
       , title: opts.page.title
     },
@@ -79,6 +79,51 @@ function addressUpsert(opts, cb) {
     } else {
       opts.address_id = _id;
       return cb(null, opts); //Calls back with opts with _id added
+    }
+  });
+}
+
+
+function addressUpsert (opts, cb) {
+  var saveCallback = function (err, address) {
+    if (err) {
+      return cb(err);
+    } else {
+      console.log('addressUpsert', address)
+      opts.address_id = address._id;
+      return cb(null, opts); //Calls back with opts with _id added
+    }
+  };
+
+
+  Address.findOne({
+    'sani_url': opts.sani_url
+  }, function (err, address) {
+    if (err) {
+      return cb(err);
+    }
+    if (!address) {
+      address = new Address({
+        sani_url: opts.sani_url
+        , url: opts.page.url
+        , favicon_url: opts.page.favicon_url || 'false' //Guards against trying to write a boolean to the db
+        , content: opts.page.content
+        , title: opts.page.titleres
+
+      });
+
+      address.save(function(err) {
+        saveCallback(err, address);
+      });
+
+    } else {
+      address.url = opts.page.url;
+      address.favicon_url = opts.page.favicon_url;
+      address.content = opts.page.content;
+      address.title = opts.page.title;
+      address.save(function(err) {
+        saveCallback(err, address);
+      });
     }
   });
 }

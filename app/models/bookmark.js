@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
-  , Schema = mongoose.Schema;
+  , Schema = mongoose.Schema
+;
 
 var bookmarkSchema = new Schema({
   address: {type: Schema.ObjectId, ref: 'Address'}

@@ -73,7 +73,7 @@ exports.pageHarvest = function(sani_url, callback) {
       
 
       findFavicon(favicon_urls, page.url, function(full_favicon_url) { //Figures out which favicon url is correct
-        page.favi_url = full_favicon_url;
+        page.favicon_url = full_favicon_url;
         callback(null, page); //CALLBACK
       });
     }
@@ -147,8 +147,8 @@ function scrapeElements(body) {
 function findFavicon(favicon_urls, url_str, callback) {
   async.detect(
     favicon_urls,
-    function(favi_url, cb) {
-      request(favi_url, function(error, response) {
+    function(favicon_url, cb) {
+      request(favicon_url, function(error, response) {
         if (error || !(response.statusCode === 200)) {
           cb(false);
         } else {
