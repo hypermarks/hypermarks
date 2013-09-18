@@ -11,9 +11,9 @@ exports.home = function (req, res) {
   Bookmark.find({_user: req.user})
   .populate('_address')
   .exec(function (err, bookmarks) {
-    console.log('exports.home exec')
     if (err) return console.log(new Error(err));
     
     console.log('display bookmarks', bookmarks);
+    res.end(JSON.stringify(bookmarks));
   });
 };
