@@ -17,7 +17,7 @@ var Bookmark = mongoose.model('Bookmark');
  * Example
  *  var opts = {
  *    url: req.body.url
- *    , add_date: null //If null, model will set current date
+ *    , add_date: new Date()
  *    , user: req.user
  *  };
  *  createHypermark(opts, function(err){
@@ -28,7 +28,8 @@ var Bookmark = mongoose.model('Bookmark');
  */
 
 module.exports = function(opts, callback) {
-  opts.sani_url = parse.urlSanitize(opts.url);
+  console.log('createHypermark')
+  opts.sani_url = parse.urlSanitize(opts.user_url);
   parse.pageHarvest(opts.sani_url, function(err, page) { //Scrapes page
 
     //Adds page onto opts object
@@ -56,91 +57,49 @@ module.exports = function(opts, callback) {
 };
 
 
-function oldAddressUpsert(opts, cb) {
-  Address.findOneAndUpdate({
-    saniUrl: opts.sani_url
-  }, {
-    $set: { //Creates or overwrites items with new scrape data
-      sani_url: opts.sani_url
-      , url: opts.page.url
-      , favicon: opts.page.favicon_url || 'false' //Guards against trying to write a boolean to the db
-      , content: opts.page.content
-      , title: opts.page.title
-    },
-    $addToSet: { //Adds reference to the user for filtering later
-      users: opts.user._id
-    }
-  }, {
-    upsert: true //Creates new document if one does not exist :-)
-    , select: '_id' //Select only fields we need
-  }, function(err, _id) {
-    if (err) {
-      return cb(err);
-    } else {
-      opts.address_id = _id;
-      return cb(null, opts); //Calls back with opts with _id added
-    }
-  });
-}
-
-
 function addressUpsert (opts, cb) {
-  var saveCallback = function (err, address) {
-    if (err) {
-      return cb(err);
-    } else {
-      console.log('addressUpsert', address)
-      opts.address_id = address._id;
-      return cb(null, opts); //Calls back with opts with _id added
-    }
-  };
-
-
   Address.findOne({
     'sani_url': opts.sani_url
   }, function (err, address) {
     if (err) {
       return cb(err);
     }
-    if (!address) {
-      address = new Address({
-        sani_url: opts.sani_url
-        , url: opts.page.url
-        , favicon_url: opts.page.favicon_url || 'false' //Guards against trying to write a boolean to the db
-        , content: opts.page.content
-        , title: opts.page.titleres
 
-      });
-
-      address.save(function(err) {
-        saveCallback(err, address);
-      });
-
-    } else {
-      address.url = opts.page.url;
-      address.favicon_url = opts.page.favicon_url;
-      address.content = opts.page.content;
-      address.title = opts.page.title;
-      address.save(function(err) {
-        saveCallback(err, address);
-      });
+    if (!address) { //We need to create a new address if it does not exist.
+      address = new Address();
     }
+
+    address.working_url = opts.page.working_url;
+    address.favicon_url = opts.page.favicon_url || 'false';
+    address.sani_url = opts.sani_url;
+    address.content = opts.page.content;
+    address.title = opts.page.title;
+    address.save(function(err) {
+      if (err) {
+        return cb(err);
+      } else {
+        opts.address_id = address._id;
+        console.log('saved address: ', address)
+        return cb(null, opts); //Calls back with opts with address_id added
+      }
+    });
   });
 }
 
 
 function bookmarkCreate (opts, cb) {
   var bookmark = new Bookmark({
-    address: opts.address_id
-    , user: opts.user
+      _address: opts.address_id
+    , _user: opts.user
     , sani_url: opts.sani_url
-    , working_url: opts.page.url
+    , working_url: opts.page.working_url
     , add_date: opts.add_date //If undefined, model will set current date
   });
   bookmark.save(function (err) {
     if (err) {
       return cb(err);
     } else {
+      console.log('saved bookmark: ', bookmark)
       return cb(null);
     }
   });

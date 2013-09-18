@@ -9,28 +9,39 @@ var browserify = require('browserify-middleware')
 // controllers
 var home = require('../app/controllers/home.js')
   , users = require('../app/controllers/users')
-  , hypermarks = require('../app/controllers/hypermarks.js')
+  , api = require('../app/controllers/api.js')
+  , pages = require('../app/controllers/pages.js')
 ;
 
 
 
 module.exports = function (app, passport) {
 
-  //Home
-  app.get('/', home.index);
-  app.get('/poster', auth.requiresLogin, home.poster);
+  // //Home
+  // app.get('/', home.index);
+  // app.get('/poster', auth.requiresLogin, home.poster);
 
-  //Submit new hypermark
-  app.post('/api/bookmarks', hypermarks.postHypermark);
 
-  app.get('/api/bookmarks', hypermarks.getHypermarks);
+  //PAGES
+  app.get('/', pages.home);
+  // app.get('/search', pages.results);
 
-  app.get('/auth/externalLogin', users.externalLogin);
+
+  //API
+  app.post('/api/hypermarks', api.postHypermark);
+  app.get('/api/hypermarks', api.getHypermarks);
+  app.get('/api/search', api.searchHypermarks);
+
+
+  //AUTH
+  app.get('/auth/external-login', users.externalLogin);
   app.post('/auth/logout', users.logout);
+  app.post('/auth/browserid', passport.authenticate('persona'));
 
+
+  //RESOURCES
   app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: ['simple-jadeify']}));
 
-  app.post('/auth/browserid', passport.authenticate('persona'));
 
 
 

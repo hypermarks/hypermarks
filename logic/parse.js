@@ -61,18 +61,17 @@ exports.urlSanitize = function(url_str) {
 
 exports.pageHarvest = function(sani_url, callback) {
   // This controls the process using named functions
-  getPage(sani_url, function(error, result, url_str) {
+  getPage(sani_url, function(error, result, working_url) {
     if (error) {
       callback(error);
     } else {
       var page = scrapeElements(result); //Extract relevant strings
-      page.url = url_str; //This is the url that is accesible to everyone (we have tried it)
+      page.working_url = working_url; //This is the url that is accesible to everyone (we have tried it)
 
-      var favicon_urls = resolveURLs(page.url, page.favicon_links); //Resolve favicon URLs with checked url
+      var favicon_urls = resolveURLs(page.working_url, page.favicon_links); //Resolve favicon URLs with checked url
       delete page.favicon_links;
       
-
-      findFavicon(favicon_urls, page.url, function(full_favicon_url) { //Figures out which favicon url is correct
+      findFavicon(favicon_urls, page.working_url, function(full_favicon_url) { //Figures out which favicon url is correct
         page.favicon_url = full_favicon_url;
         callback(null, page); //CALLBACK
       });
@@ -94,19 +93,19 @@ function resolveURLs(base, links) {
 
 
 function getPage(sani_url, callback) {
-  var url_strs = [
+  var trial_urls = [
     'http://' + sani_url
     , 'https://' + sani_url
   ];
 
-  var result, url_str;
+  var result, candidate_url;
   async.until(
     function() {
       return result;
     }, function(cb) {
-      url_str = url_strs.shift();
-      if (url_str) {
-        request(url_str, function(error, response, body) {
+      candidate_url = trial_urls.shift();
+      if (candidate_url) {
+        request(candidate_url, function(error, response, body) {
           result = body;
           cb();
         });
@@ -114,7 +113,7 @@ function getPage(sani_url, callback) {
         callback(new Error('No site found at: ' + sani_url));
       }
     }, function() {
-      callback(null, result, url_str);
+      callback(null, result, candidate_url);
     }
   );
 }
@@ -125,7 +124,7 @@ function scrapeElements(body) {
   var $ = cheerio.load(body);
 
   var raw_content = $('p').text()
-    , content = raw_content.replace(/\s{2,}/g, ' ');
+    , content = raw_content.replace(/\s{2,}/g, ' '); //Replace whitespaces
 
   //This is a list of elements to be scraped out of the page.
   var page = {

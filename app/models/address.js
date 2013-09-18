@@ -4,12 +4,13 @@ var mongoose = require('mongoose')
 ;
 
 var addressSchema = new Schema({
-  url: String
-  , sani_url: String
+    sani_url: String
+  , working_url: String
   , favicon: String
   , content: String
   , title: String
   , users: [ String ]
+  , blocks: [ String ]
 });
 
 // add the plugin

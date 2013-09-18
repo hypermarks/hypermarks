@@ -3,11 +3,12 @@ var mongoose = require('mongoose')
 ;
 
 var bookmarkSchema = new Schema({
-  address: {type: Schema.ObjectId, ref: 'Address'}
-  , user: {type: Schema.ObjectId, ref: 'User'}
+    _address: {type: Schema.Types.ObjectId, ref: 'Address'}
+  , _user: {type: Schema.Types.ObjectId, ref: 'User'}
   , sani_url: String
-  , working_url: String
+  , user_url: String //This is the url that the user submitted the bookmark with
   , add_date: Date
+  , blocks: [ String ]
 });
 
 module.exports = mongoose.model('Bookmark', bookmarkSchema);
