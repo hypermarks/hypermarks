@@ -1,17 +1,14 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
-// var bookmarkSchema = new Schema({
-//  address: { type: Schema.ObjectId, ref: 'Address'}
-//    , url: String
-//  , created: { type : Date, default : Date.now }
-// });
+var blockSchema = new Schema({
+    _id: String
+  , accessed: Date
+});
 
 var userSchema = new Schema({
   email: String
-  , created: { type : Date, default : Date.now }
-  , searches: [String]
-  // , bookmarks: [bookmarkSchema]
+  , _blocks: [blockSchema]
 });
 
 module.exports = mongoose.model('User', userSchema);
