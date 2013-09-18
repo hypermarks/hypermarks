@@ -7,10 +7,10 @@ var createHypermark = require('./create-hypermark.js')
 ;
 
 exports.timeline = function (req, res) {
-  
 
-  res.render('timeline', {
-    user: req.user
-    , results: results
-  });
+  res.end('timeline')
+  // res.render('timeline', {
+  //   user: req.user
+  //   , results: results
+  // });
 };

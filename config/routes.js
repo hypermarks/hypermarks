@@ -23,13 +23,13 @@ module.exports = function (app, passport) {
 
 
   //PAGES
-  app.get('/', pages.home);
+  app.get('/', pages.timeline);
   // app.get('/search', pages.results);
 
 
   //API
   app.post('/api/hypermarks', api.postHypermark);
-  app.get('/api/hypermarks', api.getHypermarks);
+  app.get('/api/hypermarks', api.getUserHypermarks);
   app.get('/api/search', api.searchHypermarks);
 
 

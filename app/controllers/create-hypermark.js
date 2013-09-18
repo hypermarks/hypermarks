@@ -28,11 +28,11 @@ var Bookmark = mongoose.model('Bookmark');
  */
 
 module.exports = function(opts, callback) {
-  console.log('createHypermark')
+  console.log('createHypermark');
   opts.sani_url = parse.urlSanitize(opts.user_url);
   parse.pageHarvest(opts.sani_url, function(err, page) { //Scrapes page
 
-    //Adds page onto opts object
+    //Add page onto opts object
     opts.page = page;
 
     if (err) {
@@ -79,7 +79,7 @@ function addressUpsert (opts, cb) {
         return cb(err);
       } else {
         opts.address_id = address._id;
-        console.log('saved address: ', address)
+        console.log('saved address: ', address);
         return cb(null, opts); //Calls back with opts with address_id added
       }
     });
@@ -92,14 +92,14 @@ function bookmarkCreate (opts, cb) {
       _address: opts.address_id
     , _user: opts.user
     , sani_url: opts.sani_url
-    , working_url: opts.page.working_url
+    , user_url: opts.user_url
     , add_date: opts.add_date //If undefined, model will set current date
   });
   bookmark.save(function (err) {
     if (err) {
       return cb(err);
     } else {
-      console.log('saved bookmark: ', bookmark)
+      console.log('saved bookmark: ', bookmark);
       return cb(null);
     }
   });

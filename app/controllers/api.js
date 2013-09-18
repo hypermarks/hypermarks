@@ -4,6 +4,7 @@ var createHypermark = require('./create-hypermark.js')
   , mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
+  , _ = require('lodash')
 ;
 
 exports.postHypermark = function (req, res) {
@@ -28,10 +29,11 @@ exports.getUserHypermarks = function (req, res) {
   if (!req.user) return res.end('401');
 
   Bookmark.find({_user: req.user})
+  .sort('_id')
   .populate('_address')
-  .exec(function (err, bookmarks) {
+  .exec(function (err, hypermarks) {
     if (err) return console.log(new Error(err));
-    res.json('200', bookmarks);
+    res.json('200', hypermarks);
   });
 };
 
@@ -39,9 +41,8 @@ exports.getUserHypermarks = function (req, res) {
 exports.getUserBlocks = function (req, res) {
   if (!req.user) return res.end('401');
 
-  res.json('200', req.user.blocks)
   var blocks = req.user.blocks;
-  var sorted = _.sortBy(blocks, date_accessed);
+  var sorted = _.sortBy(blocks, 'date_accessed');
   res.json('200', sorted);
 };
 
