@@ -20,9 +20,6 @@ exports.mergeOptions = function (defaults, options) {
   .keys(defaults)
   .forEach(function (key) {
     mergedOptions[key] = options[key] || defaults[key];
-    console.log('mergedOptions[key]', mergedOptions[key]);
-    console.log('options[key]', options[key]);
-    console.log('defaults[key]', defaults[key]);
   });
 
   return mergedOptions;

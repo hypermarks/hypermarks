@@ -32,7 +32,11 @@ module.exports = function (app, passport) {
   app.post('/api/hypermarks', api.postHypermark);
   app.get('/api/hypermarks', api.getTimeline);
   app.get('/api/search', api.searchHypermarks);
-  app.post('/api/hypermarks/clone', api.cloneHypermark);
+  app.post('/api/hypermarks/clone', api.addToBlock);
+
+
+  app.get('/api/buckets/:block', api.getPublicBlock);
+  app.get('/api/buckets/_private/:block', api.getPrivateBlock);
 
 
   //AUTH

@@ -54,6 +54,11 @@ module.exports = function(app, config, passport) {
     next();
   });
 
+  app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.send(500, 'Something broke!');
+  });
+
   // routes should be at the last
   app.use(app.router);
 

@@ -3,6 +3,7 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , helpers = require('../../logic/helpers.js')
+  , debug = require('debug')('bookmark_model')
 ;
 
 var bookmarkSchema = new Schema({
@@ -20,12 +21,9 @@ var bookmarkSchema = new Schema({
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
-    console.log('clone doc', source.toObject());
-    console.log('clone opts', opts);
-
     var merged = helpers.mergeOptions(source.toObject(), opts);
-    merged._id = null; //Hardwired because it needs to be.
-    console.log('clone merged', merged)
+    merged._id = undefined; //Hardwired because it needs to be.
+    console.log(merged)
     new this(merged).save(cb);
   }
 
@@ -54,8 +52,8 @@ bookmarkSchema.statics = {
 
   ,
 
-  getPrivateBlock: function (user, block, cb) {
-    this.find({_user: user._id, block: block})
+  getPrivateBlock: function (user_id, block, cb) {
+    this.find({_user: user_id, block: block})
     .populate('_address')
     .exec(cb);
   }
@@ -63,6 +61,7 @@ bookmarkSchema.statics = {
   ,
 
   getPublicBlock: function (block, cb) {
+    console.log(block)
     this.find({block: block})
     .populate('_address')
     .exec(cb);
