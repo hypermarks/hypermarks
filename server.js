@@ -6,7 +6,6 @@ var env = process.env.NODE_ENV || 'development'
   , passport = require('passport')
   , mongoose = require('mongoose')
   , fs = require('fs')
-  , debug = require('debug')('server')
 ;
 
 require('express-namespace');
@@ -34,7 +33,6 @@ require('./config/routes')(app, passport);
 // Start the app by listening on <port>
 var port = process.env.PORT || 1337;
 app.listen(port);
-debug('Express app started on port ' + port);
 
 // Expose app
 module.exports = app;

@@ -3,7 +3,6 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , helpers = require('../../logic/helpers.js')
-  , debug = require('debug')('bookmark_model')
 ;
 
 var bookmarkSchema = new Schema({

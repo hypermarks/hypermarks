@@ -9,6 +9,7 @@ block content
 				|Today
 			for result in results
 				article.hypermark(data-date_added="#{result.date_added}")
-					a._link(href="#{result.url}") #{result.title}
+					a._link(href="#{result.url}") #{result._address.title}
 					._sani-url #{result.sani_url}
-					._excerpt #{result.excerpt}
+					._excerpt #{result._address.content}
+			|#{results}

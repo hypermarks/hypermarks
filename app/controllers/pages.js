@@ -7,10 +7,16 @@ var createHypermark = require('./create-hypermark.js')
 ;
 
 exports.timeline = function (req, res) {
+  if (!req.user) return res.end('401');
 
-  res.end('timeline')
-  // res.render('timeline', {
-  //   user: req.user
-  //   , results: results
-  // });
+  Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
+    if (err) return next(err);
+
+    var results = {};
+
+    res.render('timeline', {
+      user: req.user
+      , results: hypermarks
+    });
+  });
 };
