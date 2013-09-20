@@ -6,6 +6,7 @@
 
 var express = require('express')
   , mongoStore = require('connect-mongo')(express)
+  , helpers = require('./view-helpers.js')
   // , pjax = require('express-pjax')
 ;
 
@@ -43,6 +44,9 @@ module.exports = function(app, config, passport) {
   // Passport session
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // should be declared after session and flash
+  app.use(helpers());
 
   //CORS 
   //TODO: Refactor into middleware

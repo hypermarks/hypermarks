@@ -11,5 +11,6 @@ block content
 				article.hypermark(data-date_added="#{result.date_added}")
 					a._link(href="#{result.url}") #{result._address.title}
 					._sani-url #{result.sani_url}
-					._excerpt #{result._address.content}
+					._excerpt 
+						!= truncate('there once efs fg aoa aka la', 200)
 			|#{results}
