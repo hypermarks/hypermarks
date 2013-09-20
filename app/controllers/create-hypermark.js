@@ -10,14 +10,11 @@ var Bookmark = mongoose.model('Bookmark');
  * Scrape page info and save to db's
  * 
  * This module takes info about a page from wherever, and calls parse.pageHarvest to get info about
- * the page. It then checks the address index and inserts a new record if the address does not yet
- * exist, or updates an existing record. It then inserts a record in the user's 'bookmarks' sub index,
- * containing the url, the add_date and the _id of the address record.
+ * the page. It then upserts the address and creates a bookmark.
  *
  * Example
  *  var opts = {
  *    url: req.body.url
- *    , add_date: new Date()
  *    , user: req.user
  *  };
  *  createHypermark(opts, function(err){
@@ -40,10 +37,17 @@ module.exports = function(opts, callback) {
     } else {
       async.waterfall([
         function (cb) {
-          addressUpsert(opts, cb);
+          Address.upsert(opts, function (err, opts) {
+            if (err) return cb(err);
+            cb(null, opts);
+          });
         }
         , function (opts, cb) {
-          bookmarkCreate(opts, cb);
+          console.log('createHypermark opts', opts)
+          Bookmark.create(opts, function (err) {
+            if (err) return cb(err);
+            cb(null);
+          });
         }
       ], function(err) {
         if (err) {
@@ -57,50 +61,50 @@ module.exports = function(opts, callback) {
 };
 
 
-function addressUpsert (opts, cb) {
-  Address.findOne({
-    'sani_url': opts.sani_url
-  }, function (err, address) {
-    if (err) {
-      return cb(err);
-    }
+// function addressUpsert (opts, cb) {
+//   Address.findOne({
+//     'sani_url': opts.sani_url
+//   }, function (err, address) {
+//     if (err) {
+//       return cb(err);
+//     }
 
-    if (!address) { //We need to create a new address if it does not exist.
-      address = new Address();
-    }
+//     if (!address) { //We need to create a new address if it does not exist.
+//       address = new Address();
+//     }
 
-    address.working_url = opts.page.working_url;
-    address.favicon_url = opts.page.favicon_url || 'false';
-    address.sani_url = opts.sani_url;
-    address.content = opts.page.content;
-    address.title = opts.page.title;
-    address.save(function(err) {
-      if (err) {
-        return cb(err);
-      } else {
-        opts.address_id = address._id;
-        console.log('saved address: ', address);
-        return cb(null, opts); //Calls back with opts with address_id added
-      }
-    });
-  });
-}
+//     address.working_url = opts.page.working_url;
+//     address.favicon_url = opts.page.favicon_url || 'false';
+//     address.sani_url = opts.sani_url;
+//     address.content = opts.page.content;
+//     address.title = opts.page.title;
+//     address.save(function(err) {
+//       if (err) {
+//         return cb(err);
+//       } else {
+//         opts.address_id = address._id;
+//         console.log('saved address: ', address);
+//         return cb(null, opts); //Calls back with opts with address_id added
+//       }
+//     });
+//   });
+// }
 
 
-function bookmarkCreate (opts, cb) {
-  var bookmark = new Bookmark({
-      _address: opts.address_id
-    , _user: opts.user
-    , sani_url: opts.sani_url
-    , user_url: opts.user_url
-    , add_date: opts.add_date //If undefined, model will set current date
-  });
-  bookmark.save(function (err) {
-    if (err) {
-      return cb(err);
-    } else {
-      console.log('saved bookmark: ', bookmark);
-      return cb(null);
-    }
-  });
-}
+// function bookmarkCreate (opts, cb) {
+//   var bookmark = new Bookmark({
+//       _address: opts.address_id
+//     , _user: opts.user
+//     , sani_url: opts.sani_url
+//     , user_url: opts.user_url
+//     , add_date: opts.add_date //If undefined, model will set current date
+//   });
+//   bookmark.save(function (err) {
+//     if (err) {
+//       return cb(err);
+//     } else {
+//       console.log('saved bookmark: ', bookmark);
+//       return cb(null);
+//     }
+//   });
+// }

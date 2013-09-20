@@ -26,11 +26,13 @@ module.exports = function (app, passport) {
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
 
+  app.post('/api/blocks', api.addToBlock);
 
   //API
   app.post('/api/hypermarks', api.postHypermark);
-  app.get('/api/hypermarks', api.getUserHypermarks);
+  app.get('/api/hypermarks', api.getTimeline);
   app.get('/api/search', api.searchHypermarks);
+  app.post('/api/hypermarks/clone', api.cloneHypermark);
 
 
   //AUTH

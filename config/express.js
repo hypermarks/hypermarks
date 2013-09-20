@@ -29,7 +29,6 @@ module.exports = function(app, config, passport) {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
 
-  // app.use(pjax());
 
   // cookieParser should be above session
   app.use(express.cookieParser());

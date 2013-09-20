@@ -16,14 +16,14 @@ module.exports = function(passport, config) {
 
   //serialize sessions
   passport.serializeUser(function(user, done) {
-    console.log('passport.serializeUser');
+    console.log('passport.serializeUser', user);
     done(null, user.id);
   });
 
   //deserialize sessions
   passport.deserializeUser(function(id, done) {
-    console.log('passport.deserializeUser');
     User.findById(id, function(err, user) {
+      console.log('passport.deserializeUser', user);
       done(err, user);
     });
   });
