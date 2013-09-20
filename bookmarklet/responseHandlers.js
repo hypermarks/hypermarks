@@ -21,7 +21,7 @@ function modalWindow (el) {
 
 exports.login = function () {
   var $el = modalWindow(login_modal({
-    url: 'http://localhost:1337/auth/externalLogin'
+    url: 'http://localhost:1337/auth/external-login'
   }));
 
   $body.append($el);

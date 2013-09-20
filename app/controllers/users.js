@@ -6,7 +6,7 @@ exports.externalLogin = function (req, res) {
 
   console.log('externalLogin from:', redirectUrl);
 
-  res.render('login', {
+  res.render('external-login', {
     redirectUrl: redirectUrl
   });
 };

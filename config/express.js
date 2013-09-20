@@ -4,8 +4,10 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var mongoStore = require('connect-mongo')(express);
+var express = require('express')
+  , mongoStore = require('connect-mongo')(express)
+  // , pjax = require('express-pjax')
+;
 
 /*!
  * Expose
@@ -26,6 +28,7 @@ module.exports = function(app, config, passport) {
   // bodyParser should be above methodOverride
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+
 
   // cookieParser should be above session
   app.use(express.cookieParser());
@@ -49,6 +52,11 @@ module.exports = function(app, config, passport) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
+  });
+
+  app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.send(500, 'Something broke!');
   });
 
   // routes should be at the last

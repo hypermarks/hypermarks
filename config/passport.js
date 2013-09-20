@@ -4,26 +4,27 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose');
-var PersonaStrategy = require('passport-persona').Strategy;
-var User = mongoose.model('User');
+var mongoose = require('mongoose')
+  , PersonaStrategy = require('passport-persona').Strategy
+  , User = mongoose.model('User')
+;
 
 /**
  * Expose
  */
 
-module.exports = function(passport, config) {
+module.exports = function(passport) {
 
   //serialize sessions
   passport.serializeUser(function(user, done) {
-    console.log('passport.serializeUser');
+    console.log('passport.serializeUser', user);
     done(null, user.id);
   });
 
   //deserialize sessions
   passport.deserializeUser(function(id, done) {
-    console.log('passport.deserializeUser');
     User.findById(id, function(err, user) {
+      console.log('passport.deserializeUser', user.email);
       done(err, user);
     });
   });

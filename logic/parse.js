@@ -20,7 +20,7 @@ var request = require('request'),
  */
 
 // TODO: Write tests for parse.urlSanitize
-exports.urlSanitize = function (urlStr) {
+exports.urlSanitize = function(url_str) {
   var options = {
     lowercase: true,
     removeWWW: true,
@@ -32,7 +32,7 @@ exports.urlSanitize = function (urlStr) {
     removeProtocol: true
   };
 
-  return urlTools.normalize(urlStr, options);
+  return urlTools.normalize(url_str, options);
 };
 
 
@@ -46,25 +46,33 @@ exports.urlSanitize = function (urlStr) {
  *      doSomething(page);
  *    });
  *
+ *    //page obj looks like this:
+ *    page = {
+ *      url: 
+ *      , sani_url:
+ *      , title:
+ *      , content:
+ *    }
+ *
  * @param {String} sani_url
  * @param {Function} done
  * @api public
  */
 
-exports.pageHarvest = function (sani_url, callback) {
+exports.pageHarvest = function(sani_url, callback) {
   // This controls the process using named functions
-  getPage(sani_url, function(error, result, urlStr) {
+  getPage(sani_url, function(error, result, working_url) {
     if (error) {
       callback(error);
     } else {
       var page = scrapeElements(result); //Extract relevant strings
-      var favi_urls = resolveURLs(urlStr, page.favi_urls); //Resolve favicon URLs with checked url
-      page.url = urlStr;
-      page.sani_url = sani_url; //Add sanitized URL
-      delete page.favi_urls;
+      page.working_url = working_url; //This is the url that is accesible to everyone (we have tried it)
 
-      findFavicon(favi_urls, urlStr, function(full_favi_url) {
-        page.favi_url = full_favi_url;
+      var favicon_urls = resolveURLs(page.working_url, page.favicon_links); //Resolve favicon URLs with checked url
+      delete page.favicon_links;
+      
+      findFavicon(favicon_urls, page.working_url, function(full_favicon_url) { //Figures out which favicon url is correct
+        page.favicon_url = full_favicon_url;
         callback(null, page); //CALLBACK
       });
     }
@@ -85,19 +93,19 @@ function resolveURLs(base, links) {
 
 
 function getPage(sani_url, callback) {
-  var urlStrs = [
+  var trial_urls = [
     'http://' + sani_url
     , 'https://' + sani_url
   ];
 
-  var result, urlStr;
+  var result, candidate_url;
   async.until(
     function() {
       return result;
     }, function(cb) {
-      urlStr = urlStrs.shift();
-      if (urlStr) {
-        request(urlStr, function(error, response, body) {
+      candidate_url = trial_urls.shift();
+      if (candidate_url) {
+        request(candidate_url, function(error, response, body) {
           result = body;
           cb();
         });
@@ -105,7 +113,7 @@ function getPage(sani_url, callback) {
         callback(new Error('No site found at: ' + sani_url));
       }
     }, function() {
-      callback(null, result, urlStr);
+      callback(null, result, candidate_url);
     }
   );
 }
@@ -113,27 +121,33 @@ function getPage(sani_url, callback) {
 
 
 function scrapeElements(body) {
-  var $ = cheerio.load(body)
-    , page = {
-      title: $('title').text(),
-      content: $('p').text()
+  var $ = cheerio.load(body);
+
+  var raw_content = $('p').text()
+    , content = raw_content.replace(/\s{2,}/g, ' '); //Replace whitespaces
+
+  //This is a list of elements to be scraped out of the page.
+  var page = {
+      title: $('title').text()
+      , content: content
     };
 
-  page.favi_urls = [
+  //This is a list of possible favicon links
+  page.favicon_links = [
     $('link[rel="icon"]').attr('href')
     , $('link[rel="shortcut icon"]').attr('href')
     , '/favicon.ico'
   ];
-  
+
   return page;
 }
 
 
-function findFavicon(favi_urls, urlStr, callback) {
+function findFavicon(favicon_urls, url_str, callback) {
   async.detect(
-    favi_urls,
-    function(favi_url, cb) {
-      request(favi_url, function(error, response) {
+    favicon_urls,
+    function(favicon_url, cb) {
+      request(favicon_url, function(error, response) {
         if (error || !(response.statusCode === 200)) {
           cb(false);
         } else {
@@ -144,7 +158,7 @@ function findFavicon(favi_urls, urlStr, callback) {
 
     function(result) {
       if (result) {
-        callback(result); //Calls back with working favicon url- TODO: Possible base64 encoding of favicon?
+        callback(result); //Calls back with working favicon url
       } else {
         callback(false); //Calls back with false so that we can avoid showing a broken image later
       }

@@ -1,46 +1,43 @@
 'use strict';
 
 //Middleware
-var browserify = require('browserify-middleware')
-  , auth = require('./middleware/auth')
-;
+var browserify = require('browserify-middleware');
 
 
 // controllers
-var home = require('../app/controllers/home.js')
-  , users = require('../app/controllers/users')
-  , hypermarks = require('../app/controllers/hypermarks.js')
+var users = require('../app/controllers/users')
+  , api = require('../app/controllers/api.js')
+  , pages = require('../app/controllers/pages.js')
 ;
 
 
 
 module.exports = function (app, passport) {
 
-  //Home
-  app.get('/', home.index);
-  app.get('/poster', auth.requiresLogin, home.poster);
+  //PAGES
+  app.get('/', pages.timeline);
+  // app.get('/search', pages.results);
 
-  //Submit new hypermark
-  app.post('/api/bookmarks', hypermarks.postHypermark);
+  app.post('/api/blocks', api.addToBlock);
 
-  app.get('/auth/externalLogin', users.externalLogin);
+  //API
+  app.post('/api/hypermarks', api.postHypermark);
+  app.get('/api/hypermarks', api.getTimeline);
+  app.get('/api/search', api.searchHypermarks);
+  app.post('/api/hypermarks/clone', api.addToBlock);
+
+
+  app.get('/api/buckets/:block', api.getPublicBlock);
+  app.get('/api/buckets/_private/:block', api.getPrivateBlock);
+
+
+  //AUTH
+  app.get('/auth/external-login', users.externalLogin);
   app.post('/auth/logout', users.logout);
-
-  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: ['simple-jadeify']}));
-
   app.post('/auth/browserid', passport.authenticate('persona'));
 
 
-
-  //TEST PAGE
-  app.get('/testpage', function (req, res) {
-    console.log(req.user ? req.user.email : 'not logged in');
-    res.render('testpage', {
-      user: req.user
-      , bookmarklet: require('../bookmarklet/loader.js')
-
-    });
-  });
-
+  //RESOURCES
+  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: ['simple-jadeify']}));
 
 };
