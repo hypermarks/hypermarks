@@ -59,3 +59,52 @@ module.exports = function(opts, callback) {
     }
   });
 };
+
+
+// function addressUpsert (opts, cb) {
+//   Address.findOne({
+//     'sani_url': opts.sani_url
+//   }, function (err, address) {
+//     if (err) {
+//       return cb(err);
+//     }
+
+//     if (!address) { //We need to create a new address if it does not exist.
+//       address = new Address();
+//     }
+
+//     address.working_url = opts.page.working_url;
+//     address.favicon_url = opts.page.favicon_url || 'false';
+//     address.sani_url = opts.sani_url;
+//     address.content = opts.page.content;
+//     address.title = opts.page.title;
+//     address.save(function(err) {
+//       if (err) {
+//         return cb(err);
+//       } else {
+//         opts.address_id = address._id;
+//         console.log('saved address: ', address);
+//         return cb(null, opts); //Calls back with opts with address_id added
+//       }
+//     });
+//   });
+// }
+
+
+// function bookmarkCreate (opts, cb) {
+//   var bookmark = new Bookmark({
+//       _address: opts.address_id
+//     , _user: opts.user
+//     , sani_url: opts.sani_url
+//     , user_url: opts.user_url
+//     , add_date: opts.add_date //If undefined, model will set current date
+//   });
+//   bookmark.save(function (err) {
+//     if (err) {
+//       return cb(err);
+//     } else {
+//       console.log('saved bookmark: ', bookmark);
+//       return cb(null);
+//     }
+//   });
+// }
