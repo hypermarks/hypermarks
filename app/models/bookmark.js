@@ -13,16 +13,12 @@ var bookmarkSchema = new Schema({
   , user_url: String //This is the url that the user submitted the bookmark with
 });
 
-// bookmarkSchema.methods = {
-
-// };
 
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
     var merged = helpers.mergeOptions(source.toObject(), opts);
     merged._id = undefined; //Hardwired because it needs to be.
-    console.log(merged)
     new this(merged).save(cb);
   }
 
@@ -30,7 +26,7 @@ bookmarkSchema.statics = {
 
   getTimeline: function (user_id, cb) {
     this.find({_user: user_id, block: ''})
-    .sort('_id')
+    .sort('-_id')
     .populate('_address')
     .exec(cb);
   }
@@ -45,7 +41,6 @@ bookmarkSchema.statics = {
       , user_url: opts.user_url
     });
 
-    console.log('saved bookmark: ', bookmark);
     return bookmark.save(cb);
   }
 

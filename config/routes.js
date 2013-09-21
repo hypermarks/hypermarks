@@ -30,6 +30,9 @@ module.exports = function (app, passport) {
   app.get('/api/buckets/:block', api.getPublicBlock);
   app.get('/api/buckets/_private/:block', api.getPrivateBlock);
 
+  app.get('/api/users/favorites', api.getFavoriteBlocks);
+  app.post('/api/users/favorites', api.touchFavoriteBlock);
+
 
   //AUTH
   app.get('/auth/external-login', users.externalLogin);
