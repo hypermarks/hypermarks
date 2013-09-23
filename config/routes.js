@@ -18,29 +18,32 @@ module.exports = function (app, passport) {
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
 
-  app.post('/api/blocks', api.addToBlock);
+  app.post('/_api/blocks', api.addToBlock);
 
   //API
-  app.post('/api/hypermarks', api.postHypermark);
-  app.get('/api/hypermarks', api.getTimeline);
-  app.get('/api/search', api.searchHypermarks);
-  app.post('/api/hypermarks/clone', api.addToBlock);
+  app.post('/_api/hypermarks', api.postHypermark);
+  app.get('/_api/hypermarks', api.getTimeline);
+  app.get('/_api/search', api.searchHypermarks);
+  app.post('/_api/hypermarks/clone', api.addToBlock);
 
 
-  app.get('/api/buckets/:block', api.getPublicBlock);
-  app.get('/api/buckets/_private/:block', api.getPrivateBlock);
+  app.get('/_api/buckets/:block', api.getPublicBlock);
+  app.get('/_api/buckets/_private/:block', api.getPrivateBlock);
 
-  app.get('/api/users/favorites', api.getFavoriteBlocks);
-  app.post('/api/users/favorites', api.touchFavoriteBlock);
+  app.get('/_api/users/favorites', api.getFavoriteBlocks);
+  app.post('/_api/users/favorites', api.touchFavoriteBlock);
 
 
   //AUTH
-  app.get('/auth/external-login', users.externalLogin);
-  app.post('/auth/logout', users.logout);
-  app.post('/auth/browserid', passport.authenticate('persona'));
+  app.get('/_auth/external-login', users.externalLogin);
+  app.post('/_auth/logout', users.logout);
+  app.post('/_auth/browserid', passport.authenticate('persona'));
 
 
   //RESOURCES
-  app.get('/permanent/bookmarklet.js', browserify('../bookmarklet/bookmarklet.js', {transform: ['simple-jadeify']}));
+  //Caution! There could be any number of bookmarklets in the wild depending on this route!
+  app.get('/_resources/bookmarklet.js', browserify('../public/bookmarklet/javascript/index.js', {transform: ['simple-jadeify']}));
+
+  app.get('/_resources/site.js', browserify('../public/site/javascript/index.js', {transform: ['simple-jadeify']}));
 
 };

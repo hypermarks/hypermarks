@@ -1,7 +1,6 @@
 'use strict';
 
-var createHypermark = require('./create-hypermark.js')
-  , mongoose = require('mongoose')
+var mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
 ;

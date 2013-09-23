@@ -1,9 +1,9 @@
 'use strict';
 
 var $ = require('zepto-browserify').$
-  , success_flash = require('./views/success-flash.jade')
-  , login_modal = require('./views/login-modal.jade')
-  , error_modal = require('./views/error-modal.jade')
+  , success_flash = require('../views/success-flash.jade')
+  , login_modal = require('../views/login-modal.jade')
+  , error_modal = require('../views/error-modal.jade')
 ;
 
 var $body = $(document.body);
@@ -21,7 +21,7 @@ function modalWindow (el) {
 
 exports.login = function () {
   var $el = modalWindow(login_modal({
-    url: 'http://localhost:1337/auth/external-login'
+    url: 'http://localhost:1337/_auth/external-login'
   }));
 
   $body.append($el);

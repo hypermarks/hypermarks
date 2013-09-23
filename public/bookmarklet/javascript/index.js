@@ -21,7 +21,7 @@ function createCORSRequest(method, url) {
 
 // Make the actual CORS request.
 function makeCorsRequest() {
-  var url = 'http://localhost:1337/api/hypermarks';
+  var url = 'http://localhost:1337/_api/hypermarks';
 
 
   var xhr = createCORSRequest('POST', url);
