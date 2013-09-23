@@ -41,7 +41,7 @@ bookmarkSchema.statics = {
       , user_url: opts.user_url
     });
 
-    return bookmark.save(cb);
+    bookmark.save(cb);
   }
 
   ,

@@ -16,6 +16,7 @@ exports.timeline = function (req, res) {
 
     res.render('timeline', {
       user: req.user
+      , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
     });
   });

@@ -3,11 +3,10 @@ nav.sidebar
     ul
       li._item
         i.icon-home 
-        |Home
+        |My Timeline
 
   section._menu
     ._sectitle Lists
     ul
-      li._item Fainting Goats
-      li._item Strange Religions
-      li._item Boring Songs
+      for favorite_block in favorite_blocks
+        li._item #{favorite_block._id}
