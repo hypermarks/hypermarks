@@ -23,11 +23,8 @@ addressSchema.statics = {
       if (err) {
         return cb(err);
       }
-
-      console.log(address || 'no address found, creating new');
-
       if (!address) { //We need to create a new address if it does not exist.
-        var address = new Self();
+        address = new Self();
       }
       
       address.working_url = opts.page.working_url;
@@ -38,7 +35,7 @@ addressSchema.statics = {
 
       opts.address_id = address._id; //Keep the _id for later
       console.log('saved address: ', address);
-      return address.save(cb(err, opts));
+      return address.save(cb(null, opts));
     });
   }
 

@@ -42,12 +42,12 @@ exports.addToBlock = function (req, res) {
   var dest_block = req.body.dest_block;
 
   Bookmark.findById(source_id, function (err, bookmark) {
-    if (err) return next(err);
+    if (err) return console.log(err);
 
     Bookmark.clone(bookmark, {
       block: dest_block
     }, function (err, bookmark) {
-      if (err) return next(err);
+      if (err) return console.log(err);
       res.json('200', bookmark);
     });
   });
@@ -59,15 +59,15 @@ exports.getPrivateBlock = function (req, res) {
   if (!req.user) return res.end('401');
 
   Bookmark.getPrivateBlock(req.user._id, req.param('block'), function (err, hypermarks) {
-    if (err) return next(err);
-    res.json('200');
+    if (err) return console.log(err);
+    res.json('200', hypermarks);
   });
 };
 
 
 exports.getPublicBlock = function (req, res) {
   Bookmark.getPublicBlock(req.param('block'), function (err, hypermarks) {
-    if (err) return next(err);
+    if (err) return console.log(err);
     res.json('200', hypermarks);
   });
 };
@@ -77,20 +77,23 @@ exports.searchHypermarks = function (req, res) {
   Address.search({
     query: req.query.q
   }, function (err, results) {
-    if (err) return next(err);
+    if (err) return console.log(err);
     res.json('200', results);
   });
 };
 
 
 exports.touchFavoriteBlock = function (req, res) {
-  console.log(req.body.block);
-  User.touchFavoriteBlock(req.user._id, req.body.block, function (err, block) {
-    if (err) return next(err);
-    res.json('200', block)
+  if (!req.user) return res.end('401');
+
+  User.touchFavoriteBlock(req.user._id, req.body.block, function (err, user) {
+    if (err) return console.log(err);
+    res.json('200', user);
   });
 };
 
 exports.getFavoriteBlocks = function (req, res) {
+  if (!req.user) return res.end('401');
 
+  res.json('200', req.user.getFavoriteBlocks());
 };
