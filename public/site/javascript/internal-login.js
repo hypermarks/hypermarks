@@ -2,9 +2,7 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  alert('hllo')
   if (document.querySelector('#login')) document.querySelector('#login').addEventListener('click', function() {
-    alert('hrro')
     navigator.id.get(function(assertion) {
       if (!assertion) {
         return;

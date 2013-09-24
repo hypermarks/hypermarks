@@ -2,14 +2,18 @@ extends layouts/default
 
 
 block content
-	main.page
-		h1._page-title Timeline
-		.timeline
-			._divider
-				|Today
-			for result in results
-				article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
-					a._link(href="#{result._address.working_url}") #{result._address.title}
-					._sani-url #{result._address.sani_url}
-					._excerpt 
-						!= truncate(result._address.content, 200)
+  main.page
+    h1._page-title Timeline
+    .timeline
+      ._divider
+        |Today
+      for result in results
+        article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
+          a._link(href="#{result._address.working_url}") #{result._address.title}
+          ._sani-url #{result._address.sani_url}
+          ._excerpt 
+            != truncate(result._address.content, 200)
+          ._bottom-bar
+            button.btn.-quiet.js-add-to-list 
+              i.icon-book
+              |&nbsp;Add to List

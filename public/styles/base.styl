@@ -5,7 +5,9 @@ accent2 = #2E8000
 offwhite = #fcfbfc
 medgrey = #bbb
 lightgrey = #e8e7e8
+lightblue = #DEEFFA
 dull-brand = #75557A
+
 
 //TYPOGRAPHIC
 small-text = unit(.9 * font-size, px)
@@ -36,7 +38,6 @@ label()
 card()
   box-shadow micro-shadow
   background white
-  padding .5em
 
 modal-style()
   box-shadow soft-shadow, micro-shadow
@@ -58,19 +59,42 @@ modal-close()
   background white
   box-shadow micro-shadow
 
-menu-style()
-  border-top 1px solid medgrey
+menu-text()
   line-height 120%
   font-size large-text
   font-weight 300
+
+menu-style()
+  menu-text()
+  border-top 1px solid medgrey
   &:first-child
     border none
 
+
 button()
-  font-size large-text
+  menu-text()
+  position relative
   color accent
   border 2px solid accent
   background transparent
-  padding .5em
+  padding .25em .5em
   border-radius med-radius
   box-shadow 0 3px 0 accent
+  &.-small
+    font-size small-text
+  &.-large
+    font-size large-text
+  &:active
+    background lightblue
+    box-shadow 0 1px accent
+    top 2px
+
+  &.-quiet
+    border 1px solid lightblue
+    box-shadow none
+    &:active
+      top 0
+      box-shadow none
+      border 1px solid accent
+
+

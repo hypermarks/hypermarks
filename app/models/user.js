@@ -19,7 +19,7 @@ var userSchema = new Schema({
 userSchema.methods = {
 
   getFavoriteBlocks: function () {
-    return _.sortBy(this.favorite_blocks, 'date_accessed');
+    return _.sortBy(this.favorite_blocks, 'date_accessed').reverse();
   }
 
 };
