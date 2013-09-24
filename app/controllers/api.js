@@ -5,6 +5,7 @@ var createHypermark = require('./create-hypermark.js')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
   , User = mongoose.model('User')
+  , _ = require('lodash')
 ;
 
 
@@ -35,7 +36,6 @@ exports.getTimeline = function (req, res) {
 };
 
 
-//This function will crash the app if sent garbage data. Need to handle errors better here.
 exports.addToBlock = function (req, res) {
   if (!req.user) return res.end('401');
 
@@ -93,9 +93,12 @@ exports.touchFavoriteBlock = function (req, res) {
 
   User.touchFavoriteBlock(req.user._id, req.body.block, function (err, user) {
     if (err) return console.log(err);
-    res.json('200', user);
+
+    var sorted_blocks = _.sortBy(user.favorite_blocks, 'date_accessed').reverse();
+    res.json('200', sorted_blocks);
   });
 };
+
 
 exports.getFavoriteBlocks = function (req, res) {
   if (!req.user) return res.end('401');

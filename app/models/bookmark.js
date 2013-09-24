@@ -55,6 +55,7 @@ bookmarkSchema.statics = {
 
   ,
 
+  //Need to add in MR or something here.
   getPublicBlock: function (block, cb) {
     console.log(block)
     this.find({block: block})

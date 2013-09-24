@@ -5,8 +5,8 @@ block content
   main.page
     h1._page-title Timeline
     .results
-      ._divider
-        |Today
+      //- ._divider
+      //-   |Today
       for result in results
         article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
           a._link(href="#{result._address.working_url}") #{result._address.title}
