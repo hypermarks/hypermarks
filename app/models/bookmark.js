@@ -17,8 +17,9 @@ var bookmarkSchema = new Schema({
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
-    var merged = helpers.mergeOptions(source.toObject(), opts);
-    merged._id = undefined; //Hardwired because it needs to be.
+    var merged = helpers.mergeOptions(source.toObject(), opts); //toObject crashes app if sent undefined!
+
+    merged._id = undefined; //So that mongo can set this
     new this(merged).save(cb);
   }
 

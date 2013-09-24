@@ -18,7 +18,6 @@ module.exports = function (app, passport) {
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
 
-  app.post('/_api/blocks', api.addToBlock);
 
   //API
   app.post('/_api/hypermarks', api.postHypermark);
@@ -27,8 +26,9 @@ module.exports = function (app, passport) {
   app.post('/_api/hypermarks/clone', api.addToBlock);
 
 
-  app.get('/_api/buckets/:block', api.getPublicBlock);
-  app.get('/_api/buckets/_private/:block', api.getPrivateBlock);
+  app.get('/_api/blocks/:block', api.getPublicBlock);
+  app.get('/_api/blocks/_private/:block', api.getPrivateBlock);
+  app.post('/_api/blocks', api.addToBlock);
 
   app.get('/_api/users/favorites', api.getFavoriteBlocks);
   app.post('/_api/users/favorites', api.touchFavoriteBlock);

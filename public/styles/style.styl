@@ -38,6 +38,10 @@ h5,
 h6
   font-weight 400
 
+.top
+    position relative
+    z-index 9999
+
 //GLOBAL
 .dropdown
   position relative
@@ -160,15 +164,17 @@ h6
   background white
   ._menu
     margin-bottom 2em
-    ul 
-      reset-list()
+    menu-style()
     ._sectitle
       label()
       padding-left gutter * .5
     ._item
-      padding 1em 0
-      padding-left gutter * .5
-      menu-style()
+      cursor pointer
+      padding-left gutter * .5 !important
+    &.-hoverable
+      ._item:hover
+        border-color accent
+        background lightblue
 
 
 .page
@@ -182,7 +188,7 @@ h6
     margin-bottom 1em
     font-size 180%
 
-.timeline
+.results
   ._divider
     label()
     border-bottom 1px solid medgrey
@@ -205,3 +211,18 @@ h6
     margin-top .5em
     ._control
       menu-text()
+  
+.modal-overlay
+  background rgba(black, .2)
+  z-index 9998
+  position fixed
+  height 100%
+  width 100%
+  top 0
+  left 0
+  visibility hidden
+  opacity 0
+  transition 200ms
+  &.-shown
+    visibility visible
+    opacity 1

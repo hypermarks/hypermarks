@@ -1,8 +1,12 @@
 'use strict';
 
-var jQuery = $ = require('./vendor/jquery.js')
+var $ = require('./vendor/jquery.js')
+  , areas = require('./areas.js');
 ;
 
+//Sets up Persona
 require('./internal-login.js');
-require('./presentational.js');
 
+areas.global($('body'))
+areas.sidebar($('.sidebar'));
+areas.results($('.results'));

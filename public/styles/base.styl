@@ -33,6 +33,7 @@ label()
   line-height 200%
   border-bottom 1px solid medgrey
   font-size small-text
+  font-weight 400
   upcase()
 
 card()
@@ -66,9 +67,14 @@ menu-text()
 
 menu-style()
   menu-text()
-  border-top 1px solid medgrey
-  &:first-child
-    border none
+  ul 
+    reset-list()
+  ._item
+    padding 1em 0
+    border-bottom 1px solid transparent
+    border-top 1px solid transparent
+    &:first-child
+      border-top none
 
 
 button()
@@ -84,7 +90,7 @@ button()
     font-size small-text
   &.-large
     font-size large-text
-  &:active
+  &:active, &.-active
     background lightblue
     box-shadow 0 1px accent
     top 2px
@@ -92,7 +98,7 @@ button()
   &.-quiet
     border 1px solid lightblue
     box-shadow none
-    &:active
+    &:active, &.-active
       top 0
       box-shadow none
       border 1px solid accent

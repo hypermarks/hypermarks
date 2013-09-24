@@ -35,17 +35,22 @@ exports.getTimeline = function (req, res) {
 };
 
 
+//This function will crash the app if sent garbage data. Need to handle errors better here.
 exports.addToBlock = function (req, res) {
   if (!req.user) return res.end('401');
 
-  var source_id = req.body.source_id;
-  var dest_block = req.body.dest_block;
+  console.log(req.body)
 
-  Bookmark.findById(source_id, function (err, bookmark) {
+  var bookmark_id = req.body.bookmark_id;
+  var block_id = req.body.block_id;
+
+  console.log(block_id, bookmark_id)
+
+  Bookmark.findById(bookmark_id, function (err, bookmark) {
     if (err) return console.log(err);
 
     Bookmark.clone(bookmark, {
-      block: dest_block
+      block: block_id
     }, function (err, bookmark) {
       if (err) return console.log(err);
       res.json('200', bookmark);
