@@ -17,6 +17,7 @@ module.exports = function (app, passport) {
   //PAGES
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
+  // app.get('/:block', pages.block);
 
 
   //API

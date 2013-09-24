@@ -169,13 +169,27 @@ h6
       label()
       padding-left gutter * .5
     ._item
+      position relative
       cursor pointer
       padding-left gutter * .5 !important
+      &.-added
+        animation addedFade 500ms
     &.-hoverable
-      ._item:hover
-        border-color accent
-        background lightblue
+      ._item
+        &:hover
+          border-color accent
+          background lightblue
+        &:active, .-active
+          background accent
+          color white
 
+@keyframes addedFade
+  0%
+    background accent
+    color white
+  100%
+    background white
+    color inherit
 
 .page
   col(2, 3)

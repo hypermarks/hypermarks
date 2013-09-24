@@ -3,6 +3,7 @@
 var $ = require('./vendor/jquery.js')
   , airwaves = require('airwaves')
   , modesChannel = new airwaves.Channel()
+  , presentational = require('./presentational.js')
 ;
 
 
@@ -30,9 +31,11 @@ exports.sidebar = function ($el) {
   modesChannel.subscribe('enter_add-to-list', function(bookmark_id){
     $el.addClass('top');
     $el.find('.js-fave-lists').addClass('-hoverable');
+
     $el.on('click.add-to-list', '.js-list', function() {
       var block_id = $(this).text();
       $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id });
+      presentational.flash($(this), '-added', 1000)
       modesChannel.broadcast('exit_add-to-list');
     });
   });
