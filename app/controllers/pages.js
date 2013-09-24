@@ -3,6 +3,7 @@
 var mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
+  , stringUtils = require('../../utils/string-utils.js')
 ;
 
 exports.timeline = function (req, res) {
@@ -18,7 +19,7 @@ exports.timeline = function (req, res) {
 };
 
 exports.publicBlock = function (req, res) {
-  var block = req.params.block;
+  var block = stringUtils.sanitize(req.params.block);
   console.log(block)
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
     res.render('timeline', {
