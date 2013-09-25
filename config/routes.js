@@ -47,6 +47,7 @@ module.exports = function (app, passport) {
   //AUTH
   app.post('/_auth/logout', users.logout);
   app.post('/_auth/browserid', passport.authenticate('persona'));
+  app.get('/_auth/external-login', users.externalLogin);
 
 
   //RESOURCES
