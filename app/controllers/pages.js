@@ -8,11 +8,10 @@ var mongoose = require('mongoose')
 
 exports.timeline = function (req, res) {
   if (!req.user) return res.end('401');
-
   Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
     res.render('results', {
       user: req.user
-      , favorite_blocks: req.user.getFavoriteBlocks()
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: "Timeline"
     });
@@ -25,7 +24,7 @@ exports.publicBlock = function (req, res) {
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
     res.render('results', {
       user: req.user
-      , favorite_blocks: req.user.getFavoriteBlocks()
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: block
     });

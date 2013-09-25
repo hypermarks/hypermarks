@@ -15,9 +15,11 @@ var users = require('../app/controllers/users')
 module.exports = function (app, passport) {
 
 
+
   //PAGES
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
+
 
 
   //API
@@ -53,4 +55,9 @@ module.exports = function (app, passport) {
 
   app.get('/_resources/site.js', browserify('../public/site/javascript/index.js', {transform: ['simple-jadeify']}));
 
+
+  //PAGES
+  app.get('/', pages.timeline);
+  // app.get('/search', pages.results);
+  app.get('/:block', pages.publicBlock);
 };

@@ -3,7 +3,18 @@ extends layouts/default
 
 block content
   main.page
-    h1._page-title #{title}
+    ._topbar
+      ._title 
+        h1 #{title}
+      ._control
+        .btn-bar
+          button.btn-quiet.-active 
+            i.icon-user
+            |&nbsp;Private
+          button.btn-quiet
+            i.icon-globe
+            |&nbsp;Public
+
     .results
       //- ._divider
       //-   |Today
@@ -14,6 +25,6 @@ block content
           ._excerpt 
             != truncate(result._address.content, 200)
           ._bottom-bar
-            button.btn.-quiet.js-add-to-list 
+            button.btn-quiet.js-add-to-list 
               i.icon-book
               |&nbsp;Add to List

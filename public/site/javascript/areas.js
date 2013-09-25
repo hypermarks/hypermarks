@@ -18,6 +18,7 @@ exports.results = function ($el) {
     modesChannel.broadcast('enter_add-to-list', bookmark_id);
   });
 
+  //Subscriptions
   modesChannel.subscribe('exit_add-to-list', function() {
     $el.find('.js-add-to-list').removeClass('-active');
     $el.find('.hypermark').removeClass('top');
@@ -28,6 +29,7 @@ exports.results = function ($el) {
 
 exports.sidebar = function ($el) {
   
+  //Subscriptions
   modesChannel.subscribe('enter_add-to-list', function(bookmark_id){
     $el.addClass('top');
     $el.find('.js-fave-lists').addClass('-hoverable');
@@ -54,6 +56,7 @@ exports.global = function ($el) {
     $(this).toggleClass('toggle-on');
   });
 
+  //Subscriptions
   modesChannel.subscribe('enter_add-to-list', function() {
     $('.modal-overlay').addClass('-shown');
     $el.on('click.add-to-list', '.modal-overlay', function() {

@@ -16,12 +16,8 @@ exports.postHypermark = function (req, res) {
     , user_id: req.user._id
   };
   createHypermark(opts, function(err){
-    if (err) {
-      console.log(err);
-      res.end('500');
-    } else {
-      res.end('200');
-    }
+    if (err) return res.end('500');
+    res.end('200');
   });
 };
 
@@ -38,13 +34,9 @@ exports.getTimeline = function (req, res) {
 
 exports.addToBlock = function (req, res) {
   if (!req.user) return res.end('401');
-
-  console.log(req.body)
-
+  
   var bookmark_id = req.body.bookmark_id;
   var block_id = req.body.block_id;
-
-  console.log(block_id, bookmark_id)
 
   Bookmark.findById(bookmark_id, function (err, bookmark) {
     if (err) return console.log(err);

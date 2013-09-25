@@ -18,8 +18,13 @@ base()
 headers()
 bold-italic()
 
-.btn 
-  button()
+.btn
+  button-loud()
+  button-spacing()
+
+.btn-quiet
+  button-quiet()
+  button-spacing()
 
 a 
   link()
@@ -36,7 +41,7 @@ h3,
 h4,
 h5,
 h6
-  font-weight 400
+  font-weight 300
 
 .top
     position relative
@@ -162,18 +167,35 @@ h6
     display none
   box-shadow micro-shadow
   background white
+
   ._menu
     margin-bottom 2em
-    menu-style()
-    ._sectitle
-      label()
-      padding-left gutter * .5
+    menu-text()
+
+    ul 
+      reset-list()
+    ._topbar
+      clearfix()
+      padding .5em gutter * .5 
+      ._title
+        float left
+        upcase()
+      ._control
+        cursor pointer
+        float right
+
     ._item
+      padding 1em 0
+      border-bottom 1px solid transparent
+      border-top 1px solid transparent
       position relative
       cursor pointer
       padding-left gutter * .5 !important
+      &:first-child
+        border-top 1px solid medgrey
       &.-added
         animation addedFade 500ms
+    
     &.-hoverable
       ._item
         &:hover
@@ -191,16 +213,30 @@ h6
     background white
     color inherit
 
+page-topbar-height = 4rem
+
 .page
   col(2, 3)
   @media under-tablet
     col(3, 4)
   @media under-phone
     col(1,1)
-  ._page-title
-    font-weight 300
-    margin-bottom 1em
-    font-size 180%
+  ._topbar
+    ._title
+      height page-topbar-height
+      display inline-block
+      middle-parent()
+      *
+        middle-child()
+    ._control
+      float right
+      height page-topbar-height
+      middle-parent()
+      *
+        middle-child()
+
+
+
 
 .results
   ._divider
@@ -240,3 +276,17 @@ h6
   &.-shown
     visibility visible
     opacity 1
+
+.btn-bar
+  display: table;
+  table-layout: fixed;
+  white-space: no-wrap;
+  margin: 0;
+  padding: 0;
+  * 
+    &:first-child
+      border-bottom-right-radius 0
+      border-top-right-radius 0
+    &:last-child
+      border-bottom-left-radius 0
+      border-top-left-radius 0
