@@ -3,7 +3,18 @@ extends layouts/default
 
 block content
   main.page
-    h1._page-title #{title}
+    ._topbar
+      ._title 
+        h1 #{title}
+      ._control
+        .btn-bar
+          button.btn-quiet.-active 
+            i.icon-user
+            |&nbsp;Private
+          button.btn-quiet
+            i.icon-globe
+            |&nbsp;Public
+
     .results
       //- ._divider
       //-   |Today

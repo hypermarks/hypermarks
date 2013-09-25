@@ -41,7 +41,7 @@ h3,
 h4,
 h5,
 h6
-  font-weight 400
+  font-weight 300
 
 .top
     position relative
@@ -213,16 +213,30 @@ h6
     background white
     color inherit
 
+page-topbar-height = 4rem
+
 .page
   col(2, 3)
   @media under-tablet
     col(3, 4)
   @media under-phone
     col(1,1)
-  ._page-title
-    font-weight 300
-    margin-bottom 1em
-    font-size 180%
+  ._topbar
+    ._title
+      height page-topbar-height
+      display inline-block
+      middle-parent()
+      *
+        middle-child()
+    ._control
+      float right
+      height page-topbar-height
+      middle-parent()
+      *
+        middle-child()
+
+
+
 
 .results
   ._divider
@@ -262,3 +276,17 @@ h6
   &.-shown
     visibility visible
     opacity 1
+
+.btn-bar
+  display: table;
+  table-layout: fixed;
+  white-space: no-wrap;
+  margin: 0;
+  padding: 0;
+  * 
+    &:first-child
+      border-bottom-right-radius 0
+      border-top-right-radius 0
+    &:last-child
+      border-bottom-left-radius 0
+      border-top-left-radius 0
