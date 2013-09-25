@@ -14,14 +14,14 @@ exports.timeline = function (req, res) {
       user: req.user
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
-      , title: "Timeline"
+      , title: 'Timeline'
     });
   });
 };
 
 exports.publicBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
-  console.log(block)
+  console.log('publicBlock')
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
     res.render('results', {
       user: req.user

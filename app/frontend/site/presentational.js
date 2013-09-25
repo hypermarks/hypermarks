@@ -1,6 +1,6 @@
 'use strict';
 
-var $ = require('./vendor/jquery.js');
+var $ = require('../vendor/jquery.js');
 
 exports.flash = function ($this, flashClass, time) {
   if (!$this.hasClass(flashClass)) {

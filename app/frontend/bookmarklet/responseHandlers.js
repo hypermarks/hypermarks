@@ -1,9 +1,9 @@
 'use strict';
 
 var $ = require('zepto-browserify').$
-  , success_flash = require('../views/success-flash.jade')
-  , login_modal = require('../views/login-modal.jade')
-  , error_modal = require('../views/error-modal.jade')
+  , success_flash = require('../../views/success-flash.jade')
+  , login_modal = require('../../views/login-modal.jade')
+  , error_modal = require('../../views/error-modal.jade')
 ;
 
 var $body = $(document.body);

@@ -1,6 +1,6 @@
 'use strict';
 
-var $ = require('./vendor/jquery.js')
+var $ = require('../vendor/jquery.js')
   , airwaves = require('airwaves')
   , modesChannel = new airwaves.Channel()
   , presentational = require('./presentational.js')
@@ -37,7 +37,7 @@ exports.sidebar = function ($el) {
     $el.on('click.add-to-list', '.js-list', function() {
       var block_id = $(this).text();
       $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id });
-      presentational.flash($(this), '-added', 1000)
+      presentational.flash($(this), '-added', 1000);
       modesChannel.broadcast('exit_add-to-list');
     });
   });
@@ -57,6 +57,13 @@ exports.global = function ($el) {
   });
 
   //Subscriptions
+  modesChannel.subscribe('enter_new-list', function(){
+    $('.modal-overlay').addClass('-shown');
+    $el.on('click.new-list', '.modal-overlay', function(){
+
+    });
+  });
+
   modesChannel.subscribe('enter_add-to-list', function() {
     $('.modal-overlay').addClass('-shown');
     $el.on('click.add-to-list', '.modal-overlay', function() {
