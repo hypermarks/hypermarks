@@ -29,12 +29,12 @@ link()
     color brand
 
 
-label()
-  line-height 200%
-  border-bottom 1px solid medgrey
-  font-size small-text
-  font-weight 400
-  upcase()
+// label()
+//   line-height 200%
+//   border-bottom 1px solid medgrey
+//   // font-size small-text
+//   font-weight 400
+//   upcase()
 
 card()
   box-shadow micro-shadow
@@ -65,27 +65,27 @@ menu-text()
   font-size large-text
   font-weight 300
 
-menu-style()
-  menu-text()
-  ul 
-    reset-list()
-  ._item
-    padding 1em 0
-    border-bottom 1px solid transparent
-    border-top 1px solid transparent
-    &:first-child
-      border-top none
+// menu-style()
+//   menu-text()
+//   ul 
+//     reset-list()
+//   ._item
+//     padding 1em 0
+//     border-bottom 1px solid transparent
+//     border-top 1px solid transparent
+//     &:first-child
+//       border-top none
 
-
-button()
+button-loud()
   menu-text()
+  padding 0
   position relative
   color accent
   border 2px solid accent
   background transparent
-  padding .25em .5em
   border-radius med-radius
   box-shadow 0 3px 0 accent
+  top 0
   &.-small
     font-size small-text
   &.-large
@@ -95,12 +95,15 @@ button()
     box-shadow 0 1px accent
     top 2px
 
-  &.-quiet
-    border 1px solid lightblue
+button-quiet()
+  button-loud()
+  border 1px solid lightblue
+  box-shadow none
+  &:active, &.-active
+    top 0
+    border 1px solid accent
     box-shadow none
-    &:active, &.-active
-      top 0
-      box-shadow none
-      border 1px solid accent
 
+button-spacing()
+  padding .25em .5em
 

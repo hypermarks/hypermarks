@@ -6,7 +6,9 @@ nav.sidebar
         |My Timeline
 
   section._menu.js-fave-lists
-    ._sectitle Lists
+    ._topbar
+      span._title Lists
+      ._control.js-new-list + New List
     ul
       for favorite_block in favorite_blocks
         li._item.js-list #{favorite_block._id}

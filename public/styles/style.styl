@@ -18,8 +18,13 @@ base()
 headers()
 bold-italic()
 
-.btn 
-  button()
+.btn
+  button-loud()
+  button-spacing()
+
+.btn-quiet
+  button-quiet()
+  button-spacing()
 
 a 
   link()
@@ -162,18 +167,35 @@ h6
     display none
   box-shadow micro-shadow
   background white
+
   ._menu
     margin-bottom 2em
-    menu-style()
-    ._sectitle
-      label()
-      padding-left gutter * .5
+    menu-text()
+
+    ul 
+      reset-list()
+    ._topbar
+      clearfix()
+      padding .5em gutter * .5 
+      ._title
+        float left
+        upcase()
+      ._control
+        cursor pointer
+        float right
+
     ._item
+      padding 1em 0
+      border-bottom 1px solid transparent
+      border-top 1px solid transparent
       position relative
       cursor pointer
       padding-left gutter * .5 !important
+      &:first-child
+        border-top 1px solid medgrey
       &.-added
         animation addedFade 500ms
+    
     &.-hoverable
       ._item
         &:hover
