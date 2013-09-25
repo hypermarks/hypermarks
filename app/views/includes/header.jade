@@ -13,7 +13,8 @@ nav.topnav
           if user
             .dropdown.js-toggle.-right 
               span Settings
-              i.icon-caret-down 
+              i.icon-caret-down
+              a(href="javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/_resources/bookmarklet.js');document.body.appendChild(jsCode);}();")="Bookmarklet"
               ul
                 li._header #{user.email}
                 li#logout Sign Out

@@ -14,10 +14,10 @@ var users = require('../app/controllers/users')
 
 module.exports = function (app, passport) {
 
+
   //PAGES
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
-  app.get('/:block', pages.publicBlock);
 
 
   //API
@@ -34,9 +34,15 @@ module.exports = function (app, passport) {
   app.get('/_api/users/favorites', api.getFavoriteBlocks);
   app.post('/_api/users/favorites', api.touchFavoriteBlock);
 
+  app.get('/login', users.loginpage);
+  app.get('/signup', users.signuppage);
+
+
+
+  app.get('/:block', pages.publicBlock);
+
 
   //AUTH
-  app.get('/_auth/external-login', users.externalLogin);
   app.post('/_auth/logout', users.logout);
   app.post('/_auth/browserid', passport.authenticate('persona'));
 

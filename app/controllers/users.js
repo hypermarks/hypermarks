@@ -12,6 +12,21 @@ exports.externalLogin = function (req, res) {
 };
 
 
+exports.loginpage = function (req, res) {
+  res.render('login_page', {
+  });
+};
+
+exports.signuppage = function (req, res) {
+  res.render('signup_page', {
+  });
+};
+
+
+exports.signup = function (req, res) {
+	///this is where traditional signup goes
+};
+
 exports.logout = function (req, res) {
   console.log('exports.logout');
   req.logout();
