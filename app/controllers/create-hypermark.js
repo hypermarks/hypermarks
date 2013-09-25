@@ -25,7 +25,6 @@ var Bookmark = mongoose.model('Bookmark');
  */
 
 module.exports = function(opts, callback) {
-  console.log('createHypermark');
   opts.sani_url = parse.urlSanitize(opts.user_url);
   parse.pageHarvest(opts.sani_url, function(err, page) { //Scrapes page
 
@@ -43,7 +42,6 @@ module.exports = function(opts, callback) {
           });
         }
         , function (opts, cb) {
-          console.log('createHypermark opts', opts)
           Bookmark.create(opts, function (err) {
             if (err) return cb(err);
             cb(null);
