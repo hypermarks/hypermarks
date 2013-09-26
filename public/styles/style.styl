@@ -15,7 +15,7 @@
 global-reset()
 normalize()
 base()
-headers()
+// headers()
 bold-italic()
 
 .btn
@@ -41,7 +41,12 @@ h3,
 h4,
 h5,
 h6
-  font-weight 300
+  font-weight inherit
+  font-size inherit
+  line-height inherit
+  margin 0
+  padding 0
+
 
 .top
     position relative
@@ -175,14 +180,18 @@ h6
     ul 
       reset-list()
     ._topbar
-      clearfix()
-      padding .5em gutter * .5 
+      padding .5em gutter * .5
+      nav-justify()
+      line-height 1
+      margin-bottom -1em
       ._title
-        float left
+        font-size large-text
+        display inline-block
         upcase()
       ._control
+        font-size large-text
+        display inline-block
         cursor pointer
-        float right
 
     ._item
       padding 1em 0
@@ -222,21 +231,17 @@ page-topbar-height = 4rem
   @media under-phone
     col(1,1)
   ._topbar
-    margin-bottom 2rem
+    width 100%
+    nav-justify()
+    line-height 1.7
     ._title
-      height page-topbar-height
+      vertical-align middle
       display inline-block
-      middle-parent()
-      *
-        middle-child()
+      font-size larger-text
+      font-weight 300
     ._control
-      float right
-      height page-topbar-height
-      middle-parent()
-      *
-        middle-child()
-
-
+      vertical-align middle
+      display inline-block
 
 
 .results
@@ -279,8 +284,6 @@ page-topbar-height = 4rem
     opacity 1
 
 .btn-bar
-  display: table;
-  table-layout: fixed;
   white-space: no-wrap;
   margin: 0;
   padding: 0;

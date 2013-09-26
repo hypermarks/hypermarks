@@ -7,8 +7,11 @@ nav.sidebar
 
   section._menu.js-fave-lists
     ._topbar
-      span._title Lists
-      ._control.js-new-list + New List
+      ._title Lists
+      |&nbsp;
+      //- ._control.js-new-list + New List
+      button.btn-quiet
+        |<b>+</b>&nbsp;New List
     ul
       for favorite_block in favorite_blocks
         li._item.js-list #{favorite_block._id}

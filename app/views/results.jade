@@ -3,17 +3,19 @@ extends layouts/default
 
 block content
   main.page
-    ._topbar
-      ._title 
-        h1 #{title}
-      ._control
-        .btn-bar
-          button.btn-quiet.-active 
-            i.icon-user
-            |&nbsp;Private
-          button.btn-quiet
-            i.icon-globe
-            |&nbsp;Public
+    ._topbar 
+      //- |asdf lasdjf asldfj 
+      h1._title #{title}
+      |&nbsp;
+      if (!timeline)
+        nav._control
+          .btn-bar
+            button.btn-quiet.-active 
+              i.icon-user
+              |&nbsp;Private
+            button.btn-quiet
+              i.icon-globe
+              |&nbsp;Public
 
     .results
       //- ._divider

@@ -15,6 +15,7 @@ exports.timeline = function (req, res) {
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
       , title: 'Timeline'
+      , timeline: true
     });
   });
 };
