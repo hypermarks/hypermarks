@@ -187,11 +187,11 @@ h6
       ._title
         font-size large-text
         display inline-block
+        vertical-align middle
         upcase()
       ._control
-        font-size large-text
+        vertical-align middle
         display inline-block
-        cursor pointer
 
     ._item
       padding 1em 0
@@ -200,6 +200,8 @@ h6
       position relative
       cursor pointer
       padding-left gutter * .5 !important
+      a
+        reset-link()
       &:first-child
         border-top 1px solid medgrey
       &.-added
@@ -234,6 +236,7 @@ page-topbar-height = 4rem
     width 100%
     nav-justify()
     line-height 1.7
+    margin-bottom 3em
     ._title
       vertical-align middle
       display inline-block

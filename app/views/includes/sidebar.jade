@@ -1,9 +1,9 @@
 nav.sidebar
-  section._menu
-    ul
-      li._item
-        i.icon-home 
-        |My Timeline
+  //- section._menu
+  //-   ul
+  //-     li._item
+  //-       i.icon-home 
+  //-       |My Timeline
 
   section._menu.js-fave-lists
     ._topbar
@@ -14,4 +14,5 @@ nav.sidebar
         |<b>+</b>&nbsp;New List
     ul
       for favorite_block in favorite_blocks
-        li._item.js-list #{favorite_block._id}
+        li._item.js-list 
+          a(href="/#{favorite_block._id}") #{favorite_block._id}
