@@ -14,6 +14,9 @@ var modesChan = new airwaves.Channel()
 
 //MIXINS
 function modalWindow($el) {
+  $el.on('click', function(e){
+    e.stopPropagation();
+  });
   $el.on('click', '.js-close', function(){
     modesChan.broadcast('exit');
   });
@@ -84,16 +87,17 @@ exports.newListModal = function($el) {
   $el.on('click', '.js-submit', function(){
     var list_name = $('.js-name').val();
     $.post('/_api/users/favorites', { block_id: list_name }, function(data) {
-        dataChan.broadcast('favorite_lists', data);
+      dataChan.broadcast('favorite_lists', data);
     });
+    modesChan.broadcast('exit');
   });
 
   modesChan.subscribe('new-list', function() {
-    $el.addClass('top');
+    $el.addClass('-active');
   });
 
   modesChan.subscribe('exit', function(){
-    $el.removeClass('top');
+    $el.removeClass('-active');
   });
 };
 
@@ -104,9 +108,9 @@ exports.modalOverlay = function($el) {
   });
   
   modesChan.subscribe('new-list, add-to-list', function(){
-    $el.addClass('-shown');
+    $el.addClass('-active');
   });
   modesChan.subscribe('exit', function(){
-    $el.removeClass('-shown');
+    $el.removeClass('-active');
   });
 };

@@ -33,6 +33,7 @@ body
   background offwhite
 
 input
+  input(color = brand)
   background offwhite
 
 h1,
@@ -47,10 +48,6 @@ h6
   margin 0
   padding 0
 
-
-.top
-    position relative
-    z-index 9999
 
 //GLOBAL
 .dropdown
@@ -273,18 +270,32 @@ page-topbar-height = 4rem
   
 .modal-overlay
   background rgba(black, .2)
-  z-index 9998
+  z-index 2
   position fixed
   height 100%
   width 100%
   top 0
   left 0
+  text-align center
   visibility hidden
   opacity 0
   transition 200ms
-  &.-shown
+  &.-active
     visibility visible
     opacity 1
+
+.modal-window
+  visibility hidden
+  modal-window()
+  &.-active
+    visibility visible
+    z-index 3
+  ._close
+    modal-close()
+
+.top
+  position relative
+  z-index 3
 
 .btn-bar
   white-space: no-wrap;
