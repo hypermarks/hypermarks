@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
 
 
   app.get('/_api/blocks/:block', api.getPublicBlock);
-  app.get('/_api/blocks/_private/:block', api.getPrivateBlock);
+  app.get('/_api/blocks/_p/:block', api.getPrivateBlock);
   app.post('/_api/blocks', api.addToBlock);
 
   app.get('/_api/users/favorites', api.getFavoriteBlocks);
@@ -46,4 +46,5 @@ module.exports = function (app, passport) {
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
   app.get('/:block', pages.publicBlock);
+  app.get('/_p/:block', pages.privateBlock);
 };

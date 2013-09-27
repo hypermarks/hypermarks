@@ -5,17 +5,19 @@ block content
   main.page
     ._topbar 
       //- |asdf lasdjf asldfj 
-      h1._title#page-title #{title}
+      h1._title#page-title #{title} #{visibility} #{private}
       |&nbsp;
       if (!timeline)
         nav._control
           .btn-bar
-            button.btn-quiet.-active 
-              i.icon-user
-              |&nbsp;Private
-            button.btn-quiet
-              i.icon-globe
-              |&nbsp;Public
+            button.btn-quiet(class="#{visibility === 'private' ? '-active' : ''}")
+              a(href="/_p/#{title}")
+                i.icon-user
+                |&nbsp;Mine
+            button.btn-quiet(class="#{visibility === 'public' ? '-active' : ''}") 
+              a(href="/#{title}")
+                i.icon-globe
+                |&nbsp;Public
 
     .results#results
       //- ._divider
