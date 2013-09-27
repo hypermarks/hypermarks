@@ -5,7 +5,7 @@ block content
   main.page
     ._topbar 
       //- |asdf lasdjf asldfj 
-      h1._title #{title}
+      h1._title#page-title #{title}
       |&nbsp;
       if (!timeline)
         nav._control
@@ -17,7 +17,7 @@ block content
               i.icon-globe
               |&nbsp;Public
 
-    .results
+    .results#results
       //- ._divider
       //-   |Today
       for result in results

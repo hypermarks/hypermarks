@@ -34,13 +34,13 @@ exports.getTimeline = function (req, res) {
 
 exports.addToBlock = function (req, res) {
   if (!req.user) return res.end('401');
-  
   var bookmark_id = req.body.bookmark_id;
   var block_id = req.body.block_id;
 
+  console.log('addtoblock', bookmark_id, block_id)
   Bookmark.findById(bookmark_id, function (err, bookmark) {
     if (err) return console.log(err);
-
+    console.log(bookmark)
     Bookmark.clone(bookmark, {
       block: block_id
     }, function (err, bookmark) {
@@ -83,7 +83,7 @@ exports.searchHypermarks = function (req, res) {
 exports.touchFavoriteBlock = function (req, res) {
   if (!req.user) return res.end('401');
 
-  User.touchFavoriteBlock(req.user._id, req.body.block, function (err, user) {
+  User.touchFavoriteBlock(req.user._id, req.body.block_id, function (err, user) {
     if (err) return console.log(err);
 
     var sorted_blocks = _.sortBy(user.favorite_blocks, 'date_accessed').reverse();
