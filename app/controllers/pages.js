@@ -4,11 +4,16 @@ var mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
   , stringUtils = require('../../utils/string-utils.js')
-  , _ = require('lodash')
-;
+  , _ = require('lodash');
 
 exports.timeline = function (req, res) {
-  if (!req.user) return res.end('401');
+  if (!req.user){
+    res.render('home', {
+        favorite_blocks: []
+      , title: 'Home'
+    });
+    return;
+  } else
   Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
     res.render('results', {
       user: req.user

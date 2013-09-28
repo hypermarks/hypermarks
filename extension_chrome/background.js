@@ -9,7 +9,7 @@ var bookmarkTreeNodes = chrome.bookmarks.getTree(
       //$('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
     });
 
-chrome.bookmarks.onCreated.addListener(function(){
+chrome.bookmarks.onCreated.addListener(function(event){
 
   alert("bookamrk");
 
