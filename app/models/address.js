@@ -38,7 +38,6 @@ addressSchema.statics = {
       return address.save(cb(null, opts));
     });
   }
-
 };
 
 // add the elastic plugin

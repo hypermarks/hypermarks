@@ -42,9 +42,13 @@ module.exports = function (app, passport) {
   app.get('/_resources/site.js', browserify('../app/frontend/site/index.js', {transform: ['simple-jadeify']}));
 
 
+  // app.get('/spangel', function(){
+  //   return console.log('spangel')
+  // });
+
   //PAGES
   app.get('/', pages.timeline);
-  // app.get('/search', pages.results);
+  app.get('/_search', pages.search);
+  app.get('/_my/:block', pages.privateBlock);
   app.get('/:block', pages.publicBlock);
-  app.get('/_p/:block', pages.privateBlock);
 };

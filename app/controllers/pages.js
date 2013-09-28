@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
   , stringUtils = require('../../utils/string-utils.js')
+  , _ = require('lodash')
 ;
 
 exports.timeline = function (req, res) {
@@ -21,11 +22,7 @@ exports.timeline = function (req, res) {
 };
 
 exports.publicBlock = function (req, res) {
-
-  console.log(req.user);
-
   var block = stringUtils.sanitize(req.params.block);
-  console.log('publicBlock')
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
     res.render('results', {
         user: req.user
@@ -39,14 +36,29 @@ exports.publicBlock = function (req, res) {
 
 exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
-  console.log('privateBlock')
   Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
+    console.log(JSON.stringify(results))
     res.render('results', {
         user: req.user
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
       , title: block
       , visibility: 'private'
+    });
+  });
+};
+
+exports.search = function (req, res) {
+  Address.search({
+    query: req.query.q
+  }, function (err, results) {
+    var hypermarks = _.map(results.hits, '_source')
+    console.log(JSON.stringify(hypermarks))
+    res.render('results', {
+        user: req.user
+      , favorite_blocks: req.user.getFavoriteBlocks()
+      , results: hypermarks
+      , title: 'Search'
     });
   });
 };
