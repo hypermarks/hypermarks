@@ -30,7 +30,7 @@ function unwrapAddress(results) {
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
-    var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash
+    var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash _.defaults
     merged._id = undefined; //So that mongo can set this
     console.log(merged);
     new this(merged).save(cb);
