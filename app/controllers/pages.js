@@ -41,7 +41,6 @@ exports.publicBlock = function (req, res) {
 exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
   Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
-    console.log(JSON.stringify(results))
     res.render('results', {
         user: req.user
       , favorite_blocks: req.user.getFavoriteBlocks()
@@ -57,7 +56,6 @@ exports.search = function (req, res) {
     query: req.query.q
   }, function (err, results) {
     var hypermarks = _.map(results.hits, '_source')
-    console.log(JSON.stringify(hypermarks))
     res.render('results', {
         user: req.user
       , favorite_blocks: req.user.getFavoriteBlocks()
