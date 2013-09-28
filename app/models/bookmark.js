@@ -3,23 +3,29 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , helpers = require('../../logic/helpers.js')
+  , stringUtils = require('../../utils/string-utils.js')
 ;
 
 var bookmarkSchema = new Schema({
     _address: { type: Schema.Types.ObjectId, ref: 'Address' }
   , _user: { type: Schema.Types.ObjectId, ref: 'User' }
-  , block: { type : String, default : '' }
+  , block: { type : String, set: blockSanitize, default : '' }
   , sani_url: String
   , user_url: String //This is the url that the user submitted the bookmark with
 });
+
+
+function blockSanitize(block) {
+  return stringUtils.sanitize(block);
+}
 
 
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
     var merged = helpers.mergeOptions(source.toObject(), opts); //toObject crashes app if sent undefined!
-
     merged._id = undefined; //So that mongo can set this
+    console.log(merged)
     new this(merged).save(cb);
   }
 

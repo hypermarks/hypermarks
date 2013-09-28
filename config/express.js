@@ -16,6 +16,8 @@ var express = require('express')
 
 module.exports = function(app, config, passport) {
 
+  // app.use(express.logger());
+
   // views config
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
@@ -58,7 +60,12 @@ module.exports = function(app, config, passport) {
     next();
   });
 
-  app.use(function(err, req, res, next){
+  app.post('/*', function(req, res, next){
+    console.log(req.body);
+    next();
+  });
+
+  app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.send(500, 'Something broke!');
   });

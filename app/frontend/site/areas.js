@@ -2,24 +2,40 @@
 
 var $ = require('../vendor/jquery.js')
   , airwaves = require('airwaves')
-  , modesChannel = new airwaves.Channel()
   , presentational = require('./presentational.js')
+  , sidebarTmpl = require('../../views/includes/sidebar.jade')
+;
+
+//CHANNELS
+var modesChan = new airwaves.Channel()
+  , dataChan = new airwaves.Channel()
 ;
 
 
-exports.results = function ($el) {
+//MIXINS
+function modalWindow($el) {
+  $el.on('click', function(e){
+    e.stopPropagation();
+  });
+  $el.on('click', '.js-close', function(){
+    modesChan.broadcast('exit');
+  });
+}
 
-  $el.find('.js-add-to-list').on('click', function() {
+
+//AREAS
+exports.results = function ($el) {
+  $el.on('click', '.js-add-to-list', function() {
     var $hypermark = $(this).parents('.hypermark')
       , bookmark_id = $hypermark.attr('data-_id')
     ;
     $(this).addClass('-active');
     $hypermark.addClass('top');
-    modesChannel.broadcast('enter_add-to-list', bookmark_id);
+    modesChan.broadcast('add-to-list', bookmark_id);
   });
 
   //Subscriptions
-  modesChannel.subscribe('exit_add-to-list', function() {
+  modesChan.subscribe('exit', function() {
     $el.find('.js-add-to-list').removeClass('-active');
     $el.find('.hypermark').removeClass('top');
   });
@@ -28,52 +44,73 @@ exports.results = function ($el) {
 
 
 exports.sidebar = function ($el) {
-  
+  $el.on('click', '.js-new-list', function(){
+    modesChan.broadcast('new-list');
+  });
+
   //Subscriptions
-  modesChannel.subscribe('enter_add-to-list', function(bookmark_id){
+  modesChan.subscribe('add-to-list', function(bookmark_id){
     $el.addClass('top');
     $el.find('.js-fave-lists').addClass('-hoverable');
 
-    $el.on('click.add-to-list', '.js-list', function() {
+    $el.on('click.temp', '.js-list', function(e) {
+      e.preventDefault();
       var block_id = $(this).text();
       $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id });
       presentational.flash($(this), '-added', 1000);
-      modesChannel.broadcast('exit_add-to-list');
+      modesChan.broadcast('exit');
     });
   });
+
+  dataChan.subscribe('favorite_lists', function (data) {
+    var el = sidebarTmpl({
+      favorite_blocks: data
+    });
+    $el.html($('*:first', el).unwrap());
+  });
   
-  modesChannel.subscribe('exit_add-to-list', function() {
-    $el.off('.add-to-list');
+  modesChan.subscribe('exit', function() {
+    $el.off('.temp');
     $el.find('.js-fave-lists').removeClass('-hoverable');
   });
-
 };
 
 
-exports.global = function ($el) {
+exports.newListModal = function($el) {
+  modalWindow($el);
+
+  $el.on('click', '.js-add-current', function(){
+    var list_name = $('#page-title').text();
+    $('.js-name').val(list_name);
+  });
+
+  $el.on('click', '.js-submit', function(){
+    var list_name = $('.js-name').val();
+    $.post('/_api/users/favorites', { block_id: list_name }, function(data) {
+      dataChan.broadcast('favorite_lists', data);
+    });
+    modesChan.broadcast('exit');
+  });
+
+  modesChan.subscribe('new-list', function() {
+    $el.addClass('-active');
+  });
+
+  modesChan.subscribe('exit', function(){
+    $el.removeClass('-active');
+  });
+};
+
+
+exports.modalOverlay = function($el) {
+  $el.on('click', function() {
+    modesChan.broadcast('exit');
+  });
   
-  $('.js-toggle').on('click', function() {
-    $(this).toggleClass('toggle-on');
+  modesChan.subscribe('new-list, add-to-list', function(){
+    $el.addClass('-active');
   });
-
-  //Subscriptions
-  modesChannel.subscribe('enter_new-list', function(){
-    $('.modal-overlay').addClass('-shown');
-    $el.on('click.new-list', '.modal-overlay', function(){
-
-    });
+  modesChan.subscribe('exit', function(){
+    $el.removeClass('-active');
   });
-
-  modesChannel.subscribe('enter_add-to-list', function() {
-    $('.modal-overlay').addClass('-shown');
-    $el.on('click.add-to-list', '.modal-overlay', function() {
-      modesChannel.broadcast('exit_add-to-list');
-    });
-  });
-
-  modesChannel.subscribe('exit_add-to-list', function() {
-    $('.modal-overlay').removeClass('-shown');
-    $el.off('.add-to-list');
-  });
-
 };

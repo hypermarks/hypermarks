@@ -8,3 +8,19 @@ middle-parent()
 middle-child()
   display inline-block
   vertical-align middle
+
+middle()
+  &:before
+    content ''
+    display inline-block
+    vertical-align middle
+    height 100%
+
+nav-justify()
+  text-align justify
+  // font-size 0
+  &::after
+    content ''
+    display inline-block
+    width 100%
+    line-height 0

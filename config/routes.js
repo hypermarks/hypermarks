@@ -14,13 +14,9 @@ var users = require('../app/controllers/users')
 
 module.exports = function (app, passport) {
 
-
-
   //PAGES
   app.get('/', pages.timeline);
   // app.get('/search', pages.results);
-
-
 
   //API
   app.post('/_api/hypermarks', api.postHypermark);
@@ -30,7 +26,7 @@ module.exports = function (app, passport) {
 
 
   app.get('/_api/blocks/:block', api.getPublicBlock);
-  app.get('/_api/blocks/_private/:block', api.getPrivateBlock);
+  app.get('/_api/blocks/_p/:block', api.getPrivateBlock);
   app.post('/_api/blocks', api.addToBlock);
 
   app.get('/_api/users/favorites', api.getFavoriteBlocks);
@@ -57,8 +53,13 @@ module.exports = function (app, passport) {
   app.get('/_resources/site.js', browserify('../app/frontend/site/index.js', {transform: ['simple-jadeify']}));
 
 
+  // app.get('/spangel', function(){
+  //   return console.log('spangel')
+  // });
+
   //PAGES
   app.get('/', pages.timeline);
-  // app.get('/search', pages.results);
+  app.get('/_search', pages.search);
+  app.get('/_my/:block', pages.privateBlock);
   app.get('/:block', pages.publicBlock);
 };

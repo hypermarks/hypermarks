@@ -17,7 +17,7 @@ exports.postHypermark = function (req, res) {
   };
   createHypermark(opts, function(err){
     if (err) return res.end('500');
-    res.end('200');
+    return res.end('200');
   });
 };
 
@@ -27,25 +27,25 @@ exports.getTimeline = function (req, res) {
 
   Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
     if (err) return res.end('500');
-    res.json('200', hypermarks);
+    return res.json('200', hypermarks);
   });
 };
 
 
 exports.addToBlock = function (req, res) {
   if (!req.user) return res.end('401');
-  
   var bookmark_id = req.body.bookmark_id;
   var block_id = req.body.block_id;
 
+  console.log('addtoblock', bookmark_id, block_id)
   Bookmark.findById(bookmark_id, function (err, bookmark) {
     if (err) return console.log(err);
-
+    console.log(bookmark)
     Bookmark.clone(bookmark, {
       block: block_id
     }, function (err, bookmark) {
       if (err) return console.log(err);
-      res.json('200', bookmark);
+      return res.json('200', bookmark);
     });
   });
 
@@ -57,7 +57,7 @@ exports.getPrivateBlock = function (req, res) {
 
   Bookmark.getPrivateBlock(req.user._id, req.param('block'), function (err, hypermarks) {
     if (err) return console.log(err);
-    res.json('200', hypermarks);
+    return res.json('200', hypermarks);
   });
 };
 
@@ -65,7 +65,7 @@ exports.getPrivateBlock = function (req, res) {
 exports.getPublicBlock = function (req, res) {
   Bookmark.getPublicBlock(req.param('block'), function (err, hypermarks) {
     if (err) return console.log(err);
-    res.json('200', hypermarks);
+    return res.json('200', hypermarks);
   });
 };
 
@@ -75,7 +75,7 @@ exports.searchHypermarks = function (req, res) {
     query: req.query.q
   }, function (err, results) {
     if (err) return console.log(err);
-    res.json('200', results);
+    return res.json('200', results);
   });
 };
 
@@ -83,11 +83,11 @@ exports.searchHypermarks = function (req, res) {
 exports.touchFavoriteBlock = function (req, res) {
   if (!req.user) return res.end('401');
 
-  User.touchFavoriteBlock(req.user._id, req.body.block, function (err, user) {
+  User.touchFavoriteBlock(req.user._id, req.body.block_id, function (err, user) {
     if (err) return console.log(err);
 
     var sorted_blocks = _.sortBy(user.favorite_blocks, 'date_accessed').reverse();
-    res.json('200', sorted_blocks);
+    return res.json('200', sorted_blocks);
   });
 };
 
@@ -95,5 +95,5 @@ exports.touchFavoriteBlock = function (req, res) {
 exports.getFavoriteBlocks = function (req, res) {
   if (!req.user) return res.end('401');
 
-  res.json('200', req.user.getFavoriteBlocks());
+  return res.json('200', req.user.getFavoriteBlocks());
 };

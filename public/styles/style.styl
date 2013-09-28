@@ -15,14 +15,18 @@
 global-reset()
 normalize()
 base()
-headers()
+// headers()
 bold-italic()
 
 .btn
+  a
+    reset-link()
   button-loud()
   button-spacing()
 
 .btn-quiet
+  a
+    reset-link()
   button-quiet()
   button-spacing()
 
@@ -33,6 +37,7 @@ body
   background offwhite
 
 input
+  input(color = brand)
   background offwhite
 
 h1,
@@ -41,11 +46,12 @@ h3,
 h4,
 h5,
 h6
-  font-weight 300
+  font-weight inherit
+  font-size inherit
+  line-height inherit
+  margin 0
+  padding 0
 
-.top
-    position relative
-    z-index 9999
 
 //GLOBAL
 .dropdown
@@ -175,14 +181,18 @@ h6
     ul 
       reset-list()
     ._topbar
-      clearfix()
-      padding .5em gutter * .5 
+      padding .5em gutter * .5
+      nav-justify()
+      line-height 1
+      margin-bottom -1em
       ._title
-        float left
+        font-size large-text
+        display inline-block
+        vertical-align middle
         upcase()
       ._control
-        cursor pointer
-        float right
+        vertical-align middle
+        display inline-block
 
     ._item
       padding 1em 0
@@ -191,6 +201,8 @@ h6
       position relative
       cursor pointer
       padding-left gutter * .5 !important
+      a
+        reset-link()
       &:first-child
         border-top 1px solid medgrey
       &.-added
@@ -222,21 +234,18 @@ page-topbar-height = 4rem
   @media under-phone
     col(1,1)
   ._topbar
-    margin-bottom 2rem
+    width 100%
+    nav-justify()
+    line-height 1.7
+    margin-bottom 3em
     ._title
-      height page-topbar-height
+      vertical-align middle
       display inline-block
-      middle-parent()
-      *
-        middle-child()
+      font-size larger-text
+      font-weight 300
     ._control
-      float right
-      height page-topbar-height
-      middle-parent()
-      *
-        middle-child()
-
-
+      vertical-align middle
+      display inline-block
 
 
 .results
@@ -265,22 +274,34 @@ page-topbar-height = 4rem
   
 .modal-overlay
   background rgba(black, .2)
-  z-index 9998
+  z-index 2
   position fixed
   height 100%
   width 100%
   top 0
   left 0
+  text-align center
   visibility hidden
   opacity 0
   transition 200ms
-  &.-shown
+  &.-active
     visibility visible
     opacity 1
 
+.modal-window
+  visibility hidden
+  modal-window()
+  &.-active
+    visibility visible
+    z-index 3
+  ._close
+    modal-close()
+
+.top
+  position relative
+  z-index 3
+
 .btn-bar
-  display: table;
-  table-layout: fixed;
   white-space: no-wrap;
   margin: 0;
   padding: 0;

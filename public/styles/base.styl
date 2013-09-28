@@ -2,7 +2,7 @@
 brand = #7C0090
 accent = #006BCF
 accent2 = #2E8000
-offwhite = #fcfbfc
+offwhite = #f8f7f8
 medgrey = #bbb
 lightgrey = #e8e7e8
 lightblue = #DEEFFA
@@ -13,6 +13,7 @@ dull-brand = #75557A
 small-text = unit(.9 * font-size, px)
 reg-text =  unit(font-size, px)
 large-text = unit(1.2 * font-size, px)
+larger-text = unit(2 * font-size, px)
 
 //MEASURES
 sm-radius = 3px
@@ -47,7 +48,7 @@ modal-style()
 modal-window()
   modal-style()
   padding 1em
-  margin-top 20%
+  margin-top 10%
   display inline-block
   position relative
 
@@ -82,7 +83,7 @@ button-loud()
   position relative
   color accent
   border 2px solid accent
-  background transparent
+  background white
   border-radius med-radius
   box-shadow 0 3px 0 accent
   top 0
