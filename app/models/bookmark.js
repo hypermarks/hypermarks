@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , helpers = require('../../logic/helpers.js')
   , stringUtils = require('../../utils/string-utils.js')
+  , _ = require('lodash')
 ;
 
 var bookmarkSchema = new Schema({
@@ -14,18 +15,24 @@ var bookmarkSchema = new Schema({
   , user_url: String //This is the url that the user submitted the bookmark with
 });
 
-
+//SETTERS
 function blockSanitize(block) {
   return stringUtils.sanitize(block);
 }
 
+//UTILITY
+function unwrapAddress(results) {
+  return _.map(results, function(result){
+    _.assign(result, result._address);
+  });
+}
 
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
-    var merged = helpers.mergeOptions(source.toObject(), opts); //toObject crashes app if sent undefined!
+    var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash
     merged._id = undefined; //So that mongo can set this
-    console.log(merged)
+    console.log(merged);
     new this(merged).save(cb);
   }
 
