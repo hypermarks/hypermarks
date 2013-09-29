@@ -14,7 +14,8 @@ exports.timeline = function (req, res) {
     });
     return;
   } else
-  Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
+  Bookmark.getTimeline(req.user._id, function (err, results) {
+    var hypermarks = _.map(results, '_address');
     res.render('results', {
       user: req.user
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
@@ -60,7 +61,12 @@ exports.search = function (req, res) {
         user: req.user
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
+      , searchVal: req.query.q
       , title: 'Search'
     });
   });
 };
+
+var hypermarksSourceExtractor=function(sourceList){
+  return _.map(sourceList, function(val){ return val._source;});
+}
