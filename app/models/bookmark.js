@@ -20,13 +20,6 @@ function blockSanitize(block) {
   return stringUtils.sanitize(block);
 }
 
-//UTILITY
-function unwrapAddress(results) {
-  return _.map(results, function(result){
-    _.assign(result, result._address);
-  });
-}
-
 bookmarkSchema.statics = {
 
   clone: function (source, opts, cb) {
