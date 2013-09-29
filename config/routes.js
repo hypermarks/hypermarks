@@ -25,6 +25,8 @@ module.exports = function (app, passport) {
   app.post('/_api/hypermarks/clone', api.addToBlock);
 
 
+
+
   app.get('/_api/blocks/:block', api.getPublicBlock);
   app.get('/_api/blocks/_p/:block', api.getPrivateBlock);
   app.post('/_api/blocks', api.addToBlock);
@@ -35,6 +37,7 @@ module.exports = function (app, passport) {
   app.get('/login', users.loginpage);
   app.get('/signup', users.signuppage);
 
+  app.post('/_api/_tree/', api.treePost);
 
 
   app.get('/:block', pages.publicBlock);
