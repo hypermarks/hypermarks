@@ -42,6 +42,13 @@ exports.results = function ($el) {
 
 };
 
+exports.header = function ($el) {
+  $el.on('keypress', '#searchbox', function(e) {
+    if (e.keyCode === 13) {
+      window.location = '/_search?q=' + $(this).val();
+    }
+  });
+};
 
 exports.sidebar = function ($el) {
   $el.on('click', '.js-new-list', function(){
