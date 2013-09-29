@@ -12,3 +12,4 @@ areas.modalOverlay($('#modal-overlay'));
 areas.newListModal($('#new-list-modal'));
 areas.sidebar($('#sidebar'));
 areas.results($('#results'));
+areas.header($('#header'));

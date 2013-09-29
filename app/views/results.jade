@@ -7,7 +7,7 @@ block content
       //- |asdf lasdjf asldfj 
       h1._title#page-title #{title}
       |&nbsp;
-      if (!timeline)
+      if (page === 'block')
         nav._control
           .btn-bar
             button.btn-quiet(class="#{visibility === 'private' ? '-active' : ''}")
