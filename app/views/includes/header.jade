@@ -1,23 +1,23 @@
-nav.topnav#header
+nav.header#header
   a._logo(href='/')
     img(src="/images/hypermarks-logo_64.png")
     span._text Hypermarks
   ._controls
-    form(action="_search", method="get")
+    form(action="/_search", method="get")
       ._searchbox
-        img(src="/images/hypermarks-logo_64.png")
         input.search(placeholder="Search...", name="q", value=searchVal)
         i.icon-search
     ._links
       ._link.-account
         span
           if user
-            .dropdown.js-toggle.-right 
+            .dropdown.js-dropdown.-right 
               span Settings
               i.icon-caret-down
-              a(href="javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/_resources/bookmarklet.js');document.body.appendChild(jsCode);}();")="Bookmarklet"
               ul
                 li._header #{user.email}
+                li 
+                  a(href="#{bm_loader}") Bookmarklet
                 li#logout Sign Out
 
           else
