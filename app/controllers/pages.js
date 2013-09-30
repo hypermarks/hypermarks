@@ -24,7 +24,7 @@ exports.timeline = function (req, res) {
     res.render('results', {
         user: req.user
       , bm_loader: bm_loader
-      , favorite_blocks: req.user.getFavoriteBlocks()
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: 'Timeline'
       , page: 'timeline'
@@ -38,7 +38,7 @@ exports.publicBlock = function (req, res) {
     res.render('results', {
         user: req.user
       , bm_loader: bm_loader
-      , favorite_blocks: req.user.getFavoriteBlocks()
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: block
       , visibility: 'public'
@@ -53,7 +53,7 @@ exports.privateBlock = function (req, res) {
     res.render('results', {
         user: req.user
       , bm_loader: bm_loader
-      , favorite_blocks: req.user.getFavoriteBlocks()
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: block
       , visibility: 'private'
@@ -74,7 +74,7 @@ exports.search = function (req, res) {
     res.render('results', {
         user: req.user
       , bm_loader: bm_loader
-      , favorite_blocks: req.user.getFavoriteBlocks()
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: 'Search'
       , page: 'search'
