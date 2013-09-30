@@ -63,10 +63,18 @@ bookmarkSchema.statics = {
 
   //Need to add in MR or something here.
   getPublicBlock: function (block, cb) {
-    console.log(block)
     this.find({block: block})
     .populate('_address')
     .exec(cb);
+  }
+
+  ,
+
+  aggregatePublicBlock: function (block, cb) {
+    this.aggregate(
+      { $group: { _id: '$sani_url' , count: { $sum: 1 } } }
+      // { $match: { block: 'block' } }
+    , cb);
   }
 
 };

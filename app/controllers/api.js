@@ -63,7 +63,7 @@ exports.getPrivateBlock = function (req, res) {
 
 
 exports.getPublicBlock = function (req, res) {
-  Bookmark.getPublicBlock(req.param('block'), function (err, hypermarks) {
+  Bookmark.aggregatePublicBlock(req.param('block'), function (err, hypermarks) {
     if (err) return console.log(err);
     return res.json('200', hypermarks);
   });
