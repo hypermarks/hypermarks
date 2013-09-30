@@ -3,7 +3,8 @@ html
   include ../includes/head
   body
     include ../includes/header
-    include ../includes/sidebar
+    if (user)
+      include ../includes/sidebar
     block content
     include ../includes/modals
     include ../includes/foot
