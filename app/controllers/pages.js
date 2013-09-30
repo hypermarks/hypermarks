@@ -3,6 +3,7 @@
 var mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
+  , bm_loader = require('../frontend/bookmarklet/loader.js')
   , stringUtils = require('../../utils/string-utils.js')
   , _ = require('lodash')
 ;
@@ -22,6 +23,7 @@ exports.timeline = function (req, res) {
   Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
     res.render('results', {
         user: req.user
+      , bm_loader: bm_loader
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
       , title: 'Timeline'
@@ -35,6 +37,7 @@ exports.publicBlock = function (req, res) {
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
     res.render('results', {
         user: req.user
+      , bm_loader: bm_loader
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
       , title: block
@@ -49,6 +52,7 @@ exports.privateBlock = function (req, res) {
   Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
     res.render('results', {
         user: req.user
+      , bm_loader: bm_loader
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
       , title: block
@@ -65,10 +69,11 @@ exports.search = function (req, res) {
     var hypermarks = _.map(results.hits, function(result) {
       result._address = result._source;
       delete result._source;
-      return result
-    });
+      return result;
+    });
     res.render('results', {
         user: req.user
+      , bm_loader: bm_loader
       , favorite_blocks: req.user.getFavoriteBlocks()
       , results: hypermarks
       , title: 'Search'
