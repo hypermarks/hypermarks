@@ -4,7 +4,6 @@ extends layouts/default
 block content
   main.page
     ._topbar 
-      //- |asdf lasdjf asldfj 
       h1._title#page-title #{title}
       |&nbsp;
       if (page === 'block')
@@ -20,14 +19,12 @@ block content
                 |&nbsp;Public
 
     .results#results
-      //- ._divider
-      //-   |Today
       for result in results
         article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
-          a._link(href="#{result.working_url}") #{result.title}
-          ._sani-url #{result.sani_url}
+          a._link(href="#{result._address.working_url}") #{result._address.title}
+          ._sani-url #{result._address.sani_url}
           ._excerpt 
-            != truncate(result.content, 200)
+            != truncate(result._address.content, 200)
           ._bottom-bar
             button.btn-quiet.js-add-to-list 
               i.icon-book
