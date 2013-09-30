@@ -18,25 +18,28 @@ var mongoose = require('mongoose')
 // }
 
 exports.timeline = function (req, res) {
-  if (!req.user) return res.end('401');
-
-  Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
-    res.render('results', {
-        user: req.user
-      , bm_loader: bm_loader
-      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
-      , results: hypermarks
-      , title: 'Timeline'
-      , page: 'timeline'
-    });
-  });
+//   if (!req.user) return res.end('401');
+  if (req.user) {
+    Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
+      return res.render('results', {
+          user: req.user
+        , bm_loader: bm_loader
+        , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
+        , results: hypermarks
+        , title: 'Timeline'
+        , page: 'timeline'
+      });
+    });
+  } else {
+    return res.render('login');
+  }
 };
 
 exports.publicBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
-    res.render('results', {
-        user: req.user
+    return res.render('results', {
+        user: (req.user) ? req.user : null
       , bm_loader: bm_loader
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
@@ -49,17 +52,22 @@ exports.publicBlock = function (req, res) {
 
 exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
-  Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
-    res.render('results', {
-        user: req.user
-      , bm_loader: bm_loader
-      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
-      , results: hypermarks
-      , title: block
-      , visibility: 'private'
-      , page: 'block'
-    });
-  });
+  
+  if (req.user) {
+    Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
+      return res.render('results', {
+          user: req.user
+        , bm_loader: bm_loader
+        , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
+        , results: hypermarks
+        , title: block
+        , visibility: 'private'
+        , page: 'block'
+      });
+    });
+  } else {
+    return res.redirect('/' + req.params.block);
+  }
 };
 
 exports.search = function (req, res) {
@@ -71,8 +79,8 @@ exports.search = function (req, res) {
       delete result._source;
       return result;
     });
-    res.render('results', {
-        user: req.user
+    return res.render('results', {
+        user: (req.user) ? req.user : null
       , bm_loader: bm_loader
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
