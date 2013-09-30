@@ -3,10 +3,11 @@ nav.topnav#header
     img(src="/images/hypermarks-logo_64.png")
     span._text Hypermarks
   ._controls
-    ._searchbox
-      img(src="/images/hypermarks-logo_64.png")
-      input.search#searchbox(placeholder="Search...")
-      i.icon-search
+    form(action="_search", method="get")
+      ._searchbox
+        img(src="/images/hypermarks-logo_64.png")
+        input.search(placeholder="Search...", name="q", value=searchVal)
+        i.icon-search
     ._links
       ._link.-account
         span

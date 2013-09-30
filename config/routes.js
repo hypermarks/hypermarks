@@ -36,10 +36,6 @@ module.exports = function (app, passport) {
   app.get('/signup', users.signuppage);
 
 
-
-  app.get('/:block', pages.publicBlock);
-
-
   //AUTH
   app.post('/_auth/logout', users.logout);
   app.post('/_auth/browserid', passport.authenticate('persona'));
