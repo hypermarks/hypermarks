@@ -72,8 +72,8 @@ bookmarkSchema.statics = {
 
   aggregatePublicBlock: function (block, cb) {
     this.aggregate(
+      { $match: { block: block } } ,
       { $group: { _id: '$sani_url' , count: { $sum: 1 } } }
-      // { $match: { block: 'block' } }
     , cb);
   }
 
