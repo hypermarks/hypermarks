@@ -63,7 +63,13 @@ exports.getPrivateBlock = function (req, res) {
 
 
 exports.treePost = function (req, res) {
-  if (!req.user) return res.end('401');
+ // if (!req.user) return res.end('401');
+
+  //console.log(req);
+
+  console.log(req.user);
+
+
   res.send("Success");
 };
 

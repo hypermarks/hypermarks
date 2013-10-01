@@ -4,13 +4,11 @@
    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDuLBlVACInrML4KsynT3pVrqD43ATfWwtj70DdydB1tNCF8m28odnAdAjCm5e1hASKMvETzHFNqj9TsI8MucZzCkOepUOIU6R7SNtvyzSiTvPgetIQbZ0Ypa7DXuMcNUn3QQjdajvOSowdC7Alb+lUllnsMien/2Ht8n3cnIQztQIDAQAB",
    "manifest_version": 2,
    "name": "Hypermarks",
-   "permissions": [ "http://127.0.0.1:1337/*", "background", "tabs", "bookmarks" ],
+   "permissions": [ "http://*/*", "http://localhost:1337/*", "background", "tabs", "bookmarks", "cookies"],
    "background": {
        "scripts": ["eventPage.js"],
        "persistent": true,
-       "permissions": [ "http://*.*.*", "background", "tabs", "bookmarks" ]
+       "permissions": [ "http://*.*.*", "background", "tabs", "bookmarks", "tabs", "cookies" ]
      },
    "version": "1.4.1"
 }
-
-

@@ -4,24 +4,31 @@
 //alert("stuff");
 
 chrome.bookmarks.getTree(function(tree){
-	var StringSend="";
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "http://127.0.0.1:1337/_testpost", true);
-	xhr.onreadystatechange = function(data) {
-	 // alert("done");
-	};
-	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	StringSend=JSON.stringify(tree);//+=postname("givenname", "jeff")
-	xhr.send(StringSend);
+
+//open to window
+ //chrome.windows.create({url: "http://localhost:1337/_auth/external-login"});
+
+
+
+
 });
 
 
 chrome.bookmarks.onCreated.addListener(function(num, bm){
 
+//open to window
+ //chrome.windows.create({url: "http://localhost:1337/_auth/external-login"});
 
-alert(bm.url)
 
-alert("bookamrk");
+	var script2 = document.createElement('script');
+	script2.src='http://localhost:1337/script/hm_inject.js';
+	script2.type='text/javascript';
+	document.getElementsByTagName('Body').item(0).appendChild(script2);
+
+
+
+
+
 
 
 });

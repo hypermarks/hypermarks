@@ -37,7 +37,7 @@ module.exports = function (app, passport) {
   app.get('/login', users.loginpage);
   app.get('/signup', users.signuppage);
 
-  app.post('/_api/_tree/', api.treePost);
+  app.post('/_api/treepost/', api.treePost);
 
   //AUTH
   app.post('/_auth/logout', users.logout);

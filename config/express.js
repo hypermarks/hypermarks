@@ -61,7 +61,6 @@ module.exports = function(app, config, passport) {
   });
 
   app.post('/*', function(req, res, next){
-    console.log(req.body);
     next();
   });
 

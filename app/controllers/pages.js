@@ -31,6 +31,7 @@ exports.timeline = function (req, res) {
 };
 
 exports.publicBlock = function (req, res) {
+  if (!req.user) return res.end('401');
   var block = stringUtils.sanitize(req.params.block);
   Bookmark.getPublicBlock(block, function (err, hypermarks) {
     res.render('results', {
