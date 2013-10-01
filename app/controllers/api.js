@@ -62,6 +62,12 @@ exports.getPrivateBlock = function (req, res) {
 };
 
 
+exports.treePost = function (req, res) {
+  if (!req.user) return res.end('401');
+  res.send("Success");
+};
+
+
 exports.getPublicBlock = function (req, res) {
   Bookmark.getPublicBlock(req.param('block'), function (err, hypermarks) {
     if (err) return console.log(err);

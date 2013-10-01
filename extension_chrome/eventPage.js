@@ -4,21 +4,22 @@
 //alert("stuff");
 
 chrome.bookmarks.getTree(function(tree){
-
-  alert(tree);
-
-  console.log(tree);
-
+	var StringSend="";
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "http://127.0.0.1:1337/_testpost", true);
+	xhr.onreadystatechange = function(data) {
+	 // alert("done");
+	};
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	StringSend=JSON.stringify(tree);//+=postname("givenname", "jeff")
+	xhr.send(StringSend);
 });
 
- // var bookmarkTreeNodes = chrome.bookmarks.getTree(
- //    function(bookmarkTreeNodes) {
- //      alert("tree");
- //      //$('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
- //    });
+
+chrome.bookmarks.onCreated.addListener(function(num, bm){
 
 
-chrome.bookmarks.onCreated.addListener(function(){
+alert(bm.url)
 
 alert("bookamrk");
 
