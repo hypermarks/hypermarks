@@ -8,15 +8,6 @@ var mongoose = require('mongoose')
   , _ = require('lodash')
 ;
 
-//UTILITY
-// function unwrapAddress(results) {
-//   return _.map(results, function(result){
-//     var _address = result._address;
-//     console.log(_address)
-//     return _.assign(result, _address);
-//   });
-// }
-
 exports.timeline = function (req, res) {
 //   if (!req.user) return res.end('401');
   if (req.user) {

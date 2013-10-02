@@ -37,10 +37,8 @@ exports.addToBlock = function (req, res) {
   var bookmark_id = req.body.bookmark_id;
   var block_id = req.body.block_id;
 
-  console.log('addtoblock', bookmark_id, block_id)
   Bookmark.findById(bookmark_id, function (err, bookmark) {
     if (err) return console.log(err);
-    console.log(bookmark)
     Bookmark.clone(bookmark, {
       block: block_id
     }, function (err, bookmark) {

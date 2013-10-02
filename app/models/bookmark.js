@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
   , helpers = require('../../logic/helpers.js')
   , stringUtils = require('../../utils/string-utils.js')
   , _ = require('lodash')
+  , async = require('async')
+  , Address = mongoose.model('Address')
 ;
 
 var bookmarkSchema = new Schema({
@@ -22,25 +24,25 @@ function blockSanitize(block) {
 
 bookmarkSchema.statics = {
 
-  clone: function (source, opts, cb) {
+  clone: function (source, opts, callback) {
     var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash _.defaults
     merged._id = undefined; //So that mongo can set this
     console.log(merged);
-    new this(merged).save(cb);
+    new this(merged).save(callback);
   }
 
   ,
 
-  getTimeline: function (user_id, cb) {
+  getTimeline: function (user_id, callback) {
     this.find({_user: user_id, block: ''})
     .sort('-_id')
     .populate('_address')
-    .exec(cb);
+    .exec(callback);
   }
 
   ,
 
-  create: function (opts, cb) {
+  create: function (opts, callback) {
     var bookmark = new this({
         _address: opts.address_id
       , _user: opts.user_id
@@ -48,33 +50,46 @@ bookmarkSchema.statics = {
       , user_url: opts.user_url
     });
 
-    bookmark.save(cb);
+    bookmark.save(callback);
   }
 
   ,
 
-  getPrivateBlock: function (user_id, block, cb) {
+  getPrivateBlock: function (user_id, block, callback) {
     this.find({_user: user_id, block: block})
     .populate('_address')
-    .exec(cb);
+    .exec(callback);
   }
 
   ,
 
   //Need to add in MR or something here.
-  getPublicBlock: function (block, cb) {
+  getPublicBlock: function (block, callback) {
     this.find({block: block})
     .populate('_address')
-    .exec(cb);
+    .exec(callback);
   }
 
   ,
 
-  aggregatePublicBlock: function (block, cb) {
-    this.aggregate(
-      { $match: { block: block } } ,
-      { $group: { _id: '$sani_url' , count: { $sum: 1 } } }
-    , cb);
+  aggregatePublicBlock: function (block, callback) {
+    var Self = this;
+    Self.aggregate(
+        { $match: { block: block } }
+      , { $group: { _id: '$_address' , count: { $sum: 1 } } }
+    , function(err, results){
+      async.map(
+        results
+        , function(result, cb){
+          Address.findById(result._id, function(err, _address){
+            // console.log(result._id, _address)
+            cb(null, _address);
+          });
+        }
+        , function(err, results){
+          callback(err, results);
+        });
+    });
   }
 
 };
