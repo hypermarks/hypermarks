@@ -75,15 +75,16 @@ bookmarkSchema.statics = {
   aggregatePublicBlock: function (block, callback) {
     var Self = this;
     Self.aggregate(
-        { $match: { block: block } }
-      , { $group: { _id: '$_address' , count: { $sum: 1 } } }
+        {$match: {block: block}}
+      , {$group: {_id: '$_address', count: {$sum: 1}}}
+      , {$sort: {count: -1}}
     , function(err, results){
       async.map(
         results
         , function(result, cb){
           Address.findById(result._id, function(err, _address){
-            // console.log(result._id, _address)
-            cb(null, _address);
+            result._address = _address;
+            cb(null, result);
           });
         }
         , function(err, results){
