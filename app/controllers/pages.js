@@ -28,7 +28,7 @@ exports.timeline = function (req, res) {
 
 exports.publicBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
-  Bookmark.getPublicBlock(block, function (err, hypermarks) {
+  Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
     return res.render('results', {
         user: (req.user) ? req.user : null
       , bm_loader: bm_loader
