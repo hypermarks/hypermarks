@@ -14,10 +14,6 @@ var users = require('../app/controllers/users')
 
 module.exports = function (app, passport) {
 
-  //PAGES
-  app.get('/', pages.timeline);
-  // app.get('/search', pages.results);
-
   //API
   app.post('/_api/hypermarks', api.postHypermark);
   app.get('/_api/hypermarks', api.getTimeline);
