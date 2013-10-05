@@ -63,12 +63,7 @@ bookmarkSchema.statics = {
 
   ,
 
-  //Need to add in MR or something here.
-<<<<<<< HEAD
-  getPublicBlock: function (block, cb) {
-=======
   getPublicBlock: function (block, callback) {
->>>>>>> aggregate_public_list
     this.find({block: block})
     .populate('_address')
     .exec(callback);
@@ -95,15 +90,6 @@ bookmarkSchema.statics = {
           callback(err, results);
         });
     });
-  }
-
-  ,
-
-  aggregatePublicBlock: function (block, cb) {
-    this.aggregate(
-      { $group: { _id: '$sani_url' , count: { $sum: 1 } } }
-      // { $match: { block: 'block' } }
-    , cb);
   }
 
 };
