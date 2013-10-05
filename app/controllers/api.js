@@ -65,7 +65,10 @@ exports.treePost = function (req, res) {
 
   //console.log(req);
 
-  console.log(req.user);
+  //console.log(req.headers);
+
+
+  console.log(req.body);
 
 
   res.send("Success");

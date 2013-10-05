@@ -1,34 +1,37 @@
-/**
- * Handles requests sent by the content script.  Shows an infobar.
- */
-//alert("stuff");
-
-chrome.bookmarks.getTree(function(tree){
-
-//open to window
- //chrome.windows.create({url: "http://localhost:1337/_auth/external-login"});
-
-
-
+chrome.cookies.getAll({domain:"localhost"}, function(cookies){
+	///set the cookie for the user'ssession
+	chrome.cookies.set({ url: "http://127.0.0.1:1337/_api/treepost", name: "connect.sid", value: cookies[3].value });
 
 });
+
 
 
 chrome.bookmarks.onCreated.addListener(function(num, bm){
-
-//open to window
- //chrome.windows.create({url: "http://localhost:1337/_auth/external-login"});
-
-
-	var script2 = document.createElement('script');
-	script2.src='http://localhost:1337/script/hm_inject.js';
-	script2.type='text/javascript';
-	document.getElementsByTagName('Body').item(0).appendChild(script2);
-
-
-
-
-
-
-
+	sendXHR(JSON.stringify(bm));
 });
+
+
+chrome.bookmarks.getTree(function(tree){
+	sendXHR(JSON.stringify(tree));
+});
+
+
+function sendXHR(content){
+
+	var StringSend="";
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "http://127.0.0.1:1337/_api/treepost", true);
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	xhr.setRequestHeader('X-Alt-Referer', 'http://www.google.com');
+	xhr.onreadystatechange = function(data) {
+		// alert("done");
+	};
+	//xhr.withCredentials = true;
+	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send(content);
+
+
+}
+
+
+
