@@ -1,6 +1,6 @@
 chrome.cookies.getAll({domain:"localhost"}, function(cookies){
 	///set the cookie for the user'ssession
-	chrome.cookies.set({ url: "http://127.0.0.1:1337/_api/treepost", name: "connect.sid", value: cookies[3].value });
+	chrome.cookies.set({ url: "http://127.0.0.1:1337/", name: "connect.sid", value: cookies[3].value });
 
 });
 
@@ -8,6 +8,10 @@ chrome.cookies.getAll({domain:"localhost"}, function(cookies){
 
 chrome.bookmarks.onCreated.addListener(function(num, bm){
 	sendXHR(bm,"http://127.0.0.1:1337/_api/hypermarks");
+});
+
+chrome.bookmarks.onRemoved.addListener(function(num, bm){
+	sendXHR(bm,"http://127.0.0.1:1337/_api/hypermarksRemove");
 });
 
 chrome.bookmarks.getTree(function(tree){
