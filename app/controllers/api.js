@@ -1,6 +1,7 @@
 'use strict';
 
 var createHypermark = require('./create-hypermark.js')
+  , removeHypermark = require('./remove-hypermark.js')
   , mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
@@ -10,6 +11,33 @@ var createHypermark = require('./create-hypermark.js')
 
 
 exports.postHypermark = function (req, res) {
+  if (!req.user) return res.end('401');
+  var opts = {
+      user_url: req.body.url
+    , user_id: req.user._id
+    , chrome_extension_id: req.body.id
+  };
+  createHypermark(opts, function(err){
+    if (err) return res.end('500');
+    return res.end('200');
+  });
+};
+
+exports.postHypermarkChrome = function (req, res) {
+  if (!req.user) return res.end('401');
+  console.log(req.body)
+  var opts = {
+      user_url: req.body.url
+    , user_id: req.user._id
+    , chrome_extension_id: req.body.id
+  };
+  createHypermark(opts, function(err){
+    if (err) return res.end('500');
+    return res.end('200');
+  });
+};
+
+exports.removeHypermark = function (req, res) {
   if (!req.user) return res.end('401');
   var opts = {
       user_url: req.body.url
@@ -38,13 +66,21 @@ exports.addToBlock = function (req, res) {
   var block_id = req.body.block_id;
 
   Bookmark.findById(bookmark_id, function (err, bookmark) {
-    if (err) return console.log(err);
-    Bookmark.clone(bookmark, {
-      block: block_id
-    }, function (err, bookmark) {
-      if (err) return console.log(err);
-      return res.json('200', bookmark);
+      if (err) return res.json('500', bookmark);
+    bookmark.block=block_id;
+    bookmark.save(function(err){
+      if (err)
+        return res.json('500', bookmark);
+      else
+        return res.json('200', bookmark);
     });
+
+    // Bookmark.clone(bookmark, {
+    //   block: block_id
+    // }, function (err, bookmark) {
+    //   if (err) return console.log(err);
+    //   return res.json('200', bookmark);
+    // });
   });
 
 };

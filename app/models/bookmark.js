@@ -13,6 +13,7 @@ var bookmarkSchema = new Schema({
     _address: { type: Schema.Types.ObjectId, ref: 'Address' }
   , _user: { type: Schema.Types.ObjectId, ref: 'User' }
   , block: { type : String, set: blockSanitize, default : '' }
+  , chrome_extension_id : { type : Number }
   , sani_url: String
   , user_url: String //This is the url that the user submitted the bookmark with
 });
@@ -27,14 +28,14 @@ bookmarkSchema.statics = {
   clone: function (source, opts, callback) {
     var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash _.defaults
     merged._id = undefined; //So that mongo can set this
-    console.log(merged);
+    //console.log(merged);
     new this(merged).save(callback);
   }
 
   ,
 
   getTimeline: function (user_id, callback) {
-    this.find({_user: user_id, block: ''})
+    this.find({_user: user_id})
     .sort('-_id')
     .populate('_address')
     .exec(callback);
@@ -48,6 +49,7 @@ bookmarkSchema.statics = {
       , _user: opts.user_id
       , sani_url: opts.sani_url
       , user_url: opts.user_url
+      , chrome_extension_id: opts.chrome_extension_id
     });
 
     bookmark.save(callback);

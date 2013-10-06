@@ -16,6 +16,9 @@ module.exports = function (app, passport) {
 
   //API
   app.post('/_api/hypermarks', api.postHypermark);
+  app.post('/_api/hypermarksChrome', api.postHypermarkChrome);
+  app.post('/_api/hypermarksRemove', api.removeHypermark);
+
   app.get('/_api/hypermarks', api.getTimeline);
   app.get('/_api/search', api.searchHypermarks);
   app.post('/_api/hypermarks/clone', api.addToBlock);
