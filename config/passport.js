@@ -4,7 +4,9 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
+var env = process.env.NODE_ENV || 'development'
+  , config = require('../config/config')[env]
+  , mongoose = require('mongoose')
   , PersonaStrategy = require('passport-persona').Strategy
   , User = mongoose.model('User')
 ;
@@ -31,7 +33,7 @@ module.exports = function(passport) {
 
 
   passport.use(new PersonaStrategy({
-      audience: 'sfdevlabs.com:1337'
+      audience: config.hostDomain
     },
 
     function(email, done) {

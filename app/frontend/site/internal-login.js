@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://sfdevlabs.com:1337/_auth/browserid', true);
+      xhr.open('POST', '/_auth/browserid', true);
       xhr.setRequestHeader('Content-Type', 'application/json');
 
       xhr.addEventListener('loadend', function() {
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (document.querySelector('#logout')) document.querySelector('#logout').addEventListener('click', function() {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://sfdevlabs:1337/_auth/logout', true);
+    xhr.open('POST', 'http://localhost:1337/_auth/logout', true);
     
     xhr.addEventListener('loadend', function() {
       window.location.reload();

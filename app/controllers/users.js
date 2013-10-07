@@ -1,13 +1,16 @@
 'use strict';
 
+var env = process.env.NODE_ENV || 'development'
+  , config = require('../../config/config')[env];
+
 exports.externalLogin = function (req, res) {
   // This gets the redirect url from the query string
   var redirectUrl = req.param('redirectUrl');
 
-  console.log('externalLogin from:', redirectUrl);
 
   res.render('external-login', {
     redirectUrl: redirectUrl
+    , config : config.hostDomain
   });
 };
 
