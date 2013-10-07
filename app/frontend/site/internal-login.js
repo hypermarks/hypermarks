@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (document.querySelector('#logout')) document.querySelector('#logout').addEventListener('click', function() {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:1337/_auth/logout', true);
+    xhr.open('POST', '/_auth/logout', true);
     
     xhr.addEventListener('loadend', function() {
       window.location.reload();
