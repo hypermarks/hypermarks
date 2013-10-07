@@ -31,7 +31,7 @@ module.exports = function(passport) {
 
 
   passport.use(new PersonaStrategy({
-      audience: 'localhost:1337'
+      audience: 'sfdevlabs.com:1337'
     },
 
     function(email, done) {
