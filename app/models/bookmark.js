@@ -57,6 +57,20 @@ bookmarkSchema.statics = {
 
   ,
 
+  remove: function (opts, callback) {
+    this.findOne({_id:opts._id})
+    .exec(function(err, result){
+        console.log(opts._user, result._user);
+
+      if (result===null || String(opts._user)!==String(result._user))
+        callback({err:true});
+      else
+        result.remove(callback);
+    });
+  }
+
+  ,
+
   getPrivateBlock: function (user_id, block, callback) {
     this.find({_user: user_id, block: block})
     .populate('_address')

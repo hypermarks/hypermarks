@@ -21,6 +21,8 @@ chrome.bookmarks.onRemoved.addListener(function(num, bm){
 	sendXHR(bm,"http://127.0.0.1:1337/_api/hypermarksRemove");
 });
 
+
+
 chrome.bookmarks.getTree(function(tree){
 	//sendXHR(JSON.stringify(tree),"http://127.0.0.1:1337/_api/treepost");
 });
