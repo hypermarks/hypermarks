@@ -14,15 +14,6 @@ var users = require('../app/controllers/users')
 
 module.exports = function (app, passport) {
 
-
-  app.post('/tester', function(req, res){
-
-    res.send("ok")
-
-    res.send("ok")
-
-  });
-
   //API
   app.post('/_api/hypermarks', api.postHypermark);
   app.post('/_api/hypermarksChrome', api.postHypermarkChrome);
