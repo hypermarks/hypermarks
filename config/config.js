@@ -21,7 +21,7 @@ module.exports = {
     root: rootPath
     , db: 'mongodb://localhost/hypermarks_test'
     , es: 'localhost:9200'
-    , hostDomain: 'http://sfdevlabs.com:1337'
+    , hostDomain: 'sfdevlabs.com:1337'
   },
   staging: {
     root: rootPath
