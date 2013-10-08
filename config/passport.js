@@ -31,6 +31,7 @@ module.exports = function(passport) {
     });
   });
 
+console.log(config.hostDomain)
 
   passport.use(new PersonaStrategy({
       audience: config.hostDomain
