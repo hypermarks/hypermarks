@@ -7,8 +7,7 @@ var browserify = require('browserify-middleware');
 // controllers
 var users = require('../app/controllers/users')
   , api = require('../app/controllers/api.js')
-  , pages = require('../app/controllers/pages.js')
-;
+  , pages = require('../app/controllers/pages.js');
 
 
 
@@ -35,12 +34,19 @@ module.exports = function (app, passport) {
 
   app.get('/login', users.loginpage);
   app.get('/signup', users.signuppage);
-
+  app.post('/users', users.create);
   //app.post('/_api/treepost/', api.treePost);
 
   //AUTH
   app.post('/_auth/logout', users.logout);
   app.post('/_auth/browserid', passport.authenticate('persona'));
+
+  app.post('/users/session',
+    passport.authenticate('local', {
+      failureRedirect: '/login',
+      failureFlash: 'Invalid email or password.'
+    }), users.session);
+
   app.get('/_auth/external-login', users.externalLogin);
 
 
