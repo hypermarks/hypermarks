@@ -33,7 +33,7 @@ module.exports = function(passport) {
     console.log(typeof User.findOne)
 
 
-    User.findOne({_id:id}, function(err, user) {
+    User.find({_id:id}, function(err, user) {
               console.log(err)
 
       console.log('passport.deserializeUser', user.email);

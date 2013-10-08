@@ -13,13 +13,13 @@ var rootPath = path.resolve(__dirname + '../..')
 module.exports = {
   development: {
     root: rootPath
-    , db: 'mongodb://localhost/hypermarks_dev'
+    , db: 'mongodb://127.0.0.1/hypermarks_dev'
     , es: 'localhost:9200'
     , hostDomain: 'http://localhost:1337'
   },
   test: {
     root: rootPath
-    , db: 'mongodb://localhost/hypermarks_test'
+    , db: 'mongodb://127.0.0.1/hypermarks_test'
     , es: 'localhost:9200'
     , hostDomain: 'sfdevlabs.com:1337'
   },
