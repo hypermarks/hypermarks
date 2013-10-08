@@ -9,7 +9,6 @@ var mongoose = require('mongoose')
 ;
 
 exports.timeline = function (req, res) {
-//   if (!req.user) return res.end('401');
   if (req.user) {
     Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
       return res.render('results', {
