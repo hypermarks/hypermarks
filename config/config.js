@@ -3,6 +3,7 @@
 var env = process.env.NODE_ENV || 'development'
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
+  , port = process.env.PORT || 1337
 ;
 
 
@@ -12,7 +13,7 @@ module.exports = function() {
         root: rootPath
       , db: 'mongodb://localhost/hypermarks_dev'
       , es: 'localhost:9200'
-      , url: 'http://localhost:1337'
+      , url: 'http://localhost:' + port
     };
   }
   if (env === 'heroku') {

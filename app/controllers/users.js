@@ -10,7 +10,7 @@ exports.externalLogin = function (req, res) {
 
   res.render('external-login', {
     redirectUrl: redirectUrl
-    , config : config.hostDomain
+    , config : config.url
   });
 };
 

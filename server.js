@@ -1,12 +1,13 @@
 'use strict';
 
-var env = process.env.NODE_ENV || 'development'
-  , config = require('./config/config')()
+var config = require('./config/config')()
   , express = require('express')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , fs = require('fs')
 ;
+
+console.log('logg');
 
 require('express-namespace');
 
@@ -34,6 +35,8 @@ require('./config/routes')(app, passport);
 // Start the app by listening on <port>
 var port = process.env.PORT || 1337;
 app.listen(port);
+
+console.log(process.env.PORT)
 
 // Expose app
 module.exports = app;

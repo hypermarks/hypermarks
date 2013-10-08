@@ -5,7 +5,7 @@
  */
 
 var env = process.env.NODE_ENV || 'development'
-  , config = require('../config/config')[env]
+  , config = require('../config/config')()
   , mongoose = require('mongoose')
   , PersonaStrategy = require('passport-persona').Strategy
   , User = mongoose.model('User')
@@ -33,7 +33,7 @@ module.exports = function(passport) {
 
 
   passport.use(new PersonaStrategy({
-      audience: config.hostDomain
+      audience: config.url
     },
 
     function(email, done) {
