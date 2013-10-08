@@ -8,6 +8,8 @@ var env = process.env.NODE_ENV || 'development'
   , port = process.env.PORT || 1337
 ;
 
+console.log(env)
+
 
 module.exports = function() {
   if (env === 'development') {
