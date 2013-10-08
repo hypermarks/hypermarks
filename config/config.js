@@ -25,7 +25,7 @@ module.exports = function() {
         root: rootPath
       , db: process.env.MONGOLAB_URI
       , es: process.env.BONSAI_URL
-      , url: 'http://hypermarks.herokuapp.com/'
+      , url: 'http://hypermarks.herokuapp.com'
     };
   }
 };
