@@ -32,7 +32,6 @@ exports.signup = function (req, res) {
 
 exports.logout = function (req, res) {
   console.log('exports.logout');
-  //req.logout();
-  res.writeHead(200, { 'Content-Type':'application/json'});
-  res.end();
+  req.logout();
+  res.send(200);
 };
