@@ -27,7 +27,11 @@ module.exports = function(passport) {
   //deserialize sessions
   passport.deserializeUser(function(id, done) {
     console.log("stuff")
-        console.log(id)
+    console.log(id)
+
+    console.log(typeof User)
+    console.log(typeof User.findOne)
+
 
     User.findOne({_id:id}, function(err, user) {
               console.log(err)
