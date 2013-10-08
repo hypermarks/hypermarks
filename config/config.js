@@ -1,34 +1,26 @@
+'use strict';
 
-/*!
- * Module dependencies.
- */
+var env = process.env.NODE_ENV || 'development'
+  , path = require('path')
+  , rootPath = path.resolve(__dirname + '../..')
+;
 
-var path = require('path')
-var rootPath = path.resolve(__dirname + '../..')
 
-/**
- * Expose config
- */
-
-module.exports = {
-  development: {
-    root: rootPath
-    , db: 'mongodb://localhost/hypermarks_dev'
-    , es: 'localhost:9200'
-    , hostDomain: 'http://localhost:1337'
-  },
-  test: {
-    root: rootPath
-    , db: 'mongodb://localhost/hypermarks_test'
-    , es: 'localhost:9200'
-    , hostDomain: 'http://sfdevlabs.com:1337'
-  },
-  staging: {
-    root: rootPath
-    , db: process.env.MONGOHQ_URL
-  },
-  production: {
-    root: rootPath
-    , db: process.env.MONGOHQ_URL
+module.exports = function() {
+  if (env === 'development') {
+    return {
+        root: rootPath
+      , db: 'mongodb://localhost/hypermarks_dev'
+      , es: 'localhost:9200'
+      , url: 'http://localhost:1337'
+    };
   }
-}
+  if (env === 'heroku') {
+    return {
+        root: rootPath
+      , db: process.env.MONGOLAB_URI
+      , es: process.env.BONSAI_URL
+      , url: 'http://hypermarks.herokuapp.com/'
+    };
+  }
+};

@@ -1,7 +1,7 @@
 'use strict';
 
 var env = process.env.NODE_ENV || 'development'
-  , config = require('./config/config')[env]
+  , config = require('./config/config')()
   , express = require('express')
   , passport = require('passport')
   , mongoose = require('mongoose')
@@ -11,6 +11,7 @@ var env = process.env.NODE_ENV || 'development'
 require('express-namespace');
 
 mongoose.connect(config.db);
+
 
 
 // Bootstrap models
