@@ -10,7 +10,7 @@ var env = process.env.NODE_ENV || 'development'
 
 //comment
 
-console.log(process.env)
+console.log(process.env[URL])
 
 require('express-namespace');
 
