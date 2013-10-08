@@ -1,6 +1,6 @@
 'use strict';
 
-console.log(process.env)
+console.log('configconfig', process.env)
 
 var env = process.env.NODE_ENV || 'development'
   , path = require('path')
@@ -8,7 +8,7 @@ var env = process.env.NODE_ENV || 'development'
   , port = process.env.PORT || 1337
 ;
 
-console.log(env)
+console.log('configconfig', env)
 
 
 module.exports = function() {

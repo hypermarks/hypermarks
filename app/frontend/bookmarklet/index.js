@@ -4,6 +4,8 @@ var $ = require('zepto-browserify').$
   , config = require('../../../config/config')()
 ;
 
+console.log('bookmarklet', config)
+
 //Put our styles in head
 $('head').append('<link rel="stylesheet" href="' + config.url + '/styles/bookmarklet.css">');
 
