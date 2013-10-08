@@ -1,5 +1,7 @@
 'use strict';
 
+console.log(process.env)
+
 var env = process.env.NODE_ENV || 'development'
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
