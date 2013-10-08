@@ -8,6 +8,8 @@ var env = process.env.NODE_ENV || 'development'
   , fs = require('fs')
 ;
 
+//comment
+
 console.log(process.env)
 
 require('express-namespace');
