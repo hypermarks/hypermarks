@@ -36,7 +36,7 @@ require('./config/routes')(app, passport);
 var port = process.env.PORT || 1337;
 app.listen(port);
 
-console.log(process.env.PORT)
+console.log(config)
 
 // Expose app
 module.exports = app;
