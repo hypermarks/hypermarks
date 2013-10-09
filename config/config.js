@@ -5,7 +5,8 @@ console.log('configconfig', process.env);
 var env = process.env.NODE_ENV || development
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
-  , port = process.env.PORT || 1337;
+  , port = process.env.PORT || 1337
+  , fs = require('fs')
 
 module.exports = function() {
   if (env === 'development') {
