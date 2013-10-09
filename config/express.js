@@ -54,7 +54,7 @@ module.exports = function(app, config, passport) {
   //TODO: Refactor into middleware
   //TODO: Secure!
   app.all('/*', function(req, res, next) {
-    console.log('config/expess', req.header('Origin'));
+    console.log('config/expess rq header', req.header('Origin'));
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
