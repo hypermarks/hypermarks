@@ -7,21 +7,39 @@ var createHypermark = require('./create-hypermark.js')
   , Address = mongoose.model('Address')
   , User = mongoose.model('User')
   , _ = require('lodash')
-;
+  ,fs = require('fs');
+
+exports.imagepost = function (req, res) {
+  console.log("url",typeof req.param("url"));
+  console.log("url", req.param("url"));
+
+  postUtil(req.param("url"), req.user._id, req.body.id, function(err){
+    if (err) return res.end('500');
+    var img = fs.readFileSync('./public/images/pixel.gif');
+    res.writeHead(200, {'Content-Type': 'image/gif' });
+    return res.end(img, 'binary');
+  });
+};
 
 
 exports.postHypermark = function (req, res) {
   if (!req.user) return res.end('401');
-  var opts = {
-      user_url: req.body.url
-    , user_id: req.user._id
-    , chrome_extension_id: req.body.id
-  };
-  createHypermark(opts, function(err){
+  postUtil(req.body.url, req.user._id, req.body.id, function(err){
     if (err) return res.end('500');
     return res.end('200');
   });
 };
+
+var postUtil= function(url, userID, extid, cb){
+  var opts = {
+      user_url: url
+    , user_id: userID
+    , chrome_extension_id: extid
+  };
+  createHypermark(opts, function(err){
+    cb(err);
+  });
+}
 
 exports.postHypermarkChrome = function (req, res) {
   if (!req.user) return res.end('401');

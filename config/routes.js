@@ -23,6 +23,8 @@ module.exports = function (app, passport) {
   app.post('/_api/hypermarks/clone', api.addToBlock);
 
 
+  app.get('/_api/post', api.imagepost);
+
 
 
   app.get('/_api/blocks/:block', api.getPublicBlock);
