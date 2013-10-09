@@ -42,6 +42,6 @@ addressSchema.statics = {
 };
 
 // add the elastic plugin
-addressSchema.plugin(elmongo, { host: config.es, port: '' });
+addressSchema.plugin(elmongo, { host: config.es, port: config.esport });
 
 module.exports = mongoose.model('Address', addressSchema);

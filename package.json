@@ -7,7 +7,7 @@
     "npm": "1.2.x"
   },
   "scripts": {
-    "start": "NODE_ENV=development PORT=1337 ./node_modules/.bin/nodemon server.js",
+    "start": "NODE_ENV=development PORT=1337 ESPORT=9200 ./node_modules/.bin/nodemon server.js",
     "test": "make test"
   },
   "dependencies": {
