@@ -5,7 +5,11 @@ nav.header#header
   ._controls
     form(action="/_search", method="get")
       ._searchbox
-        input.search(placeholder="Search...", name="q", value=searchVal)
+        input.search(placeholder="search", name="q", value=searchVal)
+        i.icon-search
+    form(action="javascript:null;", method="get", id="hypermarkpost")
+      ._searchbox
+        input.search(placeholder="...Hypermark URL", name="url", value=searchVal)
         i.icon-search
     ._links
       ._link.-account

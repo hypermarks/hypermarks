@@ -6,6 +6,7 @@ var $ = require('zepto-browserify').$
 
 console.log('bookmarklet', config)
 
+<<<<<<< Updated upstream
 //Put our styles in head
 $('head').append('<link rel="stylesheet" href="' + config.url + '/styles/bookmarklet.css">');
 
@@ -19,6 +20,17 @@ function createCORSRequest(method, url) {
   } else {
     // CORS not supported.
     xhr = null;
+=======
+//Put our styles in head 
+//** This needs to be depicated.  Zepto does not load on major sites.
+//$('head').append('<link rel="stylesheet" href="' + config.url + '/styles/bookmarklet.css">');
+ 
+// Make the actual CORS request.
+function loadRequest() {
+  var img = new Image(); 
+  img.onload=function(){
+    responseHandler.success()
+>>>>>>> Stashed changes
   }
   return xhr;
 }
