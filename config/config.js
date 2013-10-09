@@ -15,7 +15,7 @@ module.exports = function() {
       , db: 'mongodb://localhost/hypermarks_dev'
       , es: 'localhost'
       , url: 'http://localhost:' + port
-      , esport: process.env.ESPORT
+      , esport: process.env.ES_PORT
     };
   }
   if (env === 'heroku') {
@@ -24,7 +24,7 @@ module.exports = function() {
       , db: process.env.MONGOLAB_URI
       , es: process.env.BONSAI_URL
       , url: 'http://hypermarks.herokuapp.com'
-      , esport: process.env.ESPORT
+      , esport: process.env.ES_PORT
     };
   }
 };
