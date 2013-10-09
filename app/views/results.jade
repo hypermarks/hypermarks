@@ -20,11 +20,13 @@ block content
 
     .results#results
       for result in results
+        
         article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
           form(style="float:right;", action="/_api/hypermarksRemove", method="post")
             input(value=result._id, name="_id", type="hidden")
             button.btn-quiet
               i.icon-remove
+
           a._link(href="#{result._address.working_url}") #{result._address.title}
           ._sani-url #{result._address.sani_url}
           ._excerpt 

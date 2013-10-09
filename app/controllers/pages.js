@@ -1,6 +1,5 @@
 'use strict';
-var env = process.env.NODE_ENV || 'development'
-  , config = require('../../config/config')[env]
+var config = require('../../config/config')()
   , mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
@@ -10,12 +9,11 @@ var env = process.env.NODE_ENV || 'development'
 ;
 
 exports.timeline = function (req, res) {
-//   if (!req.user) return res.end('401');
   if (req.user) {
     Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
       return res.render('results', {
           user: req.user
-        , bm_loader: bm_loader(config.hostDomain)
+        , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: hypermarks
         , title: 'Timeline'
@@ -33,7 +31,7 @@ exports.publicBlock = function (req, res) {
   Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
     return res.render('results', {
         user: (req.user) ? req.user : null
-      , bm_loader: bm_loader(config.hostDomain)
+      , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: block
@@ -50,7 +48,7 @@ exports.privateBlock = function (req, res) {
     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
       return res.render('results', {
           user: req.user
-        , bm_loader: bm_loader(config.hostDomain)
+        , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: hypermarks
         , title: block
@@ -74,7 +72,7 @@ exports.search = function (req, res) {
     });
     return res.render('results', {
         user: (req.user) ? req.user : null
-      , bm_loader: bm_loader(config.hostDomain)
+      , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: 'Search'

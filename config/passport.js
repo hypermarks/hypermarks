@@ -5,7 +5,7 @@
  */
 
 var env = process.env.NODE_ENV || 'development'
-  , config = require('../config/config')[env]
+  , config = require('../config/config')()
   , mongoose = require('mongoose')
   , PersonaStrategy = require('passport-persona').Strategy
   , LocalStrategy = require('passport-local').Strategy
@@ -59,7 +59,7 @@ console.log(config.hostDomain)
 
 
   passport.use(new PersonaStrategy({
-      audience: config.hostDomain
+      audience: config.url
     },
 
     function(email, done) {

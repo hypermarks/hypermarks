@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', '/_auth/browserid', true);
       xhr.setRequestHeader('Content-Type', 'application/json');
+
       xhr.addEventListener('loadend', function() {
         window.location.reload();
       }, false);
@@ -25,10 +26,11 @@ document.addEventListener('DOMContentLoaded', function() {
   if (document.querySelector('#logout')) document.querySelector('#logout').addEventListener('click', function() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/_auth/logout', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    
     xhr.addEventListener('loadend', function() {
       window.location.reload();
     });
+
     xhr.send();
   }, false);
 }, false);

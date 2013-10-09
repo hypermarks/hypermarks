@@ -3,6 +3,7 @@
 var mongoose = require('mongoose')
   , elmongo = require('elmongo')
   , Schema = mongoose.Schema
+  , config = require('../../config/config')()
 ;
 
 var addressSchema = new Schema({
@@ -41,6 +42,6 @@ addressSchema.statics = {
 };
 
 // add the elastic plugin
-addressSchema.plugin(elmongo, { host: 'localhost', port: 9200, prefix: 'test' });
+addressSchema.plugin(elmongo, { host: config.es, port: '' });
 
 module.exports = mongoose.model('Address', addressSchema);

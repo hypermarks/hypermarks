@@ -4,6 +4,7 @@ var $ = require('zepto-browserify').$
   , success_flash = require('../../views/bookmarklet/success-flash.jade')
   , login_modal = require('../../views/bookmarklet/login-modal.jade')
   , error_modal = require('../../views/bookmarklet/error-modal.jade')
+  , config = require('../../../config/config')()
 ;
 
 var $body = $(document.body);
@@ -21,7 +22,7 @@ function modalWindow (el) {
 
 exports.login = function () {
   var $el = modalWindow(login_modal({
-    url: 'http://localhost:1337/_auth/external-login'
+    url: config.url + '/_auth/external-login'
   }));
 
   $body.append($el);

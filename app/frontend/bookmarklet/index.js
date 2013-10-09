@@ -1,9 +1,13 @@
 'use strict';
 var $ = require('zepto-browserify').$
-  , responseHandler = require('./responseHandlers.js');
+  , responseHandler = require('./responseHandlers.js')
+  , config = require('../../../config/config')()
+;
+
+console.log('bookmarklet', config)
 
 //Put our styles in head
-$('head').append('<link rel="stylesheet" href="http://localhost:1337/styles/bookmarklet.css">');
+$('head').append('<link rel="stylesheet" href="' + config.url + '/styles/bookmarklet.css">');
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
@@ -21,7 +25,7 @@ function createCORSRequest(method, url) {
 
 // Make the actual CORS request.
 function makeCorsRequest() {
-  var url = 'http://localhost:1337/_api/hypermarks';
+  var url = config.url + '/_api/hypermarks';
 
 
   var xhr = createCORSRequest('POST', url);
