@@ -2,10 +2,10 @@
 
 console.log('configconfig', process.env);
 
-var env = process.env.NODE_ENV
+var env = process.env.NODE_ENV || development
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
-  , port = process.env.PORT
+  , port = process.env.PORT || 1337
 ;
 
 console.log('configconfig', env);
