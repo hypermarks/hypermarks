@@ -3,7 +3,7 @@
 var mongoose = require('mongoose')
   , elmongo = require('elmongo')
   , Schema = mongoose.Schema
-  , config = require('../../config/config')
+  , config = require('../../config/config')()
 ;
 
 var addressSchema = new Schema({
