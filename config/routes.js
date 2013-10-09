@@ -46,7 +46,7 @@ module.exports = function (app, passport) {
 
   //RESOURCES
   //Caution! There could be any number of bookmarklets in the wild depending on this route!
-  app.get('/_resources/bookmarklet.js', browserify('../app/frontend/bookmarklet/index.js', {transform: ['simple-jadeify']}));
+  app.get('/_resources/bookmarklet.js', browserify('../app/frontend/bookmarklet/index.js', {transform: ['simple-jadeify', 'envify']}));
 
   app.get('/_resources/site.js', browserify('../app/frontend/site/index.js', {transform: ['simple-jadeify']}));
 

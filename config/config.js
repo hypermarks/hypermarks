@@ -1,14 +1,14 @@
 'use strict';
 
-console.log('configconfig', process.env)
+console.log('configconfig', process.env);
 
-var env = process.env.NODE_ENV || 'development'
+var env = process.env.NODE_ENV
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
-  , port = process.env.PORT || 1337
+  , port = process.env.PORT
 ;
 
-console.log('configconfig', env)
+console.log('configconfig', env);
 
 
 module.exports = function() {
@@ -25,7 +25,7 @@ module.exports = function() {
         root: rootPath
       , db: process.env.MONGOLAB_URI
       , es: process.env.BONSAI_URL
-      , url: 'http://hypermarks.herokuapp.com'
+      , url: 'http://hypermarks.herokuapp.comh'
     };
   }
 };
