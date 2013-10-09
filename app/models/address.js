@@ -47,4 +47,7 @@ console.log('config.esport',config.esport)
 // add the elastic plugin
 addressSchema.plugin(elmongo, { host: config.es, port: config.esport });
 
+// configure search options
+elmongo.search.config({ host: config.es, port: config.esport })
+
 module.exports = mongoose.model('Address', addressSchema);
