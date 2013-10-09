@@ -7,11 +7,6 @@ var env = process.env.NODE_ENV || development
   , rootPath = path.resolve(__dirname + '../..')
   , port = process.env.PORT || 1337;
 
-if (process.env.BONSAI_URL)
-console.log(process.env.BONSAI_URL),
-console.log(process.env.BONSAI_URL.length);
-
-
 module.exports = function() {
   if (env === 'development') {
     return {
