@@ -3,14 +3,15 @@ nav.header#header
     img(src="/images/hypermarks-logo_64.png")
     span._text Hypermarks
   ._controls
-    form(action="/_search", method="get")
+    i.icon-plus.control-switch(style="line-height: 50px; float: left; margin: 0px 7px 0px 0px;")
+    form(action="/_search", method="get" id="search")
       ._searchbox
-        input.search(placeholder="search", name="q", value=searchVal)
+        input.search(placeholder="Search", name="q", value=searchVal)
         i.icon-search
     form(action="javascript:null;", method="get", id="hypermarkpost")
       ._searchbox
-        input.search(placeholder="...Hypermark URL", name="url", value=searchVal)
-        i.icon-search
+        input.search(placeholder="Hypermark URL", name="url", value=searchVal)
+        i.icon-bookmark-empty
     ._links
       ._link.-account
         span

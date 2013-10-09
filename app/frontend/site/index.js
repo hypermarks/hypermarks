@@ -24,8 +24,15 @@ $("#hypermarkpost").on("submit", function(e){
   };
 
   img.onError=function(event){
-    throw "Error"
+    throw "Error";
   }
   img.src ="/_api/post?url="+$('input[name=url]',that).val();
 });
 
+$(".control-switch").on("click", function(){
+	var $el=$("._controls");
+	if ( $el.hasClass("hypermarkpost") )
+		$el.removeClass("hypermarkpost");
+	else
+		$el.addClass("hypermarkpost");
+});
