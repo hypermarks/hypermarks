@@ -65,6 +65,7 @@ exports.search = function (req, res) {
   Address.search({
     query: req.query.q
   }, function (err, results) {
+    if (err) console.log(err);
     var hypermarks = _.map(results.hits, function(result) {
       result._address = result._source;
       delete result._source;
