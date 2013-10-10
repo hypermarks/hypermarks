@@ -35,7 +35,6 @@ addressSchema.statics = {
       address.title = opts.page.title;
 
       opts.address_id = address._id; //Keep the _id for later
-     // console.log('saved address: ', address);
       return address.save(cb(null, opts));
     });
   }
