@@ -6,6 +6,7 @@ var createHypermark = require('./create-hypermark.js')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
   , User = mongoose.model('User')
+  , Reservation = mongoose.model('Reservation')
   , _ = require('lodash')
   ,fs = require('fs');
 
@@ -21,6 +22,26 @@ exports.imagepost = function (req, res) {
   });
 };
 
+exports.reserveUsername = function (req, res) {
+  Reservation.reserve(req.body.username, req.body.email, function(err){
+    // res.redirect('hypermarks.org?err=' + err + '&username=' + username + '&email=' + email)
+    if (err) {
+      if (err === 'username') {
+        console.log('err === username')
+        return res.redirect('http://hypermarks.org/username-taken.html');
+      }
+      if (err === 'email') {
+        console.log('err === email')
+        return res.redirect('http://hypermarks.org/email-taken.html');
+      }
+      console.log('server err')
+      return res.redirect('http://hypermarks.org/server-error.html');
+    } else {
+      console.log('success')
+      return res.redirect('http://hypermarks.org/success.html')
+    }
+  })
+};
 
 exports.postHypermark = function (req, res) {
   if (!req.user) return res.end('401');
@@ -113,21 +134,6 @@ exports.getPrivateBlock = function (req, res) {
     if (err) return console.log(err);
     return res.json('200', hypermarks);
   });
-};
-
-
-exports.treePost = function (req, res) {
- // if (!req.user) return res.end('401');
-
-  //console.log(req);
-
-  //console.log(req.headers);
-
-
-  console.log(req.body);
-
-
-  res.send("Success");
 };
 
 

@@ -34,10 +34,12 @@ module.exports = function (app, passport) {
   app.get('/_api/users/favorites', api.getFavoriteBlocks);
   app.post('/_api/users/favorites', api.touchFavoriteBlock);
 
-  app.get('/login', users.loginpage);
-  app.get('/signup', users.signuppage);
-  app.post('/users', users.create);
-  //app.post('/_api/treepost/', api.treePost);
+  app.post('/_api/users/reserve', api.reserveUsername);
+
+  // app.get('/login', users.loginpage);
+  // app.get('/signup', users.signuppage);
+  // app.post('/users', users.create);
+
 
   //AUTH
   app.post('/_auth/logout', users.logout);
