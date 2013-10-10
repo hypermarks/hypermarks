@@ -7,8 +7,6 @@ var config = require('./config/config')()
   , fs = require('fs')
 ;
 
-console.log('logg');
-
 require('express-namespace');
 
 mongoose.connect(config.db);
@@ -35,8 +33,6 @@ require('./config/routes')(app, passport);
 // Start the app by listening on <port>
 var port = process.env.PORT || 8081;
 app.listen(port);
-
-console.log(config);
 
 // Expose app
 module.exports = app;

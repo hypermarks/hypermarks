@@ -12,7 +12,7 @@ var addressSchema = new Schema({
   , favicon: String
   , content: String
   , title: String
-});
+}, { collection: 'addresses' }); //Set Mongo collection name explicitly
 
 addressSchema.statics = {
 
@@ -35,14 +35,10 @@ addressSchema.statics = {
       address.title = opts.page.title;
 
       opts.address_id = address._id; //Keep the _id for later
-     // console.log('saved address: ', address);
       return address.save(cb(null, opts));
     });
   }
 };
-
-console.log('config.es',config.es)
-console.log('config.esport',config.esport)
 
 // add the elastic plugin
 addressSchema.plugin(elmongo, { host: config.es, port: config.esport });

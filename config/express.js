@@ -56,7 +56,6 @@ module.exports = function(app, config, passport) {
   app.all('/*', function(req, res, next) {
     var header;
     if (req.header('Origin')) header=req.header('Origin'); else header="*";
-    console.log('config/expess rq header', header);
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
