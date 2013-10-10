@@ -12,7 +12,7 @@ var addressSchema = new Schema({
   , favicon: String
   , content: String
   , title: String
-});
+}, { collection: 'addresses' }); //Set Mongo collection name explicitly
 
 addressSchema.statics = {
 
