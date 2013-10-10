@@ -40,9 +40,6 @@ addressSchema.statics = {
   }
 };
 
-console.log('config.es',config.es)
-console.log('config.esport',config.esport)
-
 // add the elastic plugin
 addressSchema.plugin(elmongo, { host: config.es, port: config.esport });
 

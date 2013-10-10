@@ -20,18 +20,15 @@ module.exports = function(passport) {
 
   //serialize sessions
   passport.serializeUser(function(user, done) {
-    console.log('passport.serializeUser', user);
+    console.log('passport.serializeUser', user.email);
     done(null, user.id);
   });
 
   //deserialize sessions
   passport.deserializeUser(function(id, done) {
-    console.log("stuff")
-        console.log(id)
 
     User.findById(id, function(err, user) {
       console.log('passport.deserializeUser', user.email);
-      console.log(err)
       done(err, user);
     });
   });

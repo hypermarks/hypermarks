@@ -1,6 +1,5 @@
 'use strict';
 
-console.log('configconfig', process.env);
 
 var env = process.env.NODE_ENV
   , path = require('path')
@@ -19,7 +18,8 @@ var url_opts = {
   removeHashbang: true,
   removeProtocol: true
 }
-
+console.log(process.env)
+console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A'))
 
 module.exports = function() {
   if (env === 'development') {
@@ -35,7 +35,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: process.env.BONSAI_URL
+      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A')
       , url: 'http://hypermarks.herokuapp.com'
       , esport: process.env.ES_PORT
     };
@@ -44,7 +44,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts)
+      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A')
       , url: 'http://hypermarks-staging.herokuapp.com'
       , esport: process.env.ES_PORT
     };
