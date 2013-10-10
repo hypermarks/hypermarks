@@ -2,10 +2,11 @@
 
 console.log('configconfig', process.env);
 
-var env = process.env.NODE_ENV || development
+var env = process.env.NODE_ENV
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
-  , port = process.env.PORT || 1337;
+  , port = process.env.PORT
+;
 
 module.exports = function() {
   if (env === 'development') {
@@ -23,6 +24,15 @@ module.exports = function() {
       , db: process.env.MONGOLAB_URI
       , es: process.env.BONSAI_URL
       , url: 'http://hypermarks.herokuapp.com'
+      , esport: process.env.ES_PORT
+    };
+  }
+  if (env === 'heroku-staging') {
+    return {
+        root: rootPath
+      , db: process.env.MONGOLAB_URI
+      , es: process.env.BONSAI_URL
+      , url: 'http://hypermarks-staging.herokuapp.com'
       , esport: process.env.ES_PORT
     };
   }
