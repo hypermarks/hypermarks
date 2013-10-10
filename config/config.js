@@ -44,7 +44,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts)
+      , es: urlTools.normalize('aralia-5878371.us-east-1.bonsai.io', url_opts)
       , url: 'http://hypermarks-staging.herokuapp.com'
       , esport: process.env.ES_PORT
     };
