@@ -18,7 +18,8 @@ var url_opts = {
   removeHashbang: true,
   removeProtocol: true
 }
-
+console.log(process.env)
+console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts))
 
 module.exports = function() {
   if (env === 'development') {
@@ -34,7 +35,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: process.env.BONSAI_URL
+      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts)
       , url: 'http://hypermarks.herokuapp.com'
       , esport: process.env.ES_PORT
     };
