@@ -9,16 +9,6 @@ var env = process.env.NODE_ENV
   , urlTools = require('url-tools')
 ;
 
-var url_opts = {
-  lowercase: true,
-  removeWWW: true,
-  removeTrailingSlash: true,
-  forceTrailingSlash: false,
-  removeSearch: true,
-  removeHash: true,
-  removeHashbang: true,
-  removeProtocol: true
-}
 console.log(process.env)
 // console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A'))
 
