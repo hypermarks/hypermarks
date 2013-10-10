@@ -19,7 +19,21 @@ var url_opts = {
   removeProtocol: true
 }
 console.log(process.env)
-console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A'))
+// console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A'))
+
+function elmongoUrlSanitize(eshost) {
+  var url_opts = {
+    lowercase: true,
+    removeWWW: true,
+    removeTrailingSlash: true,
+    forceTrailingSlash: false,
+    removeSearch: true,
+    removeHash: true,
+    removeHashbang: true,
+    removeProtocol: true
+  }
+  return urlTools.normalize(eshost, url_opts).replace(/:/, '%3A')
+}
 
 module.exports = function() {
   if (env === 'development') {
@@ -35,7 +49,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A')
+      , es: elmongoUrlSanitize(process.env.BONSAI_URL)
       , url: 'http://hypermarks.herokuapp.com'
       , esport: process.env.ES_PORT
     };
@@ -44,7 +58,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A')
+      , es: elmongoUrlSanitize(process.env.BONSAI_URL)
       , url: 'http://hypermarks-staging.herokuapp.com'
       , esport: process.env.ES_PORT
     };
