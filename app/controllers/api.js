@@ -26,11 +26,11 @@ exports.reserveUsername = function (req, res) {
   Reservation.reserve(req.body.username, req.body.email, function(err){
     // res.redirect('hypermarks.org?err=' + err + '&username=' + username + '&email=' + email)
     if (err) {
-      if (err === 'username') return res.redirect('http://hypermarks.org/username-taken');
-      if (err === 'email') return res.redirect('http://hypermarks.org/email-taken');
-      return res.redirect('http://hypermarks.org/server-error');
+      if (err === 'username') return res.redirect('http://hypermarks.org/username-taken.html');
+      if (err === 'email') return res.redirect('http://hypermarks.org/email-taken.html');
+      return res.redirect('http://hypermarks.org/server-error.html');
     } else {
-      return res.redirect('http://hypermarks.org/success')
+      return res.redirect('http://hypermarks.org/success.html')
     }
   })
 };
