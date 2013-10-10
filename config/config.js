@@ -19,7 +19,7 @@ var url_opts = {
   removeProtocol: true
 }
 console.log(process.env)
-console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts))
+console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A'))
 
 module.exports = function() {
   if (env === 'development') {
@@ -35,7 +35,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts)
+      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A')
       , url: 'http://hypermarks.herokuapp.com'
       , esport: process.env.ES_PORT
     };
@@ -44,7 +44,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: urlTools.normalize('aralia-5878371.us-east-1.bonsai.io', url_opts)
+      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A')
       , url: 'http://hypermarks-staging.herokuapp.com'
       , esport: process.env.ES_PORT
     };
