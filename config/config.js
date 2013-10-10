@@ -6,7 +6,20 @@ var env = process.env.NODE_ENV
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
   , port = process.env.PORT
+  , urlTools = require('url-tools')
 ;
+
+var url_opts = {
+  lowercase: true,
+  removeWWW: true,
+  removeTrailingSlash: true,
+  forceTrailingSlash: false,
+  removeSearch: true,
+  removeHash: true,
+  removeHashbang: true,
+  removeProtocol: true
+}
+
 
 module.exports = function() {
   if (env === 'development') {
@@ -31,7 +44,7 @@ module.exports = function() {
     return {
         root: rootPath
       , db: process.env.MONGOLAB_URI
-      , es: process.env.BONSAI_URL
+      , es: urlTools.normalize(process.env.BONSAI_URL, url_opts)
       , url: 'http://hypermarks-staging.herokuapp.com'
       , esport: process.env.ES_PORT
     };
