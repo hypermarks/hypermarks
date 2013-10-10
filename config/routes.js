@@ -13,6 +13,10 @@ var users = require('../app/controllers/users')
 
 module.exports = function (app, passport) {
 
+  // app.all('/*', function (req, res) {
+  //   console.log(req, res);
+  // })
+
   //API
   app.post('/_api/hypermarks', api.postHypermark);
   app.post('/_api/hypermarksChrome', api.postHypermarkChrome);
