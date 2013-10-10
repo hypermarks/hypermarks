@@ -11,8 +11,12 @@ var createHypermark = require('./create-hypermark.js')
   ,fs = require('fs');
 
 exports.imagepost = function (req, res) {
-
-  postUtil(req.param("url"), req.user._id, req.body.id, function(err){
+  if (!req.user) return res.end('401');
+  createHypermark({
+      user_url: req.param('url')
+    , user_id: req.user._id
+  }
+  , function (err) {
     if (err) return res.end('500');
     var img = fs.readFileSync('./public/images/pixel.gif');
     res.writeHead(200, {'Content-Type': 'image/gif' });
@@ -44,17 +48,6 @@ exports.postHypermark = function (req, res) {
     return res.end('200');
   });
 };
-
-var postUtil= function(url, userID, extid, cb){
-  var opts = {
-      user_url: url
-    , user_id: userID
-    , chrome_extension_id: extid
-  };
-  createHypermark(opts, function(err){
-    cb(err);
-  });
-}
 
 exports.postHypermarkChrome = function (req, res) {
   if (!req.user) return res.end('401');
