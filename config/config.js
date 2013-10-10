@@ -1,6 +1,5 @@
 'use strict';
 
-console.log('configconfig', process.env);
 
 var env = process.env.NODE_ENV
   , path = require('path')

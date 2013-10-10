@@ -11,8 +11,6 @@ var createHypermark = require('./create-hypermark.js')
   ,fs = require('fs');
 
 exports.imagepost = function (req, res) {
-  console.log("url",typeof req.param("url"));
-  console.log("url", req.param("url"));
 
   postUtil(req.param("url"), req.user._id, req.body.id, function(err){
     if (err) return res.end('500');
@@ -27,17 +25,13 @@ exports.reserveUsername = function (req, res) {
     // res.redirect('hypermarks.org?err=' + err + '&username=' + username + '&email=' + email)
     if (err) {
       if (err === 'username') {
-        console.log('err === username')
         return res.redirect('http://hypermarks.org/username-taken.html');
       }
       if (err === 'email') {
-        console.log('err === email')
         return res.redirect('http://hypermarks.org/email-taken.html');
       }
-      console.log('server err')
       return res.redirect('http://hypermarks.org/server-error.html');
     } else {
-      console.log('success')
       return res.redirect('http://hypermarks.org/success.html')
     }
   })
@@ -77,13 +71,11 @@ exports.postHypermarkChrome = function (req, res) {
 
 exports.removeHypermark = function (req, res) {
   if (!req.user) return res.end('401');
-  console.log(req.body)
 
   var opts = {
       _id: req.body._id
     , _user: req.user._id
   };
-  console.log(opts);
   removeHypermark(opts, function(err){
     if (err) return res.end('500');
     return res.redirect('/');
