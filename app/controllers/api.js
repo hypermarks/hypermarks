@@ -10,7 +10,7 @@ var createHypermark = require('./create-hypermark.js')
   , _ = require('lodash')
   ,fs = require('fs');
 
-exports.imagepost = function (req, res) {
+exports.imagePost = function (req, res) {
   if (!req.user) return res.end('401');
   createHypermark({
       user_url: req.param('url')

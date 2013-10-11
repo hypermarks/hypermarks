@@ -1,8 +1,18 @@
 .modal-overlay#modal-overlay
-  .modal-window.js-modal-window#new-list-modal
-    i._close.js-close.icon-remove
-    span New Favorite List
-    ._control
+
+.modal-overlay#new-list-modal
+  .modal-window
+    //- i._close.js-close.icon-remove
+    .modal-window__topbar New Favorite List
+    label.inline
       input.js-name(type="text", name="block")
-      button.btn-quiet.js-add-current Current
-    button.btn.js-submit Create
+      button.btn-quiet.js-add-current
+    .modal-window__bottombar
+      button.btn.js-submit Create
+
+.modal-overlay#add-link-modal
+  .modal-window
+    .modal-window__topbar Add Link
+    input(name="q")
+    .modal-window__bottombar
+      button.btn.js-add-link Submit
