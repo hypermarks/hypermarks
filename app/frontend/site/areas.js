@@ -60,8 +60,8 @@ exports.hypermark = function ($el) {
   var _id = $el.attr('data-_id');
 
   $el.on('click', '.js-delete', function() {
-    $.post('/_api/hypermarksRemove', function () {
-      $el.remove();
+    $.post('/_api/hypermarksRemove', { _id: _id }, function () {
+      window.location.reload();
     })
   });
 }

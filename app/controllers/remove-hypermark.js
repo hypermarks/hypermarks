@@ -24,20 +24,18 @@ var Bookmark = mongoose.model('Bookmark');
  */
 
 module.exports = function(opts, callback) {
-      async.waterfall([
-        function (cb) {
-          Bookmark.remove(opts, function (err) {
-            if (err) return cb(err);
-            cb(null);
-          });
-        }
-      ], function(err) {
-        if (err) {
-          return callback(err);
-        } else {
-          return callback(null);
-        }
+  async.waterfall([
+    function (cb) {
+      Bookmark.remove(opts, function (err) {
+        if (err) return cb(err);
+        cb(null);
       });
-    
-
+    }
+  ], function(err) {
+    if (err) {
+      return callback(err);
+    } else {
+      return callback(null);
+    }
+  });
 };
