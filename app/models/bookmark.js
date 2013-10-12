@@ -28,7 +28,6 @@ bookmarkSchema.statics = {
   clone: function (source, opts, callback) {
     var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash _.defaults
     merged._id = undefined; //So that mongo can set this
-    //console.log(merged);
     new this(merged).save(callback);
   }
 
@@ -86,6 +85,13 @@ bookmarkSchema.statics = {
 
   ,
 
+  checkPublicBlock: function (user_id, block, callback) {
+    this.find({_user: {$ne: user_id}, block: block})
+    .exec(callback);
+  }
+
+  ,
+
   aggregatePublicBlock: function (block, callback) {
     var Self = this;
     Self.aggregate(
@@ -105,6 +111,15 @@ bookmarkSchema.statics = {
           callback(err, results);
         });
     });
+  }
+
+  ,
+
+  aggregateUserLists: function (user_id, callback) {
+    var Self = this;
+    Self.aggregate(
+      , {$match: {_user: user_id}}
+    )
   }
 
 };

@@ -4,7 +4,7 @@ extends layouts/default
 block content
   main.page
     .page__topbar 
-      h1._title#page-title #{title}
+      h1._title#page-title #{title} #{public_check}
       |&nbsp;
       if (page === 'block')
         nav._control

@@ -6,6 +6,7 @@ var config = require('../../config/config')()
   , bm_loader = require('../frontend/bookmarklet/loader.js')
   , stringUtils = require('../../utils/string-utils.js')
   , _ = require('lodash')
+  , async = require('async')
 ;
 
 exports.timeline = function (req, res) {
@@ -45,17 +46,35 @@ exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
   
   if (req.user) {
-    Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
+    async.parallel({
+      getPrivateBlock: function(callback) {
+        Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
+          callback(err, hypermarks);
+        });
+      },
+      checkPublicBlock: function(callback) {
+        Bookmark.checkPublicBlock(req.user._id, block, function (err, hypermarks) {
+          console.log('checkPublicBlock', hypermarks);
+          callback(err, hypermarks);
+        });
+      }
+    },
+
+    function (err, results) {
+      console.log('checkPublicBlock ', results.checkPublicBlock)
+      var public_check;
+      if (results.checkPublicBlock.length) public_check = true;
       return res.render('results', {
           user: req.user
         , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
-        , results: hypermarks
+        , results: results.getPrivateBlock
         , title: block
         , visibility: 'private'
         , page: 'block'
+        , public_check: public_check ? 'public' : 'unpublic'
       });
-    });
+    });
   } else {
     return res.redirect('/' + req.params.block);
   }
