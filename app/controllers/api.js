@@ -46,10 +46,9 @@ exports.postHypermark = function (req, res) {
   var opts = {
       user_url: req.body.url
     , user_id: req.user._id
-    , chrome_extension_id: req.body.id
   };
   createHypermark(opts, function(err){
-    if (err) return res.end('500');
+    if (err) return console.log(err);
     return res.end('200');
   });
 };

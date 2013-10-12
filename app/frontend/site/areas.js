@@ -110,6 +110,13 @@ exports.sidebar = function ($el) {
 exports.addLinkModal = function($el) {
   modal($el);
 
+  $el.on('click', '.js-add-link', function() {
+    $.post('/_api/hypermarks', { url: $('input[name="url"]').val() }, function() {
+      window.location.reload();
+    });
+    modesChan.broadcast('exit');
+  })
+
   modesChan.subscribe('add-link', function() {
     $el.addClass('-active');
   });
