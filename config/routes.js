@@ -13,6 +13,10 @@ var users = require('../app/controllers/users')
 
 module.exports = function (app, passport) {
 
+  // app.all('/*', function (req, res) {
+  //   console.log(req, res);
+  // })
+
   //API
   app.post('/_api/hypermarks', api.postHypermark);
   app.post('/_api/hypermarksChrome', api.postHypermarkChrome);
@@ -23,7 +27,7 @@ module.exports = function (app, passport) {
   app.post('/_api/hypermarks/clone', api.addToBlock);
 
 
-  app.get('/_api/post', api.imagepost);
+  app.get('/_api/post', api.imagePost);
 
 
 
@@ -36,6 +40,7 @@ module.exports = function (app, passport) {
 
   app.post('/_api/users/reserve', api.reserveUsername);
 
+  //incorrectly namespaced- will deal with in a bit
   // app.get('/login', users.loginpage);
   // app.get('/signup', users.signuppage);
   // app.post('/users', users.create);

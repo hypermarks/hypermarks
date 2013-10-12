@@ -3,7 +3,7 @@ extends layouts/default
 
 block content
   main.page
-    ._topbar 
+    .page__topbar 
       h1._title#page-title #{title}
       |&nbsp;
       if (page === 'block')
@@ -19,19 +19,20 @@ block content
                 |&nbsp;Public
 
     .results#results
-      for result in results
-        
-        article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
-          form(style="float:right;", action="/_api/hypermarksRemove", method="post")
-            input(value=result._id, name="_id", type="hidden")
-            button.btn-quiet
-              i.icon-remove
+      .results__topbar
+        button.btn-quiet.js-add-link
+          |<b>+</b>&nbsp;Add Link
 
-          a._link(href="#{result._address.working_url}") #{result._address.title}
-          ._sani-url #{result._address.sani_url}
-          ._excerpt 
+      for result in results
+        article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
+          .hypermark__close.js-delete
+            i.icon-remove
+
+          a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
+          .hypermark__sani-url #{result._address.sani_url}
+          .hypermark__excerpt 
             != truncate(result._address.content, 200)
-          ._bottom-bar
+          .hypermark__bottom-bar
             button.btn-quiet.js-add-to-list 
               i.icon-book
               |&nbsp;Move to List

@@ -45,13 +45,6 @@ modal-style()
   box-shadow soft-shadow, micro-shadow
   background white
 
-modal-window()
-  modal-style()
-  padding 1em
-  margin-top 10%
-  display inline-block
-  position relative
-
 modal-close()
   cursor pointer
   absolute top -.5em right -.5em
@@ -66,16 +59,16 @@ menu-text()
   font-size large-text
   font-weight 300
 
-// menu-style()
-//   menu-text()
-//   ul 
-//     reset-list()
-//   ._item
-//     padding 1em 0
-//     border-bottom 1px solid transparent
-//     border-top 1px solid transparent
-//     &:first-child
-//       border-top none
+input()
+  menu-text()
+  padding .25em .5em
+  background white
+  border 1px solid medgrey
+  margin 0
+  border-radius sm-radius
+  &:active, &:focus
+    box-shadow 0 0 3px brand
+    border 1px solid brand
 
 button-loud()
   menu-text()

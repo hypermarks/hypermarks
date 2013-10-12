@@ -13,12 +13,21 @@ var modesChan = new airwaves.Channel()
 
 
 //MIXINS
-function modalWindow($el) {
-  $el.on('click', function(e){
+function modal($el) {
+  $el.on('click', function() {
+    modesChan.broadcast('exit');
+  });
+
+  $el.on('click', '.modal-window', function(e){
     e.stopPropagation();
   });
+
   $el.on('click', '.js-close', function(){
     modesChan.broadcast('exit');
+  });
+
+  modesChan.subscribe('exit', function(){
+    $el.removeClass('-active');
   });
 }
 
@@ -34,6 +43,10 @@ exports.results = function ($el) {
     modesChan.broadcast('add-to-list', bookmark_id);
   });
 
+  $el.on('click', '.js-add-link', function() {
+    modesChan.broadcast('add-link');
+  })
+
   //Subscriptions
   modesChan.subscribe('exit', function() {
     $el.find('.js-add-to-list').removeClass('-active');
@@ -42,11 +55,24 @@ exports.results = function ($el) {
 
 };
 
+
+exports.hypermark = function ($el) {
+  var _id = $el.attr('data-_id');
+
+  $el.on('click', '.js-delete', function() {
+    $.post('/_api/hypermarksRemove', { _id: _id }, function () {
+      window.location.reload();
+    })
+  });
+}
+
+
 exports.header = function ($el) {
   $el.on('click', '.js-dropdown', function(){
     $(this).toggleClass('-active');
   });
 };
+
 
 exports.sidebar = function ($el) {
   $el.on('click', '.js-new-list', function(){
@@ -81,11 +107,33 @@ exports.sidebar = function ($el) {
 };
 
 
+exports.addLinkModal = function($el) {
+  modal($el);
+
+  $el.on('click', '.js-add-link', function() {
+    $.post('/_api/hypermarks', { url: $('input[name="url"]').val() }, function() {
+      window.location.reload();
+    });
+    modesChan.broadcast('exit');
+  })
+
+  modesChan.subscribe('add-link', function() {
+    $el.addClass('-active');
+  });
+
+  modesChan.subscribe('exit', function(){
+    $el.removeClass('-active');
+  });
+}
+
+
 exports.newListModal = function($el) {
-  modalWindow($el);
+  modal($el);
+  var list_name = $('#page-title').text();
+  $el.find('.js-add-current').text(list_name)
 
   $el.on('click', '.js-add-current', function(){
-    var list_name = $('#page-title').text();
+//     var list_name = $('#page-title').text();
     $('.js-name').val(list_name);
   });
 
@@ -112,9 +160,10 @@ exports.modalOverlay = function($el) {
     modesChan.broadcast('exit');
   });
   
-  modesChan.subscribe('new-list, add-to-list', function(){
+  modesChan.subscribe('new-list, add-to-list, add-link', function(){
     $el.addClass('-active');
   });
+
   modesChan.subscribe('exit', function(){
     $el.removeClass('-active');
   });

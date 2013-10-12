@@ -17,6 +17,7 @@ var addressSchema = new Schema({
 addressSchema.statics = {
 
   upsert: function (opts, cb) {
+    console.log(opts)
     var Self = this;
     Self.findOne({
       'sani_url': opts.sani_url

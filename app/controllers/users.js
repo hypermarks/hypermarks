@@ -1,14 +1,13 @@
 'use strict';
 
 var env = process.env.NODE_ENV || 'development'
-  , config = require('../../config/config')[env]
+  , config = require('../../config/config')()
   , mongoose = require('mongoose')
   , User = mongoose.model('User');
 
 exports.externalLogin = function (req, res) {
   // This gets the redirect url from the query string
   var redirectUrl = req.param('redirectUrl');
-
 
   res.render('external-login', {
     redirectUrl: redirectUrl

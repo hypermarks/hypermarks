@@ -12,6 +12,9 @@
   box-sizing border-box
 }
 
+*:focus
+  outline none
+
 global-reset()
 normalize()
 base()
@@ -37,8 +40,10 @@ body
   background offwhite
 
 input
-  input(color = brand)
-  background offwhite
+  input()
+
+// form
+//   display inline-block
 
 h1,
 h2,
@@ -101,6 +106,9 @@ h6
     ul
       display block
 
+label.inline 
+  & > * 
+    margin-right .5em
 
 //LOCAL
 .header
@@ -134,20 +142,8 @@ h6
       middle-parent()
       height nav-height
       max-width 70%
-      input
-        input(color = brand)
+      & > *
         middle-child()
-        height 32px
-        padding-right 2em
-      i 
-        position relative
-        right 1.5em
-        vertical-align middle
-      img
-        hide(over-tablet)
-        middle-child()
-        size(28px)
-        margin-right .5em
 
   ._links
     float right
@@ -233,11 +229,11 @@ page-topbar-height = 4rem
     col(3, 4)
   @media under-phone
     col(1,1)
-  ._topbar
+  .page__topbar
     width 100%
     nav-justify()
     line-height 1.7
-    margin-bottom 3em
+    margin-bottom 1.5em
     ._title
       vertical-align middle
       display inline-block
@@ -249,7 +245,9 @@ page-topbar-height = 4rem
 
 
 .results
-  ._divider
+  .results__topbar
+    margin-bottom 1.5em
+  .results__divider
     label()
     border-bottom 1px solid medgrey
     margin-bottom 20px
@@ -258,19 +256,21 @@ page-topbar-height = 4rem
   card()
   padding .5em
   margin-bottom 1.5em
-  ._link
+  .hypermark__link
     font-size large-text
-    margin-bottom 5px
-    display block
-  ._sani-url
+    // display block
+  .hypermark__sani-url
+    padding-top 5px
     font-size small-text
     margin-bottom 5px
     display block
     color accent2
-  ._bottom-bar
+  .hypermark__bottom-bar
     margin-top .5em
-    ._control
-      menu-text()
+  .hypermark__close
+    float right
+    font-size large-text
+    cursor pointer
   
 .modal-overlay
   background rgba(black, .2)
@@ -289,13 +289,17 @@ page-topbar-height = 4rem
     opacity 1
 
 .modal-window
-  visibility hidden
-  modal-window()
-  &.-active
-    visibility visible
-    z-index 3
-  ._close
-    modal-close()
+  modal-style()
+  padding 1em
+  margin-top 15%
+  display inline-block
+  position relative
+  .modal-window__topbar
+    font-size larger-text
+    font-weight 300
+    margin-bottom .5em
+ .modal-window__bottombar
+    margin-top 1em  
 
 .top
   position relative
