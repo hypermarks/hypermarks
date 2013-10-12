@@ -98,19 +98,21 @@ bookmarkSchema.statics = {
         {$match: {block: block}}
       , {$group: {_id: '$_address', count: {$sum: 1}}}
       , {$sort: {count: -1}}
-    , function(err, results){
-      async.map(
-        results
-        , function(result, cb){
-          Address.findById(result._id, function(err, _address){
-            result._address = _address;
-            cb(null, result);
-          });
-        }
-        , function(err, results){
-          callback(err, results);
-        });
-    });
+
+      , function(err, results){
+        async.map(
+          results
+          , function(result, cb){
+            Address.findById(result._id, function(err, _address){
+              result._address = _address;
+              cb(null, result);
+            });
+          }
+          , function(err, results){
+            callback(err, results);
+          }
+        );
+      });
   }
 
   ,
@@ -118,7 +120,13 @@ bookmarkSchema.statics = {
   aggregateUserLists: function (user_id, callback) {
     var Self = this;
     Self.aggregate(
-      , {$match: {_user: user_id}}
+        {$match: {_user: user_id}}
+      , {$group: {_id: '$block', count: {$sum: 1}, last_modified: {$max: '$_id'}}}
+      , {$sort: {last_modified: -1}}
+
+      , function(err, results) {
+        callback(err, results);
+      }
     )
   }
 
