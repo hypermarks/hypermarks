@@ -110,8 +110,9 @@ exports.sidebar = function ($el) {
 exports.addLinkModal = function($el) {
   modal($el);
 
+  var block=pageVars.block?pageVars.block:null;
   $el.on('click', '.js-add-link', function() {
-    $.post('/_api/hypermarks', { url: $('input[name="url"]').val() }, function() {
+    $.post('/_api/hypermarks', { url: $('input[name="url"]').val(), block:block }, function() {
       window.location.reload();
     });
     modesChan.broadcast('exit');

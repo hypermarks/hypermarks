@@ -43,9 +43,11 @@ exports.reserveUsername = function (req, res) {
 
 exports.postHypermark = function (req, res) {
   if (!req.user) return res.end('401');
+  var block = req.body.block;
   var opts = {
       user_url: req.body.url
     , user_id: req.user._id
+    , block: block
   };
   createHypermark(opts, function(err){
     if (err) return console.log(err);
@@ -127,7 +129,8 @@ exports.getPrivateBlock = function (req, res) {
 
 
 exports.getPublicBlock = function (req, res) {
-  Bookmark.aggregatePublicBlock(req.param('block'), function (err, hypermarks) {
+  var block_id = req.param('block');
+  Bookmark.aggregatePublicBlock(block_id, function (err, hypermarks) {
     if (err) return console.log(err);
     return res.json('200', hypermarks);
   });

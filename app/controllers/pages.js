@@ -18,6 +18,8 @@ exports.timeline = function (req, res) {
         , results: hypermarks
         , title: 'Timeline'
         , page: 'timeline'
+        , pageVars: {block:null}
+
       });
     });
   } else {
@@ -37,13 +39,14 @@ exports.publicBlock = function (req, res) {
       , title: block
       , visibility: 'public'
       , page: 'block'
+      , pageVars: {block: block}
+
     });
   });
 };
 
 exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
-  
   if (req.user) {
     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
       return res.render('results', {
@@ -54,6 +57,7 @@ exports.privateBlock = function (req, res) {
         , title: block
         , visibility: 'private'
         , page: 'block'
+        , pageVars: {block: block}
       });
     });
   } else {
@@ -79,6 +83,8 @@ exports.search = function (req, res) {
       , results: hypermarks
       , title: 'Search'
       , page: 'search'
+      , pageVars: {block:null}
+
     });
   });
 };

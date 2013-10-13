@@ -50,6 +50,7 @@ bookmarkSchema.statics = {
       , sani_url: opts.sani_url
       , user_url: opts.user_url
       , chrome_extension_id: opts.chrome_extension_id
+      , block : opts.block? opts.block:'' 
     });
 
     bookmark.save(callback);
