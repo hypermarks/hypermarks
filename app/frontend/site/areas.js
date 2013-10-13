@@ -93,7 +93,7 @@ exports.sidebar = function ($el) {
 
       $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id });
       console.log(count);
-      $counter.text(parseInt(count) + 1);
+      $counter.text(parseInt(count, 10) + 1);
       presentational.flash($(this), '-added', 1000);
       modesChan.broadcast('exit');
     });
