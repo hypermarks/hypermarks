@@ -30,7 +30,6 @@ exports.timeline = function (req, res) {
     },
     function (err, results) {
       if (err) return console.log(err);
-      console.log('timeline results', results);
       return res.render('results', {
           user: req.user
         , bm_loader: bm_loader(config.url)
@@ -79,14 +78,14 @@ exports.privateBlock = function (req, res) {
       },
       checkPublicBlock: function(callback) {
         Bookmark.checkPublicBlock(req.user._id, block, function (err, hypermarks) {
-          console.log('checkPublicBlock', hypermarks);
+          // console.log('checkPublicBlock', hypermarks);
           callback(err, hypermarks);
         });
       }
     },
 
     function (err, results) {
-      console.log('checkPublicBlock ', results.checkPublicBlock)
+      // console.log('checkPublicBlock ', results.checkPublicBlock)
       var public_check;
       if (results.checkPublicBlock.length) public_check = true;
       return res.render('results', {

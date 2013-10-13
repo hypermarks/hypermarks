@@ -170,48 +170,67 @@ label.inline
   box-shadow micro-shadow
   background white
 
-  ._menu
-    margin-bottom 2rem
-    menu-text()
+.menu
+  margin-bottom 2rem
+  menu-text()
 
-    ul 
-      reset-list()
-    ._topbar
-      padding .5em gutter * .5
-      nav-justify()
-      line-height 1
-      margin-bottom -1em
-      ._title
-        font-size large-text
-        display inline-block
-        vertical-align middle
-        upcase()
-      ._control
-        vertical-align middle
-        display inline-block
+  ul 
+    reset-list()
 
-    ._item
-      padding 1em 0
-      border-bottom 1px solid transparent
-      border-top 1px solid transparent
-      position relative
-      cursor pointer
-      padding-left gutter * .5 !important
-      a
-        reset-link()
-      &:first-child
-        border-top 1px solid medgrey
-      &.-added
-        animation addedFade 500ms
-    
-    &.-hoverable
-      ._item
-        &:hover
-          border-color accent
-          background lightblue
-        &:active, .-active
-          background accent
-          color white
+  &.-hoverable
+    .menu__item
+      &:hover
+        border-color accent
+        background lightblue
+      &:active, .-active
+        background accent
+        color white
+
+.menu__topbar
+  padding .5em gutter * .5
+  nav-justify()
+  line-height 1
+  margin-bottom -1em
+  ._title
+    font-size large-text
+    display inline-block
+    vertical-align middle
+    upcase()
+  ._control
+    vertical-align middle
+    display inline-block
+
+.menu__item
+  padding-top 1em !important
+  padding-bottom 1em !important
+  border-bottom 1px solid transparent
+  border-top 1px solid transparent
+  position relative
+  cursor pointer
+  padding-left gutter * .5 !important
+  padding-right gutter * .5 !important
+  a
+    reset-link()
+  &:first-child
+    border-top 1px solid medgrey
+  &.-added
+    animation addedFade 400ms
+    ._count
+      animation countBump 200ms
+  ._count
+    float right
+    &.-bump
+      animation countBump 100ms
+
+
+@keyframes countBump
+  0%
+    transform scale(2)
+
+  100%
+    transform scale(1)
+
+
 
 @keyframes addedFade
   0%
@@ -221,8 +240,9 @@ label.inline
     background white
     color inherit
 
-page-topbar-height = 4rem
 
+
+page-topbar-height = 4rem
 .page
   col(2, 3)
   @media under-tablet
@@ -318,12 +338,3 @@ page-topbar-height = 4rem
     &:last-child
       border-bottom-left-radius 0
       border-top-left-radius 0
-
-.hypermarkpost 
-  #search
-    display:none;
-  #hypermarkpost
-    display:inline;
-
-#hypermarkpost
-  display:none;
