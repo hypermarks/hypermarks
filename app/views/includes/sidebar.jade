@@ -15,4 +15,4 @@ nav.sidebar#sidebar
     ul
       for favorite_block in favorite_blocks
         li._item.js-list 
-          a(href="/_my/#{favorite_block._id}") #{favorite_block._id}
+          a(href="/_my/#{favorite_block._id}") #{favorite_block._id} #{favorite_block.count}

@@ -24,7 +24,7 @@ block content
           |<b>+</b>&nbsp;Add Link
 
       for result in results
-        article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
+        article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
           .hypermark__close.js-delete
             i.icon-remove
 

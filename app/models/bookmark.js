@@ -125,9 +125,10 @@ bookmarkSchema.statics = {
       , {$sort: {last_modified: -1}}
 
       , function(err, results) {
+        console.log('aggregateUserLists results', results)
         callback(err, results);
       }
-    )
+    );
   }
 
 };

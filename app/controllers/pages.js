@@ -9,22 +9,44 @@ var config = require('../../config/config')()
   , async = require('async')
 ;
 
+
+
+ 
 exports.timeline = function (req, res) {
   if (req.user) {
-    Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
+    async.parallel({
+      aggregateUserLists: function(callback) {
+        Bookmark.aggregateUserLists(req.user._id, function (err, results) {
+          if (err) return callback(err);
+          callback(null, results);
+        });
+      },
+      getTimeline: function(callback) {
+        Bookmark.getTimeline(req.user._id, function (err, results) {
+          if (err) return callback(err);
+          callback(null, results);
+        });
+      }
+    },
+    function (err, results) {
+      if (err) return console.log(err);
+      console.log('timeline results', results);
       return res.render('results', {
           user: req.user
         , bm_loader: bm_loader(config.url)
-        , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
-        , results: hypermarks
+        , favorite_blocks: results.aggregateUserLists
+        , results: results.getTimeline
         , title: 'Timeline'
         , page: 'timeline'
       });
-    });
+    });
   } else {
     return res.render('login');
   }
 };
+
+
+
 
 exports.publicBlock = function (req, res) {
   if (!req.user) return res.end('401');
@@ -41,6 +63,9 @@ exports.publicBlock = function (req, res) {
     });
   });
 };
+
+
+
 
 exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
@@ -75,10 +100,14 @@ exports.privateBlock = function (req, res) {
         , public_check: public_check ? 'public' : 'unpublic'
       });
     });
+
   } else {
     return res.redirect('/' + req.params.block);
   }
 };
+
+
+
 
 exports.search = function (req, res) {
   Address.search({
