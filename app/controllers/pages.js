@@ -46,23 +46,43 @@ exports.timeline = function (req, res) {
 
 
 
-
 exports.publicBlock = function (req, res) {
-  if (!req.user) return res.end('401');
   var block = stringUtils.sanitize(req.params.block);
-  Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
+  
+  async.parallel({
+    aggregatePublicBlock: function(callback) {
+      Bookmark.aggregatePublicBlock(block, function (err, results) {
+        callback(err, results);
+      });
+    },
+    checkPrivateBlock: function(callback) {
+      if (req.user) {
+        Bookmark.checkPrivateBlock(req.user._id, block, function (err, results) {
+          console.log(results);
+          return callback(err, results);
+        });
+      } else {
+        callback(null, null);
+      }
+    }
+  },
+
+  function (err, results) {
+    var private_check;
+    if (results.checkPrivateBlock.length) private_check = true;
     return res.render('results', {
-        user: (req.user) ? req.user : null
+        user: req.user
       , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
-      , results: hypermarks
+      , results: results.aggregatePublicBlock
       , title: block
-      , visibility: 'public'
+      , visibility: 'private'
       , page: 'block'
+      , private_check: private_check ? 'private' : 'unprivate'
     });
-  });
-};
+  });
 
+};
 
 
 
@@ -113,7 +133,6 @@ exports.search = function (req, res) {
     query: req.query.q
   }, function (err, results) {
     if (err) console.log(err);
-    console.log('pages.search results', results)
     var hypermarks = _.map(results.hits, function(result) {
       result._address = result._source;
       delete result._source;

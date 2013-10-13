@@ -121,7 +121,7 @@ exports.addLinkModal = function($el) {
       window.location.reload();
     });
     modesChan.broadcast('exit');
-  })
+  });
 
   modesChan.subscribe('add-link', function() {
     $el.addClass('-active');
@@ -130,16 +130,16 @@ exports.addLinkModal = function($el) {
   modesChan.subscribe('exit', function(){
     $el.removeClass('-active');
   });
-}
+};
 
 
 exports.newListModal = function($el) {
   modal($el);
   var list_name = $('#page-title').text();
-  $el.find('.js-add-current').text(list_name)
+  $el.find('.js-add-current').text(list_name);
 
   $el.on('click', '.js-add-current', function(){
-//     var list_name = $('#page-title').text();
+    var list_name = $('#page-title').text();
     $('.js-name').val(list_name);
   });
 

@@ -92,6 +92,13 @@ bookmarkSchema.statics = {
 
   ,
 
+  checkPrivateBlock: function (user_id, block, callback) {
+    this.find({_user: user_id, block: block})
+    .exec(callback);
+  }
+
+  ,
+
   aggregatePublicBlock: function (block, callback) {
     var Self = this;
     Self.aggregate(
