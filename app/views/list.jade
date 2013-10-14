@@ -3,8 +3,8 @@ extends layouts/default
 
 block content
   main.page
-    .page__topbar
-      h1._title#page-title #{title} #{public_check} #{private_check}
+    .page__topbar 
+      h1._title#page-title #{title}
       |&nbsp;
       if (page === 'block')
         nav._control
@@ -20,6 +20,18 @@ block content
 
     .results#results
       .results__topbar
+        button.btn-quiet.js-add-link
+          |<b>+</b>&nbsp;Add Link
+        if (public_check)
+          button.btn-quiet.float-right
+            a(href="/#{title}")
+              |To Public List&nbsp;
+              i.icon-caret-right 
+        if (private_check)
+          button.btn-quiet.float-right
+            a(href="/_my/#{title}")
+              i.icon-caret-left
+              |&nbsp;To Private List
 
       for result in results
         article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
@@ -28,8 +40,6 @@ block content
 
           a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
           .hypermark__sani-url #{result._address.sani_url}
-          .hypermark__excerpt 
-            != truncate(result._address.content, 200)
           .hypermark__bottom-bar
             button.btn-quiet.js-add-to-list 
               i.icon-book

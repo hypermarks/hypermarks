@@ -12,6 +12,10 @@ var modesChan = new airwaves.Channel()
 ;
 
 
+function update (name, data) {
+  $('[data-' + name + ']').text(data);
+}
+
 //MIXINS
 function modal($el) {
   $el.on('click', function() {
@@ -45,7 +49,7 @@ exports.results = function ($el) {
 
   $el.on('click', '.js-add-link', function() {
     modesChan.broadcast('add-link');
-  })
+  });
 
   //Subscriptions
   modesChan.subscribe('exit', function() {
@@ -62,9 +66,9 @@ exports.hypermark = function ($el) {
   $el.on('click', '.js-delete', function() {
     $.post('/_api/hypermarksRemove', { _id: _id }, function () {
       window.location.reload();
-    })
+    });
   });
-}
+};
 
 
 exports.header = function ($el) {
@@ -93,6 +97,7 @@ exports.sidebar = function ($el) {
 
       $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id });
       console.log(count);
+
       $counter.text(parseInt(count, 10) + 1);
       presentational.flash($(this), '-added', 1000);
       modesChan.broadcast('exit');

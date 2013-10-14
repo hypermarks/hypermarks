@@ -22,7 +22,7 @@ var request = require('request'),
 // TODO: Write tests for parse.urlSanitize
 exports.urlSanitize = function(url_str) {
   var options = {
-    lowercase: true,
+    // lowercase: true,
     removeWWW: true,
     removeTrailingSlash: true,
     forceTrailingSlash: false,

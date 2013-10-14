@@ -15,13 +15,13 @@ var config = require('../../config/config')()
 exports.timeline = function (req, res) {
   if (req.user) {
     async.parallel({
-      aggregateUserLists: function(callback) {
+      favorites: function(callback) {
         Bookmark.aggregateUserLists(req.user._id, function (err, results) {
           if (err) return callback(err);
           callback(null, results);
         });
       },
-      getTimeline: function(callback) {
+      hypermarks: function(callback) {
         Bookmark.getTimeline(req.user._id, function (err, results) {
           if (err) return callback(err);
           callback(null, results);
@@ -30,13 +30,13 @@ exports.timeline = function (req, res) {
     },
     function (err, results) {
       if (err) return console.log(err);
-      return res.render('results', {
+      return res.render('list', {
           user: req.user
         , bm_loader: bm_loader(config.url)
-        , favorite_blocks: results.aggregateUserLists
-        , results: results.getTimeline
+        , favorite_blocks: results.favorites
+        , results: results.hypermarks
         , title: 'Timeline'
-        , page: 'timeline'
+  //       , page: 'timeline'
       });
     });
   } else {
@@ -70,14 +70,14 @@ exports.publicBlock = function (req, res) {
   function (err, results) {
     var private_check;
     if (results.checkPrivateBlock.length) private_check = true;
-    return res.render('results', {
+    return res.render('list', {
         user: req.user
       , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: results.aggregatePublicBlock
       , title: block
       , visibility: 'private'
-      , page: 'block'
+//       , page: 'block'
       , private_check: private_check ? 'private' : 'unprivate'
     });
   });
@@ -108,15 +108,15 @@ exports.privateBlock = function (req, res) {
       // console.log('checkPublicBlock ', results.checkPublicBlock)
       var public_check;
       if (results.checkPublicBlock.length) public_check = true;
-      return res.render('results', {
+      return res.render('list', {
           user: req.user
         , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: results.getPrivateBlock
         , title: block
-        , visibility: 'private'
-        , page: 'block'
-        , public_check: public_check ? 'public' : 'unpublic'
+        , is_private: true
+  //       , page: 'block'
+        , public_check: public_check
       });
     });
 
@@ -144,7 +144,7 @@ exports.search = function (req, res) {
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: 'Search'
-      , page: 'search'
+//       , page: 'search'
     });
   });
 };
