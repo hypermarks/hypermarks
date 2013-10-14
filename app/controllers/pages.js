@@ -9,19 +9,49 @@ var config = require('../../config/config')()
   , async = require('async')
 ;
 
+function favoriteBlocks (user, callback) {
+  // Uneccesary use of async, I know
+  console.log('favoriteBlocks user', user)
+  async.parallel({
+    aggregated: function (callback) {
+      // This is a possible source of slowness,
+      // we need to figure something out here.
+      Bookmark.aggregateUserLists(user._id, function (err, results) {
+        if (err) return callback(err);
+        callback(null, results);
+      });
+    },
+    sorted: function (callback) {
+      console.log(user.favorite_blocks)
+      callback(null, user.favorite_blocks);
+    }
+  },
+
+  function (err, results){
+    if (err) return console.log(err);
+    var zipped = _.forEach(results.aggregated, function(result) {
+      var sort = _.find(results.sorted, {'_id': result._id}) || {sort_order: 0}; //Find the sorted block with the right _id, or make one with 0
+      result.sort_order = sort.sort_order; //Assign sort order to result, fusing the arrays
+      return result;
+    });
+    // Then we sort them in the real order and call back
+    callback(null, _.sortBy(zipped, 'sort_order'));
+  });
+}
 
 
  
 exports.timeline = function (req, res) {
+  console.log('timeline req.user._id', req.user._id)
   if (req.user) {
     async.parallel({
-      favorites: function(callback) {
-        Bookmark.aggregateUserLists(req.user._id, function (err, results) {
+      favorite_blocks: function (callback) {
+        favoriteBlocks(req.user, function (err, results) {
           if (err) return callback(err);
           callback(null, results);
         });
       },
-      hypermarks: function(callback) {
+      hypermarks: function (callback) {
         Bookmark.getTimeline(req.user._id, function (err, results) {
           if (err) return callback(err);
           callback(null, results);
@@ -29,11 +59,12 @@ exports.timeline = function (req, res) {
       }
     },
     function (err, results) {
+      console.log('timeline results.favorite_blocks', results.favorite_blocks)
       if (err) return console.log(err);
       return res.render('list', {
           user: req.user
         , bm_loader: bm_loader(config.url)
-        , favorite_blocks: results.favorites
+        , favorite_blocks: results.favorite_blocks
         , results: results.hypermarks
         , title: 'Timeline'
   //       , page: 'timeline'

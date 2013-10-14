@@ -36,7 +36,7 @@ module.exports = function (app, passport) {
   app.post('/_api/blocks', api.addToBlock);
 
   app.get('/_api/users/favorites', api.getFavoriteBlocks);
-  app.post('/_api/users/favorites', api.touchFavoriteBlock);
+  app.post('/_api/users/favorites', api.updateFavoriteBlocks);
 
   app.post('/_api/users/reserve', api.reserveUsername);
 

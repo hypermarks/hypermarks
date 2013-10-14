@@ -2,14 +2,18 @@
 
 var $ = require('../vendor/jquery.js')
   , airwaves = require('airwaves')
+  , sortable = require('../vendor/html5sortable')
   , presentational = require('./presentational.js')
   , sidebarTmpl = require('../../views/includes/sidebar.jade')
 ;
+
+$ = sortable($);
 
 //CHANNELS
 var modesChan = new airwaves.Channel()
   , dataChan = new airwaves.Channel()
 ;
+
 
 
 function update (name, data) {
@@ -83,12 +87,17 @@ exports.sidebar = function ($el) {
     modesChan.broadcast('new-list');
   });
 
+  //Attach sortable plugin
+  $('.js-sortable').sortable().bind('sortupdate', function(){
+    saveFavoriteBlocks($(this));
+  });
+
   //Subscriptions
   modesChan.subscribe('add-to-list', function(bookmark_id){
     $el.addClass('top');
     $el.find('.js-fave-lists').addClass('-hoverable');
 
-    $el.on('click.temp', '.js-list', function(e) {
+    $el.on('click.temp', '.js-favorite-block', function(e) {
       e.preventDefault();
       var block_id = $(this).find('*[data-block]').data('block')
         , $counter = $(this).find('.js-count')
@@ -115,6 +124,16 @@ exports.sidebar = function ($el) {
     $el.off('.temp');
     $el.find('.js-fave-lists').removeClass('-hoverable');
   });
+
+  function saveFavoriteBlocks ($ul) {
+    var favorite_blocks = $ul.children('li').map(function (index) {
+      return {
+          '_id': $(this).find('[data-block]').data('block')
+        , 'sort_order': index
+      };
+    });
+    $.post('/_api/favorites', {favorite_blocks: favorite_blocks});
+  }
 };
 
 

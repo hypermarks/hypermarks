@@ -12,8 +12,8 @@ nav.sidebar#sidebar
       //- ._control.js-new-list + New List
       button.btn-quiet.js-new-list
         |<b>+</b>&nbsp;New List
-    ul
+    ul.js-sortable
       for favorite_block in favorite_blocks
-        li.menu__item.js-list 
+        li.menu__item.js-favorite-block
           a._name(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
           span._count.js-count #{favorite_block.count}

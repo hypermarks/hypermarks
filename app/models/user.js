@@ -9,6 +9,7 @@ var mongoose = require('mongoose')
 var favoriteBlockSchema = new Schema({
     _id: String
   , date_accessed: Date
+  , sort_order: Number
 });
 
 var userSchema = new Schema({
@@ -24,12 +25,18 @@ userSchema.methods = {
     return _.sortBy(this.favorite_blocks, 'date_accessed').reverse();
   }
 
+  ,
+
+  updateFavoriteBlocks: function (new_favorite_blocks, callback) {
+    this.favorite_blocks = new_favorite_blocks;
+    this.save(callback);
+  }
 };
 
 
 userSchema.statics = {
 
-  touchFavoriteBlock: function (user_id, block_id, cb) {
+  touchFavoriteBlock: function (user_id, block_id, callback) {
     var sanitized_block_id = stringUtils.sanitize(block_id);
     this.findById(
       user_id
@@ -45,9 +52,10 @@ userSchema.statics = {
         } else {
           favorite_blocks[blockIndex].date_accessed = new Date();
         }
-        user.save(cb);
+        user.save(callback);
     });
   }
+
 
 };
 

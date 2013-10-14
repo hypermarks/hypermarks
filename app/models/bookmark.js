@@ -1,4 +1,5 @@
 'use strict';
+console.log('FILE: /app/models/bookmark.js');
 
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
@@ -126,10 +127,10 @@ bookmarkSchema.statics = {
 
   aggregateUserLists: function (user_id, callback) {
     var Self = this;
+    console.log('aggregateUserLists user', user_id)
     Self.aggregate(
         {$match: {_user: user_id}}
       , {$group: {_id: '$block', count: {$sum: 1}, last_modified: {$max: '$_id'}}}
-      , {$sort: {last_modified: -1}}
 
       , function(err, results) {
         console.log('aggregateUserLists results', results);
