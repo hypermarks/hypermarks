@@ -4,16 +4,18 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , _ = require('lodash')
   , stringUtils = require('../../utils/string-utils.js')
+  , passportLocalMongoose = require('passport-local-mongoose')
 ;
 
 var favoriteBlockSchema = new Schema({
     _id: String
-  , date_accessed: Date
+  // , date_accessed: Date
   , sort_order: Number
 });
 
 var userSchema = new Schema({
     email: String
+  , created: Date
   , favorite_blocks: [favoriteBlockSchema]
 });
 
@@ -22,15 +24,18 @@ var userSchema = new Schema({
 userSchema.methods = {
 
   getFavoriteBlocks: function () {
-    return _.sortBy(this.favorite_blocks, 'date_accessed').reverse();
+    if (this.favorite_blocks[0] !== null) return this.favorite_blocks;
+    return false;
   }
 
   ,
 
-  updateFavoriteBlocks: function (new_favorite_blocks, callback) {
-    this.favorite_blocks = new_favorite_blocks;
-    this.save(callback);
+  updateFavoriteBlocks: function (new_favorite_blocks) {
+    console.log('updateFavoriteBlocks new_favorite_blocks, this', new_favorite_blocks, this)
+    this.favorite_blocks = JSON.parse(new_favorite_blocks);
+    this.save();
   }
+  
 };
 
 
@@ -56,9 +61,8 @@ userSchema.statics = {
     });
   }
 
-
 };
 
-
+userSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', userSchema);

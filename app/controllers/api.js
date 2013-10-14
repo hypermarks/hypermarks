@@ -157,11 +157,8 @@ exports.touchFavoriteBlock = function (req, res) {
 
 exports.updateFavoriteBlocks = function (req, res) {
   if (!req.user) return res.end('401');
-
-  User.updateFavoriteBlocks(function(err){
-    if (err) return res.end('500');
-    res.end('200');
-  });
+  req.user.updateFavoriteBlocks(req.body.favorite_blocks);
+  return res.end('200');
 };
 
 exports.getFavoriteBlocks = function (req, res) {

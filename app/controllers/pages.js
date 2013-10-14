@@ -22,15 +22,16 @@ function favoriteBlocks (user, callback) {
       });
     },
     sorted: function (callback) {
-      console.log(user.favorite_blocks)
-      callback(null, user.favorite_blocks);
+      console.log('favoriteBlocks sorted', user.getFavoriteBlocks())
+      callback(null, user.getFavoriteBlocks());
     }
   },
 
   function (err, results){
     if (err) return console.log(err);
     var zipped = _.forEach(results.aggregated, function(result) {
-      var sort = _.find(results.sorted, {'_id': result._id}) || {sort_order: 0}; //Find the sorted block with the right _id, or make one with 0
+      console.log('favoriteBlocks result, results', result, results)
+      var sort = results.sorted ? _.find(results.sorted, {'_id': result._id}) : {sort_order: 0}; //Find the sorted block with the right _id, or make one with 0
       result.sort_order = sort.sort_order; //Assign sort order to result, fusing the arrays
       return result;
     });
@@ -42,8 +43,9 @@ function favoriteBlocks (user, callback) {
 
  
 exports.timeline = function (req, res) {
-  console.log('timeline req.user._id', req.user._id)
+  console.log('timeline req.user', req.user);
   if (req.user) {
+    console.log('timeline req.user._id', req.user._id)
     async.parallel({
       favorite_blocks: function (callback) {
         favoriteBlocks(req.user, function (err, results) {

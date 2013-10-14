@@ -15,11 +15,6 @@ var modesChan = new airwaves.Channel()
 ;
 
 
-
-function update (name, data) {
-  $('[data-' + name + ']').text(data);
-}
-
 //MIXINS
 function modal($el) {
   $el.on('click', function() {
@@ -132,7 +127,8 @@ exports.sidebar = function ($el) {
         , 'sort_order': index
       };
     });
-    $.post('/_api/favorites', {favorite_blocks: favorite_blocks});
+    console.log(favorite_blocks.toArray())
+    $.post('/_api/users/favorites', {favorite_blocks: JSON.stringify(favorite_blocks.toArray())});
   }
 };
 
