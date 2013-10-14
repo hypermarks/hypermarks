@@ -35,7 +35,7 @@ bookmarkSchema.statics = {
   ,
 
   getTimeline: function (user_id, callback) {
-    this.find({_user: user_id})
+    this.find({_user: user_id, block:""})
     .sort('-_id')
     .populate('_address')
     .exec(callback);

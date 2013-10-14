@@ -13,6 +13,8 @@ nav.sidebar#sidebar
       button.btn-quiet.js-new-list
         |<b>+</b>&nbsp;New List
     ul
+      li._item.js-list 
+          a(href="/", data-block="") Home
       for favorite_block in favorite_blocks
         li._item.js-list 
-          a(href="/_my/#{favorite_block._id}") #{favorite_block._id}
+          a(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}

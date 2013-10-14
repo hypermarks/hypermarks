@@ -86,8 +86,10 @@ exports.sidebar = function ($el) {
 
     $el.on('click.temp', '.js-list', function(e) {
       e.preventDefault();
-      var block_id = $(this).text();
-      $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id });
+      var block_id = $("a",this).data("block");
+      $.post('/_api/blocks', { bookmark_id: bookmark_id, block_id: block_id },function () {
+        window.location.reload();
+      });
       presentational.flash($(this), '-added', 1000);
       modesChan.broadcast('exit');
     });
