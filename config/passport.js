@@ -55,38 +55,39 @@ console.log(config.hostDomain)
   ));
 
 
-  passport.use(new PersonaStrategy({
-      audience: config.url
-    },
+  // passport.use(new PersonaStrategy({
+  //     audience: config.url
+  //   },
 
-    function(email, done) {
-      User.findOne({
-        'email': email
-      }, function(err, user) {
+  //   function(email, done) {
+  //     User.findOne({
+  //       'email': email
+  //     }, function(err, user) {
 
-        if (err) {
-          return done(err);
-        }
+  //       if (err) {
+  //         return done(err);
+  //       }
 
-        if (!user) {
-          user = new User({
-            email: email
-            , created: Date.now()
-          });
+  //       if (!user) {
+  //         user = new User({
+  //           email: email
+  //           , created: Date.now()
+  //         });
 
-          user.save(function(err) {
-            if (err) {
-              return done(err);
-            } else {
-              return done(null, user);
-            }
-          });
+  //         user.save(function(err) {
+  //           if (err) {
+  //             return done(err);
+  //           } else {
+  //             return done(null, user);
+  //           }
+  //         });
 
-        } else {
-          return done(null, user);
-        }
-      });
-    }
-  ));
+  //       } else {
+  //         return done(null, user);
+  //       }
+  //     });
+  //   }
+  // ));
+  
 };
 
