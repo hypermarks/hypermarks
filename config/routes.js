@@ -41,9 +41,9 @@ module.exports = function (app, passport) {
   app.post('/_api/users/reserve', api.reserveUsername);
 
   //incorrectly namespaced- will deal with in a bit
-  // app.get('/login', users.loginpage);
-  // app.get('/signup', users.signuppage);
-  // app.post('/users', users.create);
+  app.get('/login', users.loginpage);
+  app.get('/signup', users.signuppage);
+  app.post('/users', users.create);
 
 
   //AUTH
