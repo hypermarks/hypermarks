@@ -21,7 +21,8 @@ var userSchema = new Schema({
 userSchema.methods = {
 
   getFavoriteBlocks: function () {
-    return _.sortBy(this.favorite_blocks, 'date_accessed').reverse();
+    if (this.favorite_blocks[0] !== null) return this.favorite_blocks;
+    return false;
   }
 
 };

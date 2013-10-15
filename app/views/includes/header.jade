@@ -1,15 +1,15 @@
 nav.header#header
-  a._logo(href='/')
+  a.header__logo(href='/')
     img(src="/images/hypermarks-logo_64.png")
     span._text Hypermarks
-  ._controls
+  .header__controls
     form._searchbox(action="/_search", method="get")
       label.inline
         input(name="q")
         button.btn-quiet.js-add-link
           i.icon-search
           |&nbsp;Search
-    ._links
+    .header__links
       ._link.-account
         span
           if user
@@ -24,3 +24,6 @@ nav.header#header
 
           else
             span#login Sign In
+
+  .header__bookmarklet
+    a.js-bookmarklet Bookmarklet
