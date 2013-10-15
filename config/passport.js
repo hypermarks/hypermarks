@@ -33,8 +33,6 @@ module.exports = function(passport) {
     });
   });
 
-console.log(config.hostDomain)
-
   // use local strategy
   passport.use(new LocalStrategy({
       usernameField: 'email',
@@ -88,6 +86,6 @@ console.log(config.hostDomain)
   //     });
   //   }
   // ));
-  
+
 };
 

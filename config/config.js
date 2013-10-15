@@ -9,9 +9,6 @@ var env = process.env.NODE_ENV || 'development'
   , urlTools = require('url-tools')
 ;
 
-console.log(process.env)
-// console.log('config.js normalized BONSAI_URL', urlTools.normalize(process.env.BONSAI_URL, url_opts).replace(/:/, '%3A'))
-
 function elmongoUrlSanitize(eshost) {
   var url_opts = {
     lowercase: true,

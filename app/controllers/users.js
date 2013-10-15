@@ -43,7 +43,6 @@ exports.signup = function (req, res) {
 };
 
 exports.logout = function (req, res) {
-  console.log('exports.logout');
   req.logout();
   res.writeHead(200, { 'Content-Type':'application/json'});
   res.end();
@@ -70,6 +69,7 @@ exports.user = function (req, res, next, id) {
  */
 
 exports.create = function (req, res) {
+  console.log(req.body);
   var user = new User(req.body)
   user.provider = 'local'
   user.save(function (err) {
