@@ -30,6 +30,8 @@ module.exports = function (app, passport) {
   app.get('/_api/post', api.imagePost);
 
 
+  //app.param('block', pages.block);
+
 
   app.get('/_api/blocks/:block', api.getPublicBlock);
   app.get('/_api/blocks/_p/:block', api.getPrivateBlock);

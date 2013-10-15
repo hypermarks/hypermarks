@@ -18,7 +18,7 @@ exports.timeline = function (req, res) {
         , results: hypermarks
         , title: 'Uncategorized'
         , page: 'timeline'
-        , pageVars: {block:null}
+        , pageVars: {block:null, username:req.user.username}
 
       });
     });
@@ -39,7 +39,7 @@ exports.publicBlock = function (req, res) {
       , title: block
       , visibility: 'public'
       , page: 'block'
-      , pageVars: {block: block}
+      , pageVars: {block: block, username:req.user.username}
 
     });
   });
@@ -57,7 +57,7 @@ exports.privateBlock = function (req, res) {
         , title: block
         , visibility: 'private'
         , page: 'block'
-        , pageVars: {block: block}
+        , pageVars: {block: block, username:req.user.username}
       });
     });
   } else {
@@ -83,7 +83,7 @@ exports.search = function (req, res) {
       , results: hypermarks
       , title: 'Search'
       , page: 'search'
-      , pageVars: {block:null}
+      , pageVars: {block:null, username:req.user.username}
 
     });
   });
