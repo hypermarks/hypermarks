@@ -50,25 +50,24 @@ module.exports = function(app, config, passport) {
   // should be declared after session and flash
   app.use(helpers());
 
-  //CORS 
-  //TODO: Refactor into middleware
-  //TODO: Secure!
-  app.all('/*', function(req, res, next) {
-    var header;
-    if (req.header('Origin')) header=req.header('Origin'); else header="*";
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
+  // //CORS 
+  // //TODO: Refactor into middleware
+  // //TODO: Secure!
+  // app.all('/*', function(req, res, next) {
+  //   var header;
+  //   if (req.header('Origin')) header=req.header('Origin'); else header="*";
+  //   res.header('Access-Control-Allow-Origin', '*');
+  //   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  //   res.header('Access-Control-Allow-Credentials', 'true');
+  //   next();
+  // });
+  
+  app.configure('development', function(){
+      app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   });
 
-  app.post('/*', function(req, res, next){
-    next();
-  });
-
-  app.use(function(err, req, res, next) {
-    console.error(err.stack);
-    res.send(500, 'Something broke!');
+  app.configure('production', function(){
+      app.use(express.errorHandler());
   });
 
   // routes should be at the last

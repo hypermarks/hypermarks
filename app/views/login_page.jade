@@ -1,5 +1,16 @@
-p="logins"
-form
-  input(placeholder="login")
-  input(placeholder="password")
-a(href="signup")="signup"
+extends layouts/default
+
+block content
+  h2 Log In
+  
+  form(action="/_auth/login",method="post")
+    div
+      label Username
+      input(type="text", name="username")
+    
+    div
+      label Password
+      input(type="password", name="password")
+    
+    div
+      input(type="submit", value="Log In")

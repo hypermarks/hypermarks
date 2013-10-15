@@ -1,25 +1,16 @@
-extends auth
+extends layouts/default
 
-block auth
-  form.offset1.form-horizontal(action="/users", method="post")
+block content
+  h2 Register
 
-    .control-group
-      label.control-label(for='email') Email
-      .controls
-        input#email(type='text', name="email", placeholder='Email', value='')
+  form(action="/_auth/register",method="POST")
+    div
+      label Usernamer
+      input(type="text", name="username")
 
-    .control-group
-      label.control-label(for='username') Username
-      .controls
-        input#username(type='text', name="username", placeholder='Username', value='')
+    div
+      label Password
+      input(type="password", name="password")
 
-    .control-group
-      label.control-label(for='password') Password
-      .controls
-        input#password(type='password', name="password", placeholder='Password')
-
-    .form-actions
-      button.btn.btn-primary(type='submit') Sign up
-      &nbsp;
-      | or&nbsp;
-      a.show-login(href="/login") login
+    div
+      input(type="submit",value="Register")

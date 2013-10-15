@@ -40,21 +40,20 @@ module.exports = function (app, passport) {
 
   app.post('/_api/users/reserve', api.reserveUsername);
 
-  //incorrectly namespaced- will deal with in a bit
-  // app.get('/login', users.loginpage);
-  // app.get('/signup', users.signuppage);
-  // app.post('/users', users.create);
 
 
   //AUTH
   app.post('/_auth/logout', users.logout);
   app.post('/_auth/browserid', passport.authenticate('persona'));
+  app.post('/_auth/register', users.register)
 
-  app.post('/users/session',
-    passport.authenticate('local', {
-      failureRedirect: '/login',
-      failureFlash: 'Invalid email or password.'
-    }), users.session);
+  app.get('/_auth/login', users.loginpage);
+  app.get('/_auth/signup', users.signuppage);
+  // app.post('/users/session',
+  //   passport.authenticate('local', {
+  //     failureRedirect: '/login',
+  //     failureFlash: 'Invalid email or password.'
+  //   }), users.session);
 
   app.get('/_auth/external-login', users.externalLogin);
 
