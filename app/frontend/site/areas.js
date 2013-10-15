@@ -111,14 +111,18 @@ exports.sidebar = function ($el) {
 
 exports.addLinkModal = function($el) {
   modal($el);
-
-  var block=pageVars.block?pageVars.block:null;
-  $el.on('click', '.js-add-link', function() {
+  var cb = function(e) {
+    if ( e.type==="keypress" && e.keyCode !== 13){return};//bonk out the keypress is not enter;
     $.post('/_api/hypermarks', { url: $('input[name="url"]').val(), block:block }, function() {
       window.location.reload();
     });
     modesChan.broadcast('exit');
-  })
+  };
+
+  $("input",$el).on('keypress',cb);
+
+  var block=pageVars.block?pageVars.block:null;
+  $el.on('click', '.js-add-link', cb)
 
   modesChan.subscribe('add-link', function() {
     $el.addClass('-active');
@@ -132,7 +136,16 @@ exports.addLinkModal = function($el) {
 
 exports.newListModal = function($el) {
   modal($el);
-  var list_name = $('#page-title').text();
+  var list_name = $('#page-title').text(),
+  cb=function(e){
+    var list_name = $('.js-name').val();
+    if ( e.type==="keypress" && e.keyCode !== 13){return};//bonk out the keypress is not enter;
+
+    $.post('/_api/users/favorites', { block_id: list_name }, function(data) {
+      dataChan.broadcast('favorite_lists', data);
+    });
+    modesChan.broadcast('exit');
+  };
   $el.find('.js-add-current').text(list_name)
 
   $el.on('click', '.js-add-current', function(){
@@ -140,13 +153,10 @@ exports.newListModal = function($el) {
     $('.js-name').val(list_name);
   });
 
-  $el.on('click', '.js-submit', function(){
-    var list_name = $('.js-name').val();
-    $.post('/_api/users/favorites', { block_id: list_name }, function(data) {
-      dataChan.broadcast('favorite_lists', data);
-    });
-    modesChan.broadcast('exit');
-  });
+
+  $el.on('click', '.js-submit', cb);
+  $("input",$el).on('keypress', cb);
+
 
   modesChan.subscribe('new-list', function() {
     $el.addClass('-active');

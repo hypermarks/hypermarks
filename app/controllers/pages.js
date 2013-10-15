@@ -16,7 +16,7 @@ exports.timeline = function (req, res) {
         , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: hypermarks
-        , title: 'Timeline'
+        , title: 'Uncategorized'
         , page: 'timeline'
         , pageVars: {block:null}
 
