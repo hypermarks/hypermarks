@@ -36,9 +36,9 @@ exports.reserveUsername = function (req, res) {
       }
       return res.redirect('http://hypermarks.org/server-error.html');
     } else {
-      return res.redirect('http://hypermarks.org/success.html')
+      return res.redirect('http://hypermarks.org/success.html');
     }
-  })
+  });
 };
 
 exports.postHypermark = function (req, res) {
@@ -70,7 +70,6 @@ exports.postHypermarkChrome = function (req, res) {
 
 exports.removeHypermark = function (req, res) {
   if (!req.user) return res.end('401');
-  console.log(req.user._id)
   var opts = {
       _id: req.body._id
     , _user: req.user._id
@@ -92,28 +91,56 @@ exports.getTimeline = function (req, res) {
 };
 
 
-exports.addToBlock = function (req, res) {
+// exports.addToBlock = function (req, res) {
+//   if (!req.user) return res.end('401');
+//   var bookmark_id = req.body.bookmark_id;
+//   var block_id = req.body.block_id;
+
+
+//   Bookmark.findById(bookmark_id, function (err, bookmark) {
+//     if (err) return res.json('500', bookmark);
+//     bookmark.block = block_id;
+
+//     bookmark.save(function(err){
+//       if (err)
+//         return res.json('500', bookmark);
+//       else
+//         return res.json('200', bookmark);
+//     });
+//   });
+
+// };
+
+
+exports.cloneToBlock = function (req, res) {
   if (!req.user) return res.end('401');
   var bookmark_id = req.body.bookmark_id;
   var block_id = req.body.block_id;
 
-  Bookmark.findById(bookmark_id, function (err, bookmark) {
-      if (err) return res.json('500', bookmark);
-    bookmark.block=block_id;
-    bookmark.save(function(err){
-      if (err)
-        return res.json('500', bookmark);
-      else
-        return res.json('200', bookmark);
-    });
-
-    // Bookmark.clone(bookmark, {
-    //   block: block_id
-    // }, function (err, bookmark) {
-    //   if (err) return console.log(err);
-    //   return res.json('200', bookmark);
-    // });
+  Bookmark.clone(bookmark_id, {
+    block: block_id
+  }, function (err, bookmark) {
+    if (err) {
+      console.log(err);
+      return res.end('500');
+    }
+    return res.json('200', bookmark);
   });
+
+};
+
+exports.moveToBlock = function (req, res) {
+  if (!req.user) return res.end('401');
+  var bookmark_id = req.body.bookmark_id
+    , block_id = req.body.block_id;
+
+  Bookmark.move(bookmark_id, {
+    block: block_id
+  }, function (err, bookmark) {
+    if (err) return console.log(err);
+    return res.json('200', bookmark);
+  });
+
 
 };
 

@@ -23,19 +23,31 @@ function blockSanitize(block) {
   return stringUtils.sanitize(block);
 }
 
+//STATICS
 bookmarkSchema.statics = {
 
-  clone: function (source, opts, callback) {
-    var merged = helpers.mergeOptions(source.toObject(), opts); //TODO: Replace with lodash _.defaults
-    merged._id = undefined; //So that mongo can set this
-    //console.log(merged);
-    new this(merged).save(callback);
+  clone: function (bookmark_id, opts, callback) {
+    var Self = this;
+    Self.findById(bookmark_id, function (err, bookmark) {
+      if (!bookmark) return callback(new Error('No bookmark found at this _id.'));
+      
+      var merged = _.defaults(opts, bookmark.toObject()); //TODO: Replace with lodash _.defaults
+      merged._id = undefined; //So that mongo can set this
+
+      new Self(merged).save(callback);
+    });
+  }
+
+  ,
+
+  move: function (bookmark_id, opts, callback) {
+    this.findOneAndUpdate(bookmark_id, opts, callback);
   }
 
   ,
 
   getTimeline: function (user_id, callback) {
-    this.find({_user: user_id, block:""})
+    this.find({_user: user_id, block:''})
     .sort('-_id')
     .populate('_address')
     .exec(callback);
@@ -50,7 +62,7 @@ bookmarkSchema.statics = {
       , sani_url: opts.sani_url
       , user_url: opts.user_url
       , chrome_extension_id: opts.chrome_extension_id
-      , block : opts.block? opts.block:'' 
+      , block : opts.block ? opts.block: ''
     });
 
     bookmark.save(callback);
@@ -61,7 +73,8 @@ bookmarkSchema.statics = {
   remove: function (opts, callback) {
     this.findOne({_id: opts._id})
     .exec(function(err, result){
-      
+      if (err) return callback(err);
+
       if (result === null || String(opts._user) !== String(result._user))
         callback({err: true});
       else

@@ -18,9 +18,11 @@ module.exports = function(app, config, passport) {
 
   // app.use(express.logger());
 
+  
   // views config
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
+  app.set('view options', {pretty: true});
 
   //Stylsheet render
   app.use(require('stylus').middleware(config.root + '/public'));

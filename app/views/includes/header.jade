@@ -18,12 +18,10 @@ nav.header#header
               i.icon-caret-down
               ul
                 li._header #{user.email}
-                li 
-                  a(href="#{bm_loader}") Bookmarklet
                 li#logout Sign Out
 
           else
             a(href="login") Sign In
 
   .header__bookmarklet
-    a.js-bookmarklet Bookmarklet
+    a(href="").js-bookmarklet Bookmarklet
