@@ -16,28 +16,20 @@ module.exports = function (app, passport) {
   // Order of routes matters!!!!
 
   //API
-  app.post('/_api/hypermarks', api.postHypermark);
   app.post('/_api/hypermarksChrome', api.postHypermarkChrome);
-  app.post('/_api/hypermarksRemove', api.removeHypermark);
-
-  app.get('/_api/hypermarks', api.getTimeline);
-  app.get('/_api/search', api.searchHypermarks);
-  app.post('/_api/hypermarks/clone', api.addToBlock);
-
-
+  
+  app.post('/_api/hypermarks/add', api.postHypermark);
   app.get('/_api/post', api.imagePost);
 
+  app.post('/_api/hypermarks/remove', api.removeHypermark);
+  app.post('/_api/hypermarks/clone', api.cloneToBlock);
+  app.post('/_api/hypermarks/move', api.moveToBlock);
 
-  app.get('/_api/blocks/:block', api.getPublicBlock);
-  app.get('/_api/blocks/_p/:block', api.getPrivateBlock);
-  app.post('/_api/blocks', api.addToBlock);
+  app.post('/_api/favorites/add', api.touchFavoriteBlock);
 
-  app.get('/_api/users/favorites', api.getFavoriteBlocks);
-  app.post('/_api/users/favorites', api.touchFavoriteBlock);
-
+  //Eoin's reservation page depends on this
   app.post('/_api/users/reserve', api.reserveUsername);
 
-  //incorrectly namespaced- will deal with in a bit
   app.get('/_auth/login', users.loginpage);
   app.get('/_auth/signup', users.signuppage);
   app.post('/_auth/users', users.create);
@@ -45,7 +37,6 @@ module.exports = function (app, passport) {
 
   //AUTH
   app.post('/_auth/logout', users.logout);
-  app.post('/_auth/browserid', passport.authenticate('persona'));
 
   app.post('/_auth/localauth',
     passport.authenticate('local', {
