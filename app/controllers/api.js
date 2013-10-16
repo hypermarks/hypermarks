@@ -26,7 +26,6 @@ exports.imagePost = function (req, res) {
 
 exports.reserveUsername = function (req, res) {
   Reservation.reserve(req.body.username, req.body.email, function(err){
-    // res.redirect('hypermarks.org?err=' + err + '&username=' + username + '&email=' + email)
     if (err) {
       if (err === 'username') {
         return res.redirect('http://hypermarks.org/username-taken.html');
@@ -89,27 +88,6 @@ exports.getTimeline = function (req, res) {
     return res.json('200', hypermarks);
   });
 };
-
-
-// exports.addToBlock = function (req, res) {
-//   if (!req.user) return res.end('401');
-//   var bookmark_id = req.body.bookmark_id;
-//   var block_id = req.body.block_id;
-
-
-//   Bookmark.findById(bookmark_id, function (err, bookmark) {
-//     if (err) return res.json('500', bookmark);
-//     bookmark.block = block_id;
-
-//     bookmark.save(function(err){
-//       if (err)
-//         return res.json('500', bookmark);
-//       else
-//         return res.json('200', bookmark);
-//     });
-//   });
-
-// };
 
 
 exports.cloneToBlock = function (req, res) {
