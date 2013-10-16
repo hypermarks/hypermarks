@@ -169,8 +169,7 @@ newListModal = function ($el) {
       $.post('/_api/users/favorites', {
         block_id: list_name
       }, function (data) {
-        window.location.reload();
-        //dataChan.broadcast('favorite_lists', data); This is broken must be fixed.
+        dataChan.broadcast('favorite_lists', data);
       });
       modesChan.broadcast('exit');
     };
