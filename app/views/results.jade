@@ -6,37 +6,25 @@ block content
     .page__topbar 
       h1._title#page-title #{title}
       |&nbsp;
-      if (page === 'block')
-        nav._control
-          .btn-bar
-            button.btn-quiet(class="#{visibility === 'private' ? '-active' : ''}")
-              a(href="/_my/#{title}")
-                i.icon-user
-                |&nbsp;Mine
-            button.btn-quiet(class="#{visibility === 'public' ? '-active' : ''}") 
-              a(href="/#{title}")
-                i.icon-globe
-                |&nbsp;Public
 
     .results#results
       .results__topbar
-        button.btn-quiet.js-add-link
-          |<b>+</b>&nbsp;Add Link
 
-      for result in results
-        article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
-          .hypermark__close.js-delete
-            i.icon-remove
+      if results
+        for result in results
+          article.hypermark.js-drag(data-date_added="#{result.date_added}", data-_id="#{result._id}")
+            .hypermark__close.js-delete
+              i.icon-remove
 
-          a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
-          .hypermark__sani-url #{result._address.sani_url}
-          .hypermark__excerpt 
-            != truncate(result._address.content, 200)
-          .hypermark__bottom-bar
-            button.btn-quiet.js-add-to-list 
-              i.icon-book
-              |&nbsp;Move to List
-            button.btn-quiet.js-add-to-list 
-              i.icon-plus
-              |&nbsp;Copy into List
+            a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
+            .hypermark__sani-url #{result._address.sani_url}
+            .hypermark__excerpt 
+              != truncate(result._address.content, 200)
+            .hypermark__bottom-bar
+              button.btn-quiet.js-add-to-list 
+                i.icon-book
+                |&nbsp;Move to List
+              button.btn-quiet.js-add-to-list 
+                i.icon-plus
+                |&nbsp;Copy into List
 
