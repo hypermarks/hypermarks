@@ -81,6 +81,12 @@ header = function ($el) {
     $(this).toggleClass('-active');
   });
 
+  $el.on('click', '.js-logout', function () {
+    $.post('/_auth/logout', function() {
+      window.location.reload();
+    });
+  });
+
   $el.on('click', '.js-bookmarklet', function (e) {
     modesChan.broadcast('bookmarklet');
     e.preventDefault();
