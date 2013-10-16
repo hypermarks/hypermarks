@@ -22,7 +22,7 @@
     div Drag the bookmarklet below to your bookmarks bar to submit pages to Hypermarks instantly.
     img(src="/empty.jpg")
     .modal-window__bottombar
-      a.bookmarklet__link(href="#{bm_loader}") Hypermarks
+      a.bookmarklet__link(href="javascript:!function(){var jsCode=document.createElement('script');jsCode.setAttribute('src','http://localhost:1337/bookmarklet/script.js');document.body.appendChild(jsCode);}();") Hypermarks
 
 .modal-overlay#auth-modal
   .modal-window
