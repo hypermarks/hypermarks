@@ -30,6 +30,7 @@ exports.uncategorized = function (req, res) {
 exports.front = function (req, res) {
   return res.render('results' ,{
       bm_loader: bm_loader(config.url)
+    , user: req.user ? req.user : null
     , title: 'Top Lists'
     , page_vars: {block: null}
   });

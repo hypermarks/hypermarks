@@ -5,14 +5,15 @@ nav.sidebar#sidebar
         a(href="/_my/uncategorized") Uncategorized
 
 
-  section._menu.js-fave-lists
-    ._topbar
-      ._title Lists
-      |&nbsp;
-      //- ._control.js-new-list + New List
-      button.btn-quiet.js-new-list
-        |<b>+</b>&nbsp;New List
-    ul
-      for favorite_block in favorite_blocks
-        li._item.js-list 
-          a(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
+  if (favorite_blocks)
+    section._menu.js-fave-lists
+      ._topbar
+        ._title Lists
+        |&nbsp;
+        //- ._control.js-new-list + New List
+        button.btn-quiet.js-new-list
+          |<b>+</b>&nbsp;New List
+      ul
+        for favorite_block in favorite_blocks
+          li._item.js-list 
+            a(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
