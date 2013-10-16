@@ -8,30 +8,38 @@ var config = require('../../config/config')()
   , _ = require('lodash')
 ;
 
-exports.timeline = function (req, res) {
+exports.uncategorized = function (req, res) {
   if (req.user) {
     Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
-      return res.render('results', {
+      return res.render('list', {
           user: req.user
         , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: hypermarks
         , title: 'Uncategorized'
         , page: 'timeline'
-        , pageVars: {block:null, username:req.user.username}
-
+        , hide_add: true
+        , page_vars: {block: null, username: req.user.username}
       });
     });
   } else {
-    return res.render('login');
+    return res.redirect('/');
   }
+};
+
+exports.front = function (req, res) {
+  return res.render('results' ,{
+      bm_loader: bm_loader(config.url)
+    , title: 'Top Lists'
+    , page_vars: {block: null}
+  });
 };
 
 exports.publicBlock = function (req, res) {
   if (!req.user) return res.end('401');
   var block = stringUtils.sanitize(req.params.block);
   Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
-    return res.render('results', {
+    return res.render('list', {
         user: (req.user) ? req.user : null
       , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
@@ -39,8 +47,7 @@ exports.publicBlock = function (req, res) {
       , title: block
       , visibility: 'public'
       , page: 'block'
-      , pageVars: {block: block, username:req.user.username}
-
+      , page_vars: {block: block, username: req.user.username}
     });
   });
 };
@@ -49,7 +56,7 @@ exports.privateBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block);
   if (req.user) {
     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
-      return res.render('results', {
+      return res.render('list', {
           user: req.user
         , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
@@ -57,7 +64,7 @@ exports.privateBlock = function (req, res) {
         , title: block
         , visibility: 'private'
         , page: 'block'
-        , pageVars: {block: block, username:req.user.username}
+        , page_vars: {block: block, username:req.user.username}
       });
     });
   } else {
@@ -70,7 +77,6 @@ exports.search = function (req, res) {
     query: req.query.q
   }, function (err, results) {
     if (err) console.log(err);
-    console.log('pages.search results', results)
     var hypermarks = _.map(results.hits, function(result) {
       result._address = result._source;
       delete result._source;
@@ -83,7 +89,7 @@ exports.search = function (req, res) {
       , results: hypermarks
       , title: 'Search'
       , page: 'search'
-      , pageVars: {block:null, username:req.user.username}
+      , page_vars: {block:null, username:req.user.username}
 
     });
   });
