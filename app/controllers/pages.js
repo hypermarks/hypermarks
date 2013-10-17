@@ -3,7 +3,6 @@ var config = require('../../config/config')()
   , mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
   , Address = mongoose.model('Address')
-  , bm_loader = require('../frontend/bookmarklet/loader.js')
   , stringUtils = require('../../utils/string-utils.js')
   , _ = require('lodash')
 ;
@@ -13,7 +12,6 @@ exports.uncategorized = function (req, res) {
     Bookmark.getTimeline(req.user._id, function (err, hypermarks) {
       return res.render('list', {
           user: req.user
-        , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: hypermarks
         , title: 'Uncategorized'
@@ -28,15 +26,15 @@ exports.uncategorized = function (req, res) {
 };
 
 exports.front = function (req, res) {
-  Bookmark.aggregatePublicBlock('', function (err, results) {
-    return res.render('multi-list', {
-        bm_loader: bm_loader(config.url)
-      , user: req.user ? req.user : null
-      , title: 'Top Lists'
-      , results: results
-      , page_vars: {block: null}
-    });
-  });
+    console.log("hit1")
+
+    return res.send('<a href="/_my/uncategorized">/_my/uncategorized</a>');
+    // res.render('multi-list', {
+    //     user: req.user ? req.user : null
+    //   , title: 'Top Lists'
+    //   , results: results
+    //   , page_vars: {block: null}
+    // });
 };
 
 exports.publicBlock = function (req, res) {
@@ -45,7 +43,6 @@ exports.publicBlock = function (req, res) {
   Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
     return res.render('list', {
         user: (req.user) ? req.user : null
-      , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: block
@@ -62,7 +59,6 @@ exports.privateBlock = function (req, res) {
     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
       return res.render('list', {
           user: req.user
-        , bm_loader: bm_loader(config.url)
         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
         , results: hypermarks
         , title: block
@@ -91,7 +87,6 @@ exports.search = function (req, res) {
     });
     return res.render('search_results', {
         user: (req.user) ? req.user : null
-      , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
       , results: hypermarks
       , title: 'Search'
