@@ -54,8 +54,8 @@ exports.publicBlock = function (req, res) {
 };
 
 exports.privateBlock = function (req, res) {
-  var block = stringUtils.sanitize(req.params.block);
-  if (req.user) {
+    console.log(req.user.getFavoriteBlocks())
+    var block = stringUtils.sanitize(req.params.block);
     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
       return res.render('list', {
           user: req.user
@@ -67,9 +67,7 @@ exports.privateBlock = function (req, res) {
         , page_vars: {block: block, username:req.user.username}
       });
     });
-  } else {
-    return res.redirect('/' + req.params.block);
-  }
+
 };
 
 exports.search = function (req, res) {
@@ -77,9 +75,6 @@ exports.search = function (req, res) {
     query: req.query.q
   }, function (err, results) {
     if (err) console.log(err);
-
-    console.log(err);
-    console.log(results);
     var hypermarks = _.map(results.hits, function(result) {
       result._address = result._source;
       delete result._source;

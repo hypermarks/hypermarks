@@ -2,7 +2,7 @@ nav.sidebar#sidebar
   section._menu
     ul
       li._item
-        a(href="/_my/uncategorized") Uncategorized
+        a(href="/#{user.username}/uncategorized") Uncategorized
 
 
   if (favorite_blocks)
@@ -16,4 +16,4 @@ nav.sidebar#sidebar
       ul
         for favorite_block in favorite_blocks
           li._item.js-list 
-            a(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
+            a(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}

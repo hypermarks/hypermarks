@@ -7,7 +7,10 @@
 // controllers
 var users = require('../app/controllers/users')
   , api = require('../app/controllers/api.js')
-  , pages = require('../app/controllers/pages.js');
+  , pages = require('../app/controllers/pages.js')
+  , auth = require('./middleware/auth')
+  , mongoose = require('mongoose')
+  , User = mongoose.model('User');
 
 
 
@@ -49,11 +52,17 @@ module.exports = function (app, passport) {
 
   app.get('/_auth/external-login', users.externalLogin);
 
-
+  app.param('user',function(req, res, next, id){
+    User.findOne({username:id}, function(err, result){
+      if (err) return res.send("User Lookup Error");
+      if (!result) return res.send("No User Match");
+      next()
+    });
+  });
   //PAGES
   app.get('/', pages.front);
-  app.get('/_my/uncategorized', pages.uncategorized);
+  app.get('/_my/uncategorized',auth.requiresLogin, pages.uncategorized);
   app.get('/_search', pages.search);
-  app.get('/_my/:block', pages.privateBlock);
-  app.get('/:block', pages.publicBlock);
+  app.get('/_p/:block', pages.publicBlock);
+  app.get('/:user/:block', auth.requiresLogin, pages.privateBlock);
 };

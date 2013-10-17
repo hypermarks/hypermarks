@@ -50,6 +50,7 @@ userSchema.methods = {
   },
 
   getFavoriteBlocks: function () {
+    console.log(this)
     if (this.favorite_blocks[0] !== null) return this.favorite_blocks;
     return false;
   },

@@ -15,7 +15,7 @@ nav.header#header
         span
           if user
             .dropdown.js-dropdown.-right 
-              span Settings
+              span #{user.username}
               i.icon-caret-down
               ul
                 li._header #{user.email}

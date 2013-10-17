@@ -6,7 +6,7 @@
 exports.requiresLogin = function (req, res, next) {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl
-    return res.redirect('auth/login')
+    return res.redirect('/_auth/login')
   }
   next()
 }
