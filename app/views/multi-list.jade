@@ -8,20 +8,14 @@ block content
       |&nbsp;
 
     .results#results
-      if results 
+      .results__topbar
+
+      if results && results.length
         for result in results
-          article.list-result.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
-            .hypermark__close.js-delete
-              i.icon-remove
+          article.hypermark
+            a.hypermark__link(href="/_p/#{result.block}") #{result.block}
 
-            .hypermark__control-left
-              i.icon-arrow-left
-
-            .hypermark__info
-              a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
-              .hypermark__sani-url #{result._address.sani_url}
-              //- .hypermark__bottom-bar
-              //-   button.btn-quiet.js-add-to-list 
-              //-     i.icon-book
-              //-     |&nbsp;Move to List
-               
+            ul
+              for link in result.results
+                li
+                  a(href="#{link.working_url}") #{link.title}

@@ -27,15 +27,16 @@ exports.uncategorized = function (req, res) {
 
 exports.front = function (req, res) {
   Bookmark.recentlyUpdatedBlocks(function (err, results) {
-    return res.send(results);
+    console.log('front results', results)
+    return res.render('multi-list', {
+        user: req.user ? req.user : null
+      , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null        
+      , title: 'Top Lists'
+      , results: results
+      , page_vars: {block: null}
+    });
   });
 
-  // res.render('multi-list', {
-  //     user: req.user ? req.user : null
-  //   , title: 'Top Lists'
-  //   , results: results
-  //   , page_vars: {block: null}
-  // });
 };
 
 exports.publicBlock = function (req, res) {
