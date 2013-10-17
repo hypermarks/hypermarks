@@ -23,22 +23,25 @@ exports.uncategorized = function (req, res) {
       });
     });
   } else {
-    return res.redirect('/');
+    return res.redirect('/_auth/login');
   }
 };
 
 exports.front = function (req, res) {
-  return res.render('results' ,{
-      bm_loader: bm_loader(config.url)
-    , user: req.user ? req.user : null
-    , title: 'Top Lists'
-    , page_vars: {block: null}
+  Bookmark.aggregatePublicBlock('', function (err, results) {
+    return res.render('multi-list', {
+        bm_loader: bm_loader(config.url)
+      , user: req.user ? req.user : null
+      , title: 'Top Lists'
+      , results: results
+      , page_vars: {block: null}
+    });
   });
 };
 
 exports.publicBlock = function (req, res) {
-  if (!req.user) return res.end('401');
-  var block = stringUtils.sanitize(req.params.block);
+  var block = stringUtils.sanitize(req.params.block)
+    , username = req.user ? req.user.username : null;
   Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
     return res.render('list', {
         user: (req.user) ? req.user : null
@@ -48,7 +51,7 @@ exports.publicBlock = function (req, res) {
       , title: block
       , visibility: 'public'
       , page: 'block'
-      , page_vars: {block: block, username: req.user.username}
+      , page_vars: {block: block, username: username}
     });
   });
 };

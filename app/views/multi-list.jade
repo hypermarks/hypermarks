@@ -1,0 +1,27 @@
+extends layouts/default
+
+
+block content
+  main.page
+    .page__topbar 
+      h1._title#page-title #{title}
+      |&nbsp;
+
+    .results#results
+      if results 
+        for result in results
+          article.list-result.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
+            .hypermark__close.js-delete
+              i.icon-remove
+
+            .hypermark__control-left
+              i.icon-arrow-left
+
+            .hypermark__info
+              a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
+              .hypermark__sani-url #{result._address.sani_url}
+              //- .hypermark__bottom-bar
+              //-   button.btn-quiet.js-add-to-list 
+              //-     i.icon-book
+              //-     |&nbsp;Move to List
+               
