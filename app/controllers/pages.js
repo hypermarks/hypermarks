@@ -26,15 +26,16 @@ exports.uncategorized = function (req, res) {
 };
 
 exports.front = function (req, res) {
-    console.log("hit1")
+  Bookmark.recentlyUpdatedBlocks(function (err, results) {
+    return res.send(results);
+  });
 
-    return res.send('<a href="/_my/uncategorized">/_my/uncategorized</a>');
-    // res.render('multi-list', {
-    //     user: req.user ? req.user : null
-    //   , title: 'Top Lists'
-    //   , results: results
-    //   , page_vars: {block: null}
-    // });
+  // res.render('multi-list', {
+  //     user: req.user ? req.user : null
+  //   , title: 'Top Lists'
+  //   , results: results
+  //   , page_vars: {block: null}
+  // });
 };
 
 exports.publicBlock = function (req, res) {

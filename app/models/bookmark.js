@@ -108,7 +108,7 @@ bookmarkSchema.statics = {
     , function(err, results){
       async.map(
         results
-        , function(result, cb){
+        , function (result, cb){
           Address.findById(result._id, function(err, _address){
             result._address = _address;
             cb(null, result);
@@ -118,6 +118,58 @@ bookmarkSchema.statics = {
           callback(err, results);
         });
     });
+  }
+
+  ,
+
+  recentlyUpdatedBlocks: function (callback) {
+    var Self = this;
+    
+    // Get 5 most recently updated blocks 
+    Self.aggregate(
+        {$group: {_id: '$block', max_date: {$max: '$_id'}}}
+      , {$sort: {max_date: -1}}
+      , {$limit: 5}
+      , function (err, results) {
+        async.map(
+            results
+          , function (result, cb) {
+            var block = result._id;
+
+            // Get 5 most recently updated links in block
+            Self.aggregate(
+                {$match: {block: block}}
+              , {$group: {_id: '$_address', max_date: {$max: '$_id'}}}
+              , {$sort: {max_date: -1}}
+              , {$limit: 5}
+              
+              , function (err, results) {
+
+                // Retrieve addresses for results
+                async.map(
+                    results
+                  , function (result, cb) {
+                    Address.findById(result._id)
+                    .select('title working_url')
+                    .exec(cb);
+                  }
+                  , function (err, results) {
+                    var result = {
+                        block: block
+                        , results: results
+                    };
+                    cb(err, result);
+                  }
+                );
+              }
+            );
+          }
+          , function (err, results) {
+            callback(err, results);
+          }
+        );
+      }
+    );
   }
 
 };
