@@ -20,7 +20,7 @@ module.exports = function(passport) {
 
   //serialize sessions
   passport.serializeUser(function(user, done) {
-    console.log('passport.serializeUser', user.email);
+//    console.log('passport.serializeUser', user.email);
     done(null, user.id);
   });
 

@@ -3,7 +3,7 @@
 .modal-overlay#new-list-modal
   .modal-window
     //- i._close.js-close.icon-remove
-    .modal-window__topbar New Favorite List
+    .modal-window__topbar New List
     label.inline
       input.js-name(type="text", name="block")
     .modal-window__bottombar
@@ -20,7 +20,6 @@
   .modal-window
     .modal-window__topbar Bookmarklet
     div Drag the bookmarklet below to your bookmarks bar to submit pages to Hypermarks instantly.
-    img(src="/empty.jpg")
     .modal-window__bottombar
       a.bookmarklet__link(href="#{bm_loader}") Hypermarks
 
@@ -29,3 +28,10 @@
     input(name="username")
     input(name="password")
     .modal-window__bottombar
+
+.modal-overlay#delete-list-modal
+  .modal-window
+    //- i._close.js-close.icon-remove
+    .modal-window__topbar Delete #{title}
+    .modal-window__bottombar
+      button.btn.js-submit Delete

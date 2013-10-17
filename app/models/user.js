@@ -95,7 +95,7 @@ userSchema.statics = {
       , function (err, user) {
         var favorite_blocks = user.favorite_blocks;
         var blockIndex = _.findIndex(favorite_blocks, {'_id': sanitized_block_id});
-
+        console.log(user)
         if (blockIndex === -1) { //If the block does not yet exist
           favorite_blocks.push({
               '_id': sanitized_block_id
@@ -106,7 +106,28 @@ userSchema.statics = {
         }
         user.save(cb);
     });
+  },
+  deleteFavoriteBlock: function (user_id, block_id, cb) {
+    console.log(block_id)
+        console.log(user_id)
+
+    var sanitized_block_id = stringUtils.sanitize(block_id);
+    this.findById(
+      user_id
+      , function (err, user) {
+        var favorite_blocks = user.favorite_blocks;
+        var blockIndex = _.findIndex(favorite_blocks, {'_id': sanitized_block_id});
+
+        if (blockIndex !== -1) { //If the block does not yet exist
+            favorite_blocks.splice(blockIndex, 1);
+          }
+        
+        user.save(cb);
+    });
   }
+
+
+  
 
 };
 

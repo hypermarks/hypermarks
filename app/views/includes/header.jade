@@ -5,7 +5,8 @@ nav.header#header
   .header__controls
     form._searchbox(action="/_search", method="get")
       label.inline
-        input(name="q")
+        - var _q = q?q:""
+        input(name="q", value="#{_q}")
         button.btn-quiet.js-add-link
           i.icon-search
           |&nbsp;Search

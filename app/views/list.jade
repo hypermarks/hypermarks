@@ -2,9 +2,11 @@ extends layouts/default
 
 
 block content
-  main.page
+  main.page#results
     .page__topbar 
       h1._title#page-title #{title}
+      if (typeof page_vars.block === 'string')
+        a.js-delete-list._delete_list#delete-list(data-listname=page_vars.block href="javscript:null;") delete
       |&nbsp;
       //- if (page === 'block')
       //-   nav._control
@@ -18,7 +20,7 @@ block content
       //-           i.icon-globe
       //-           |&nbsp;Public
 
-    .results#results
+    .results
       .results__topbar
         if (!hide_add)
           button.btn-quiet.js-add-link
@@ -45,5 +47,5 @@ block content
             .hypermark__bottom-bar
               button.btn-quiet.js-add-to-list 
                 i.icon-book
-                |&nbsp;Move to List
+                |&nbsp;Clone to List
                

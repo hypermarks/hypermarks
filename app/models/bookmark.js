@@ -64,7 +64,6 @@ bookmarkSchema.statics = {
       , chrome_extension_id: opts.chrome_extension_id
       , block : opts.block ? opts.block: ''
     });
-
     bookmark.save(callback);
   }
 

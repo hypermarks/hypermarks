@@ -78,12 +78,15 @@ exports.search = function (req, res) {
     query: req.query.q
   }, function (err, results) {
     if (err) console.log(err);
+
+    console.log(err);
+    console.log(results);
     var hypermarks = _.map(results.hits, function(result) {
       result._address = result._source;
       delete result._source;
       return result;
     });
-    return res.render('results', {
+    return res.render('search_results', {
         user: (req.user) ? req.user : null
       , bm_loader: bm_loader(config.url)
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
@@ -91,7 +94,7 @@ exports.search = function (req, res) {
       , title: 'Search'
       , page: 'search'
       , page_vars: {block:null, username:req.user.username}
-
+      , q: req.query.q
     });
   });
 };

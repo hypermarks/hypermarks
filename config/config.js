@@ -4,7 +4,6 @@
 var env = process.env.NODE_ENV || 'development'
   , path = require('path')
   , rootPath = path.resolve(__dirname + '../..')
-  , esport = process.env.NODE_ENV || '9200'
   , port = process.env.PORT || '1337'
   , urlTools = require('url-tools')
 ;
@@ -23,6 +22,7 @@ function elmongoUrlSanitize(eshost) {
   return urlTools.normalize(eshost, url_opts).replace(/:/, '%3A')
 }
 
+
 module.exports = function() {
   if (env === 'development') {
     return {
@@ -30,7 +30,7 @@ module.exports = function() {
       , db: 'mongodb://localhost/hypermarks_dev'
       , es: 'localhost'
       , url: 'http://localhost:' + port
-      , esport: esport
+      , esport: 9200
       , port: port
     };
   }
@@ -40,7 +40,7 @@ module.exports = function() {
       , db: process.env.MONGOLAB_URI
       , es: elmongoUrlSanitize(process.env.BONSAI_URL)
       , url: 'http://hypermarks.herokuapp.com'
-      , esport: esport
+      , esport: 80
       , port: port
     };
   }
@@ -50,7 +50,7 @@ module.exports = function() {
       , db: process.env.MONGOLAB_URI
       , es: elmongoUrlSanitize(process.env.BONSAI_URL)
       , url: 'http://hypermarks-staging.herokuapp.com'
-      , esport: esport
+      , esport: 80
       , port: port
     };
   }

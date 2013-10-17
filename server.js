@@ -23,11 +23,18 @@ require('./config/passport')(passport, config);
 
 var app = express();
 
+// simple logger
+app.use(function(req, res, next){
+  console.log('%s %s', req.method, req.url);
+  next();
+});
+
 // Bootstrap application settings
 require('./config/express')(app, config, passport);
 
 // Bootstrap routes
 require('./config/routes')(app, passport);
+
 
 
 // Start the app by listening on <port>

@@ -2,7 +2,7 @@
 
 /* global airwaves, $, presentational, page_vars */
 
-var flash, modal, results, hypermark, header, sidebar, authModal, bookmarkletModal, newListModal, modalOverlay, addLinkModal, flash;
+var deleteListModal, flash, modal, results, hypermark, header, sidebar, authModal, bookmarkletModal, newListModal, modalOverlay, addLinkModal, flash;
 
 //CHANNELS
 var modesChan = new airwaves.Channel();
@@ -50,6 +50,10 @@ results = function ($el) {
 
   $el.on('click', '.js-add-link', function () {
     modesChan.broadcast('add-link');
+  });
+
+  $el.on('click', '.js-delete-list', function () {
+    modesChan.broadcast('delete-list');
   });
 
   //Subscriptions
@@ -162,24 +166,7 @@ addLinkModal = function ($el) {
 
 
 
-// newListModal = function ($el) {
-//   modal($el, modesChan, 'new-list');
 
-//   var list_name = $('#page-title').text();
-  
-//   var cb = function (e) {
-//     var list_name = $('.js-name').val();
-//     if (e.type === 'keypress' && e.keyCode !== 13) {
-//       return;
-//     } //bonk out the keypress is not enter;
-
-//     $.post('/_api/favorites/add', {
-//       block_id: list_name
-//     }, function () {
-//       window.location.reload();
-//     });
-//     modesChan.broadcast('exit');
-//   };
 
 newListModal = function ($el) {
   modal($el, modesChan, 'new-list');
@@ -191,10 +178,10 @@ newListModal = function ($el) {
       } //bonk out the keypress is not enter;
 
         
-      $.post('/_api/favorites/add', {
+    $.post('/_api/favorites/add', {
         block_id: list_name
       }, function () {
-        window.location.reload();
+      //  window.location.reload();
       });
       modesChan.broadcast('exit');
     };
@@ -209,6 +196,63 @@ newListModal = function ($el) {
 };
 
 
+// deleteList = function ($el) {
+//   modal($el, modesChan, 'new-list');
+//   var list_name = $('#page-title').text(),
+//     cb = function (e) {
+//       var list_name = $('.js-name').val();
+//       if (e.type === 'keypress' && e.keyCode !== 13) {
+//         return;
+//       } //bonk out the keypress is not enter;
+
+        
+//     $.post('/_api/favorites/delete', {
+//         block_id: list_name
+//       }, function () {
+//       //  window.location.reload();
+//       });
+//       modesChan.broadcast('exit');
+//     };
+
+//   $el.on('click', '.js-add-current', function () {
+//     $('.js-name').val(list_name);
+//   });
+
+//   $el.on('click', '.js-submit', cb);
+//    
+//   $('input', $el).on('keypress', cb);
+// };
+
+
+// $("#delete-list").on('click', function(){
+//     var list_name = $('#page-title').text();
+//     $.post('/_api/favorites/add', {
+//         block_id: "new"
+//       }, function () {
+//         window.location.reload();
+//       });
+
+
+
+
+// });
+
+// deleteList=function($el){
+
+// var cb = function (e) {
+
+//     $.post('/_api/favorites/delete', {
+//       block_id: page_vars.block
+//     }, function () {
+//       window.location.reload();
+//     });
+
+  
+//   };
+//   $el.on('click', cb);
+
+// }
+
 
 bookmarkletModal = function($el) {
   modal($el, modesChan, 'bookmarklet');
@@ -220,7 +264,27 @@ authModal = function($el) {
   modal($el, modesChan, 'auth');
 };
 
+deleteListModal= function($el){
+  modal($el, modesChan, 'delete-list');
+  var cb = function (e) {
+    var list_name = page_vars.block;
+    $.post('/_api/favorites/delete', {
+      block_id: list_name
+    }, 
+    function () {
+      window.location="/";
+    });
+    modesChan.broadcast('exit');
+  };
 
+  $el.on('click', '.js-add-current', function () {
+    $('.js-name').val(list_name);
+  });
+
+  $el.on('click', '.js-submit', cb);
+
+
+};
 
 modalOverlay = function ($el) {
   $el.on('click', function () {
@@ -242,7 +306,7 @@ flash = function ($this, flashClass, time) {
 };
 
 
-
+deleteListModal($('#delete-list-modal'));
 modalOverlay($('#modal-overlay'));
 newListModal($('#new-list-modal'));
 addLinkModal($('#add-link-modal'));

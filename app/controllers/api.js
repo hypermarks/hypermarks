@@ -163,6 +163,17 @@ exports.touchFavoriteBlock = function (req, res) {
   });
 };
 
+exports.deleteFavoriteBlock = function (req, res) {
+  if (!req.user) return res.end('401');
+  User.deleteFavoriteBlock(req.user._id, req.body.block_id, function (err, user) {
+    if (err) return console.log(err);
+
+    var sorted_blocks = _.sortBy(user.favorite_blocks, 'date_accessed').reverse();
+    return res.json('200', sorted_blocks);
+  });
+};
+
+
 
 exports.getFavoriteBlocks = function (req, res) {
   if (!req.user) return res.end('401');
