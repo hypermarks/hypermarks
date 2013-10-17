@@ -56,12 +56,16 @@ module.exports = function (app, passport) {
     User.findOne({username:id}, function(err, result){
       if (err) return res.send("User Lookup Error");
       if (!result) return res.send("No User Match");
-      next()
+      next();
     });
   });
   //PAGES
-  app.get('/', pages.front);
-  app.get('/_my/uncategorized',auth.requiresLogin, pages.uncategorized);
+
+  
+  app.get('/', auth.requiresLogin, pages.privateBlock);
+  app.get('/_top', pages.front);
+
+  //app.get('/_my/uncategorized',auth.requiresLogin, pages.uncategorized);
   app.get('/_search', pages.search);
   app.get('/_p/:block', pages.publicBlock);
   app.get('/:user/:block', auth.requiresLogin, pages.privateBlock);

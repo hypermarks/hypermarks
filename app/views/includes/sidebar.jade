@@ -2,8 +2,9 @@ nav.sidebar#sidebar
   section._menu
     ul
       li._item
-        a(href="/#{user.username}/uncategorized") Uncategorized
-
+        a._top_list(href="/") Home
+      li._item
+        a._top_list(href="/_top") Top Lists
 
   if (favorite_blocks)
     section._menu.js-fave-lists
