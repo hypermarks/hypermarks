@@ -41,37 +41,12 @@ function favoriteBlocks (user, callback) {
 }
 
 
-
-// exports.front = function (req, res) {
-//   Bookmark.recentlyUpdatedBlocks(function (err, results) {
-//     // var blocks=req.user.getFavoriteBlocks()
-//     // var q={block: { $in: _.pluck(blocks,'_id') } };
-//     // console.log(q);
-//     // Block.find( q, function(err, BlockResults){
-      
-//     //   blockRespone=_.map(blocks,function(val){
-//     //     var val.count=_.find(results,function(val2){ return val2.id==val._id});
-//     //     return val
-
-//     //   });
-//     //   console.log(BlockResults)
-//     return res.render('multi-list', {
-//         user: req.user ? req.user : null
-//       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null        
-//       , title: 'Home'
-//       , results: results
-//       , page_vars: {block: null}
-//     });
-//   });
-
-// };
-
 exports.front = function (req, res) {
-    var user_id = req.user._id || null;
+    var user_id = req.user ? req.user._id : null;
     async.parallel({
       user_lists: function (callback) {
         // if (!user_id) return callback(null, null);
-        Bookmark.aggregateUserLists(req.user._id, function (err, results) {
+        Bookmark.aggregateUserLists(user_id, function (err, results) {
           if (err) return callback(err);
           return callback(null, results);
         });
