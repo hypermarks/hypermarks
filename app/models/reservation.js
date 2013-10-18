@@ -31,5 +31,4 @@ reservationSchema.statics = {
 
 }
 
-
 module.exports = mongoose.model('Reservation', reservationSchema);
