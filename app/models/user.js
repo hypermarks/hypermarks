@@ -108,6 +108,7 @@ userSchema.statics = {
         user.save(cb);
     });
   },
+  
   deleteFavoriteBlock: function (user_id, block_id, cb) {
     console.log(block_id)
         console.log(user_id)

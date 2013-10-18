@@ -122,6 +122,7 @@ bookmarkSchema.statics = {
 
   ,
 
+  //Pretty ridiculous. Refine into one aggregation (should be possible)
   recentlyUpdatedBlocks: function (callback) {
     var Self = this;
     
@@ -168,6 +169,26 @@ bookmarkSchema.statics = {
             callback(err, results);
           }
         );
+      }
+    );
+  }
+
+  ,
+
+
+  aggregateUserLists: function (user_id, callback) {
+    var Self = this;
+    Self.aggregate(
+      { $group: { _id: '$block'
+        , total_count: { $sum: 1 }
+        , last_modified: { $max: '$_id' }
+        , user_count: { $sum: { $cond: [ { $eq: [ '$_user', user_id ] } , 1, 0 ] } }
+      }}
+
+      , { $match : { user_count : { $ne: 0 } } }
+
+      , function(err, results) {
+        callback(err, results);
       }
     );
   }

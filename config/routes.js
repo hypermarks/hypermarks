@@ -31,7 +31,7 @@ module.exports = function (app, passport) {
   app.post('/_api/favorites/add', api.touchFavoriteBlock);
   app.post('/_api/favorites/delete', api.deleteFavoriteBlock);
 
-
+  app.get('/_temp/demo', pages.tempDemo);
 
   //Eoin's reservation page depends on this
   app.post('/_api/users/reserve', api.reserveUsername);

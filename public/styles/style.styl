@@ -57,8 +57,12 @@ h6
   margin 0
   padding 0
 
-html
-  line-height 1.2
+.float-right
+  float right
+
+.float-left
+  float left
+
 
 //GLOBAL
 .dropdown
@@ -119,7 +123,7 @@ label.inline
   background white
   border-bottom 1px solid brand
 
-  .header__logo
+  ._logo
     middle-parent()
     height nav-height
     col(1, 3, no-gutter)
@@ -135,7 +139,7 @@ label.inline
       font-size 1.8em
       color brand
 
-  .header__controls
+  ._controls
     col(2, 3)
     @media under-tablet
       col(1, 1)
@@ -147,7 +151,7 @@ label.inline
       & > *
         middle-child()
 
-  .header__links
+  ._links
     float right
     ._link
       height nav-height
@@ -162,17 +166,6 @@ label.inline
         i 
           padding-left .5em
 
-  .header__bookmarklet
-    height nav-height
-    float left
-    middle-parent()
-    & > *
-      middle-child() 
-
-
-.bookmarklet
-  text-align center
-
 
 .sidebar
   col(1, 3, no-gutter)
@@ -183,50 +176,74 @@ label.inline
   box-shadow micro-shadow
   background white
 
-  ._menu
-    margin-bottom 2rem
-    menu-text()
+.menu
+  margin-bottom 2rem
+  menu-text()
 
-    ul 
-      reset-list()
-    ._topbar
-      padding .5em gutter * .5
-      nav-justify()
-      line-height 1
-      margin-bottom -1em
-      ._title
-        font-size large-text
-        display inline-block
-        vertical-align middle
-        upcase()
-      ._control
-        vertical-align middle
-        display inline-block
+  ul 
+    reset-list()
 
-    ._item
-      padding 1em 0
-      border-bottom 1px solid transparent
-      border-top 1px solid transparent
-      position relative
-      cursor pointer
-      padding-left gutter * .5 !important
-      a._top_list
-        font-weight bold
-      a
-        reset-link()
-      &:first-child
-        border-top 1px solid medgrey
-      &.-added
-        animation addedFade 500ms
-    
-    &.-hoverable
-      ._item
-        &:hover
-          border-color accent
-          background lightblue
-        &:active, .-active
-          background accent
-          color white
+  &.-hoverable
+    .menu__item
+      &:hover
+        border-color accent
+        background lightblue
+      &:active, .-active
+        background accent
+        color white
+
+   .sortable-placeholder
+     padding 1em !important
+     &:before
+       content '|'
+       visibility hidden
+
+.menu__topbar
+  padding .5em gutter * .5
+  nav-justify()
+  line-height 1
+  margin-bottom -1em
+  ._title
+    font-size large-text
+    display inline-block
+    vertical-align middle
+    upcase()
+  ._control
+    vertical-align middle
+    display inline-block
+
+.menu__item
+  background white
+  padding-top 1em !important
+  padding-bottom 1em !important
+  border-bottom 1px solid transparent
+  border-top 1px solid transparent
+  position relative
+  cursor pointer
+  padding-left gutter * .5 !important
+  padding-right gutter * .5 !important
+  a
+    reset-link()
+  &:first-child
+    border-top 1px solid medgrey
+  &.-added
+    animation addedFade 400ms
+    ._count
+      animation countBump 200ms
+  ._count
+    float right
+    &.-bump
+      animation countBump 100ms
+
+
+@keyframes countBump
+  0%
+    transform scale(2)
+
+  100%
+    transform scale(1)
+
+
 
 @keyframes addedFade
   0%
@@ -236,8 +253,9 @@ label.inline
     background white
     color inherit
 
-page-topbar-height = 4rem
 
+
+page-topbar-height = 4rem
 .page
   col(2, 3)
   @media under-tablet
@@ -257,11 +275,6 @@ page-topbar-height = 4rem
     ._control
       vertical-align middle
       display inline-block
-    ._delete_list
-      text-decoration none
-      vertical-align bottom
-      margin-left 7px
-      line-height 42px
 
 
 .results
@@ -276,12 +289,9 @@ page-topbar-height = 4rem
   card()
   padding .5em
   margin-bottom 1.5em
-  .hypermark__control-left
-    float: left
-  .hypermark__info
-    float: left
   .hypermark__link
     font-size large-text
+    overflow ellipsis
     // display block
   .hypermark__sani-url
     padding-top 5px
@@ -289,6 +299,7 @@ page-topbar-height = 4rem
     margin-bottom 5px
     display block
     color accent2
+    overflow ellipsis
   .hypermark__bottom-bar
     margin-top .5em
   .hypermark__close
@@ -316,7 +327,6 @@ page-topbar-height = 4rem
   modal-style()
   padding 1em
   margin-top 15%
-  max-width 500px
   display inline-block
   position relative
   .modal-window__topbar
@@ -341,12 +351,3 @@ page-topbar-height = 4rem
     &:last-child
       border-bottom-left-radius 0
       border-top-left-radius 0
-
-.hypermarkpost 
-  #search
-    display:none;
-  #hypermarkpost
-    display:inline;
-
-#hypermarkpost
-  display:none;

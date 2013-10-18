@@ -2,20 +2,19 @@ nav.sidebar#sidebar
   section._menu
     ul
       li._item
-        a._top_list(href="/") Home
+        i.icon-home 
+        |My Timeline
 
-  if (favorite_blocks)
-    section._menu.js-fave-lists
-      ._topbar
+  if (favorite_blocks)  
+    section.menu
+      .menu__topbar
         ._title Lists
         |&nbsp;
         //- ._control.js-new-list + New List
         button.btn-quiet.js-new-list
           |<b>+</b>&nbsp;New List
-      ul
-        li._item.js-list 
-          a(href="/#{user.username}/Unlisted", data-block="home") 
-            i Unlisted
+      ul.js-sortable
         for favorite_block in favorite_blocks
-          li._item.js-list 
-            a(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
+          li.menu__item.js-favorite-block
+            a._name(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
+            span._count.js-count <i>#{favorite_block.user_count}</i> | #{favorite_block.total_count}

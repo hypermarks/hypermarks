@@ -43,6 +43,8 @@ exports.reserveUsername = function (req, res) {
 
 exports.postHypermark = function (req, res) {
   if (!req.user) return res.end('401');
+  
+
   Block.updateCreate(req.body.block);
   var block = req.body.block;
   var opts = {
@@ -50,6 +52,8 @@ exports.postHypermark = function (req, res) {
     , user_id: req.user._id
     , block: block
   };
+  
+
   createHypermark(opts, function(err){
     if (err) return console.log(err);
     return res.end('200');
@@ -71,11 +75,13 @@ exports.postHypermarkChrome = function (req, res) {
 
 exports.removeHypermark = function (req, res) {
   if (!req.user) return res.end('401');
+  
   Block.updateDecrement(req.body.block);
   var opts = {
       _id: req.body._id
     , _user: req.user._id
   };
+  
   Bookmark.remove(opts, function(err){
     if (err) return res.end('500');
     return res.redirect('/');
