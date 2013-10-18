@@ -27,11 +27,10 @@ var config = require('../../config/config')()
 
 exports.front = function (req, res) {
   Bookmark.recentlyUpdatedBlocks(function (err, results) {
-    console.log('front results', results)
     return res.render('multi-list', {
         user: req.user ? req.user : null
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null        
-      , title: 'Top Lists'
+      , title: 'Home'
       , results: results
       , page_vars: {block: null}
     });
@@ -42,7 +41,7 @@ exports.front = function (req, res) {
 exports.publicBlock = function (req, res) {
   var block = stringUtils.sanitize(req.params.block)
     , username = req.user ? req.user.username : null;
-  Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
+      Bookmark.aggregatePublicBlock(block, function (err, hypermarks) {
     return res.render('list', {
         user: (req.user) ? req.user : null
       , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
@@ -56,7 +55,7 @@ exports.publicBlock = function (req, res) {
 };
 
 exports.privateBlock = function (req, res) {
-    var block = req.url=="/"? stringUtils.sanitize('Home'):stringUtils.sanitize(req.params.block);
+    var block = req.url=="/"? stringUtils.sanitize('Unlisted'):stringUtils.sanitize(req.params.block);
     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
       return res.render('list', {
           user: req.user

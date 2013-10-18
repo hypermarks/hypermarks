@@ -3,8 +3,6 @@ nav.sidebar#sidebar
     ul
       li._item
         a._top_list(href="/") Home
-      li._item
-        a._top_list(href="/_top") Top Lists
 
   if (favorite_blocks)
     section._menu.js-fave-lists
@@ -15,6 +13,9 @@ nav.sidebar#sidebar
         button.btn-quiet.js-new-list
           |<b>+</b>&nbsp;New List
       ul
+        li._item.js-list 
+          a(href="/#{user.username}/Unlisted", data-block="home") 
+            i Unlisted
         for favorite_block in favorite_blocks
           li._item.js-list 
             a(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
