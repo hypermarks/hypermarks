@@ -1,28 +1,26 @@
 nav.header#header
-  a.header__logo(href='/')
+  a._logo(href='/')
     img(src="/images/hypermarks-logo_64.png")
     span._text Hypermarks
-  .header__controls
+  ._controls
     form._searchbox(action="/_search", method="get")
       label.inline
-        - var _q = q?q:""
-        input(name="q", value="#{_q}")
+        input(name="q")
         button.btn-quiet.js-add-link
           i.icon-search
           |&nbsp;Search
-    .header__links
+    ._links
       ._link.-account
         span
           if user
             .dropdown.js-dropdown.-right 
-              span #{user.username}
+              span Settings
               i.icon-caret-down
               ul
                 li._header #{user.email}
-                li.js-logout Sign Out
+                li 
+                  a(href="#{bm_loader}") Bookmarklet
+                li#logout Sign Out
 
           else
-            a(href="/_auth/login") Sign In
-
-  .header__bookmarklet
-    a.js-bookmarklet Bookmarklet
+            span#login Sign In
