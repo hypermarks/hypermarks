@@ -87,27 +87,12 @@ exports.publicBlock = function (req, res) {
   );
 };
 
+
 exports.tempDemo = function (req, res) {
   Bookmark.aggregateOneBlockCounts(req.user._id, req.body.block, function (err, results) {
     return res.send(results);
   });
 };
-
-
-// exports.privateBlock = function (req, res) {
-//     var block = req.url == "/" ? stringUtils.sanitize('Unlisted') : stringUtils.sanitize(req.params.block);
-//     Bookmark.getPrivateBlock(req.user._id, block, function (err, hypermarks) {
-//       return res.render('list', {
-//           user: req.user
-//         , favorite_blocks: (req.user) ? req.user.getFavoriteBlocks() : null
-//         , results: hypermarks
-//         , title: block
-//         , visibility: 'private'
-//         , page: 'block'
-//         , page_vars: {block: block, username:req.user.username}
-//       });
-//     });
-// };
 
 
 exports.privateBlock = function (req, res) {

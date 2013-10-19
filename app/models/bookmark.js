@@ -234,24 +234,15 @@ bookmarkSchema.statics = {
       , { $group: {
           _id: { $eq: [ '$_user', user_id ] }
         , count: { $sum: 1 }
-        }}
+      }}
       , function(err, results) {
-        //Turns array of results into object
-        var clean = _(results)
-        .indexBy(function (result) {
-          return result._id ? 'user' : 'non_user';
-        })
-        .forIn(function (value, key) {
-          console.log('forIn', value, key)
-          return value.count;
-        })
-        .valueOf();
-
-        // var results_obj = _.indexBy(results, function (result) {
-        //   return result._id ? 'user' : 'non_user';
-        // });
-
-        // var clean = results_obj.total = results_obj.user.count + results_obj.non_user.count;
+        // Transform into nice output
+        var clean =
+        _.object(_.map(results, function (num) {
+            return [num._id ? 'others' : 'mine' , num.count];
+        }));
+        // Add total field
+        clean.total = clean.others + clean.mine;
         callback(err, clean);
       }
     );
