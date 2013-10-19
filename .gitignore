@@ -1,2 +1,3 @@
 *.css
 .env
+node_modules
