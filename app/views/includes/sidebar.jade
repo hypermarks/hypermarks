@@ -16,5 +16,5 @@ nav.sidebar#sidebar
       ul.js-sortable
         for favorite_block in favorite_blocks
           li.menu__item.js-favorite-block
-            a._name(href="/_my/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
+            a._name(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
             span._count.js-count <i>#{favorite_block.user_count}</i> | #{favorite_block.total_count}

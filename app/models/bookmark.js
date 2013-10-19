@@ -12,13 +12,13 @@ var mongoose = require('mongoose')
 var bookmarkSchema = new Schema({
     _address: { type: Schema.Types.ObjectId, ref: 'Address' }
   , _user: { type: Schema.Types.ObjectId, ref: 'User' }
-  , block: { type : String, set: blockSanitize, default : '' }
+  , block: { type : String, set: blockSanitize, get: blockSanitize, default : '' }
   , chrome_extension_id : { type : Number }
   , sani_url: String
   , user_url: String //This is the url that the user submitted the bookmark with
 });
 
-//SETTERS
+//SETTERS/GETTERS
 function blockSanitize(block) {
   return stringUtils.sanitize(block);
 }
@@ -69,6 +69,7 @@ bookmarkSchema.statics = {
 
   ,
 
+
   remove: function (opts, callback) {
     this.findOne({_id: opts._id})
     .exec(function(err, result){
@@ -99,12 +100,43 @@ bookmarkSchema.statics = {
 
   ,
 
+//   //This counts the number of bookmarks in a block
+//   countBlock: function (block, callback) {
+//     this.count({block: block})
+//     .exec(callback);
+//   }
+
+// // this.aggregate(
+// //     { $match: { block: block } }
+// //   , { $group: { _id: '$_user' } }
+// // )
+
+//   ,
+
+//   //This counts the number of bookmarks in a block that ARE NOT 
+//   //from a user.
+//   countPublicBlock: function (user_id, block, callback) {
+//     this.count({ _user: { $ne: user_id }, block: block })
+//     .exec(callback);
+//   }
+
+//   ,
+
+//   //This counts the number of bookmarks in a block that ARE
+//   //from a user.
+//   countPrivateBlock: function (user_id, block, callback) {
+//     this.count({ _user: user_id, block: block })
+//     .exec(callback);
+//   }
+
+//   ,
+
   aggregatePublicBlock: function (block, callback) {
     var Self = this;
     Self.aggregate(
-        {$match: {block: block}}
-      , {$group: {_id: '$_address', count: {$sum: 1}}}
-      , {$sort: {count: -1}}
+        { $match: { block: block } }
+      , { $group: { _id: '$_address', count: { $sum: 1 } } }
+      , { $sort: { count: -1 } }
     , function(err, results){
       async.map(
         results
@@ -175,11 +207,10 @@ bookmarkSchema.statics = {
 
   ,
 
-
-  aggregateUserLists: function (user_id, callback) {
+  aggregateUserBlocks: function (user_id, callback) {
     var Self = this;
     Self.aggregate(
-      { $group: { _id: '$block'
+        { $group: { _id: '$block'
         , total_count: { $sum: 1 }
         , last_modified: { $max: '$_id' }
         , user_count: { $sum: { $cond: [ { $eq: [ '$_user', user_id ] } , 1, 0 ] } }
@@ -189,6 +220,39 @@ bookmarkSchema.statics = {
 
       , function(err, results) {
         callback(err, results);
+      }
+    );
+  }
+
+  ,
+
+  aggregateOneBlockCounts: function (user_id, block, callback) {
+    var Self = this;
+    // Groups all bookmarks in block on whether or not they belong to the user.
+    Self.aggregate(
+        { $match: { block: block } }
+      , { $group: {
+          _id: { $eq: [ '$_user', user_id ] }
+        , count: { $sum: 1 }
+        }}
+      , function(err, results) {
+        //Turns array of results into object
+        var clean = _(results)
+        .indexBy(function (result) {
+          return result._id ? 'user' : 'non_user';
+        })
+        .forIn(function (value, key) {
+          console.log('forIn', value, key)
+          return value.count;
+        })
+        .valueOf();
+
+        // var results_obj = _.indexBy(results, function (result) {
+        //   return result._id ? 'user' : 'non_user';
+        // });
+
+        // var clean = results_obj.total = results_obj.user.count + results_obj.non_user.count;
+        callback(err, clean);
       }
     );
   }

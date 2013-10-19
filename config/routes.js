@@ -31,14 +31,16 @@ module.exports = function (app, passport) {
   app.post('/_api/favorites/add', api.touchFavoriteBlock);
   app.post('/_api/favorites/delete', api.deleteFavoriteBlock);
 
-  app.get('/_temp/demo', pages.tempDemo);
-
   //Eoin's reservation page depends on this
   app.post('/_api/users/reserve', api.reserveUsername);
 
   app.get('/_auth/login', users.loginpage);
   app.get('/_auth/signup', users.signuppage);
   app.post('/_auth/users', users.create);
+
+
+  app.post('/_temp/demo', pages.tempDemo);
+
 
 
   //AUTH
@@ -66,6 +68,6 @@ module.exports = function (app, passport) {
 
   //app.get('/_my/uncategorized',auth.requiresLogin, pages.uncategorized);
   app.get('/_search', pages.search);
-  app.get('/_p/:block', pages.publicBlock);
-  app.get('/:user/:block', auth.requiresLogin, pages.privateBlock);
+  app.get('/_public/:block', pages.publicBlock);
+  app.get('/:user/:block', pages.privateBlock);
 };
