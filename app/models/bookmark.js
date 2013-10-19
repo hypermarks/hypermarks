@@ -210,13 +210,15 @@ bookmarkSchema.statics = {
   aggregateUserBlocks: function (user_id, callback) {
     var Self = this;
     Self.aggregate(
-        { $group: { _id: '$block'
+      { $group: { 
+        _id: '$block'
         , total_count: { $sum: 1 }
         , last_modified: { $max: '$_id' }
         , user_count: { $sum: { $cond: [ { $eq: [ '$_user', user_id ] } , 1, 0 ] } }
       }}
 
       , { $match : { user_count : { $ne: 0 } } }
+      , { $match : { _id : { $ne: '' } } }
 
       , function(err, results) {
         callback(err, results);
