@@ -18,12 +18,12 @@ block content
         if (block_counts.my && !private)
           .list-link.float-right
             i.icon-user&nbsp;
-            a(href="/#{user.username}/#{block}") #{user.username}/#{block}
+            a(href="/#{user.username}/#{block}") #{user.username}/#{block} (#{block_counts.my})
 
         if (block_counts.other && private)
           .list-link.float-right
             i.icon-globe&nbsp;
-            a(href="/public/#{block}") public/#{block}
+            a(href="/public/#{block}") public/#{block} (#{block_counts.total})
 
       if results 
         for result in results
