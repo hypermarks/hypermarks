@@ -14,16 +14,16 @@ block content
         if (!hide_add)
           button.btn-quiet.js-add-link
             |<b>+</b>&nbsp;Add Link
-        if (public_check)
-          button.btn-quiet.float-right
-            a(href="/#{title}")
-              |To Public List&nbsp;
-              i.icon-caret-right 
-        if (private_check)
-          button.btn-quiet.float-right
-            a(href="/_my/#{title}")
-              i.icon-caret-left
-              |&nbsp;To Private List
+
+        if (block_counts.my && !private)
+          .list-link.float-right
+            i.icon-user&nbsp;
+            a(href="/#{user.username}/#{block}") #{user.username}/#{block}
+
+        if (block_counts.other && private)
+          .list-link.float-right
+            i.icon-globe&nbsp;
+            a(href="/public/#{block}") public/#{block}
 
       if results 
         for result in results

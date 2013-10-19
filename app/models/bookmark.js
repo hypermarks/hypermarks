@@ -236,14 +236,16 @@ bookmarkSchema.statics = {
         , count: { $sum: 1 }
       }}
       , function(err, results) {
-        // Transform into nice output
-        var clean =
-        _.object(_.map(results, function (num) {
-            return [num._id ? 'others' : 'mine' , num.count];
-        }));
-        // Add total field
-        clean.total = clean.others + clean.mine;
-        callback(err, clean);
+        // Cleans up output
+        var output = {}
+          , my = _.find(results, { '_id': true })
+          , other = _.find(results, { '_id': false });
+
+        output.my = my ? my.count : 0;
+        output.other = other ? other.count : 0;
+        output.total = output.my + output.other;
+
+        callback(err, output);
       }
     );
   }

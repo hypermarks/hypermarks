@@ -63,25 +63,23 @@ exports.publicBlock = function (req, res) {
         return callback(null, results);
       });
     }
-    // , counts: function(callback) {
-    //   if (req.user) {
-    //     Bookmark.aggregateOneBlockCounts(user_id, block, function (err, results) {
-    //       console.log(results);
-    //       return callback(err, results);
-    //     });
-    //   } else {
-    //     callback(null, null);
-    //   }
-    // }
+    , block_counts: function(callback) {
+      Bookmark.aggregateOneBlockCounts(user_id, block, function (err, results) {
+        return callback(err, results);
+      });
+    }
     }
     , function (err, results) {
+      console.log('publicBlock block_counts', results.block_counts)
       if (err) return console.log(err);
       return res.render('list', {
           user: req.user
         , favorite_blocks: results.user_blocks
         , results: results.results
+        , block: block
         , title: block
         , page_vars: {block: block, username: username}
+        , block_counts: results.block_counts
       });
     }
   );
@@ -89,7 +87,7 @@ exports.publicBlock = function (req, res) {
 
 
 exports.tempDemo = function (req, res) {
-  Bookmark.aggregateOneBlockCounts(req.user._id, req.body.block, function (err, results) {
+  Bookmark.aggregateOneBlockCounts(req.body.user || req.user._id, req.body.block, function (err, results) {
     return res.send(results);
   });
 };
@@ -112,16 +110,11 @@ exports.privateBlock = function (req, res) {
           return callback(null, results);
         });
       }
-      // , public_count: function(callback) {
-      //   if (req.user) {
-      //     Bookmark.checkPublicBlock(user_id, block, function (err, results) {
-      //       console.log(results);
-      //       return callback(err, results);
-      //     });
-      //   } else {
-      //     callback(null, null);
-      //   }
-      // }
+      , block_counts: function(callback) {
+        Bookmark.aggregateOneBlockCounts(user_id, block, function (err, results) {
+          return callback(err, results);
+        });
+      }
     }
     , function (err, results) {
       if (err) return console.log(err);
@@ -129,9 +122,11 @@ exports.privateBlock = function (req, res) {
           user: req.user
         , favorite_blocks: results.user_blocks
         , results: results.results
+        , private: true
+        , block: block
         , title: username + '/' + block
         , page_vars: {block: block, username: username}
-        , public_count: results.public_count
+        , block_counts: results.block_counts
       });
     });
   } else {
