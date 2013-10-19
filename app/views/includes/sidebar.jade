@@ -6,7 +6,7 @@ nav.sidebar#sidebar
         |My Timeline
 
   if (favorite_blocks)  
-    section.menu
+    section.menu.js-user-lists
       .menu__topbar
         ._title Lists
         |&nbsp;
@@ -15,6 +15,6 @@ nav.sidebar#sidebar
           |<b>+</b>&nbsp;New List
       ul.js-sortable
         for favorite_block in favorite_blocks
-          li.menu__item.js-favorite-block
+          li.menu__item.js-user-list
             a._name(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
             span._count.js-count <i>#{favorite_block.user_count}</i> &bull; #{favorite_block.total_count}

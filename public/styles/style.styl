@@ -299,26 +299,46 @@ page-topbar-height = 4rem
     margin-bottom 20px
 
 .hypermark
+  display: table
+  margin-bottom: .5rem
+
+.hypermark__control
+  cursor pointer
+  color accent
+  display: table-cell
+  font-size: 30px
+  vertical-align middle
+  &.-left
+    padding-right .5rem
+  &.-right
+    padding-left .5rem
+
+.hypermark__content
+  display: table-cell
+  vertical-align: middle
+  width 100%
+
+.hypermark__card
   card()
-  padding .5em
-  margin-bottom 1.5em
-  .hypermark__link
-    font-size large-text
-    overflow ellipsis
-    // display block
-  .hypermark__sani-url
-    padding-top 5px
-    font-size small-text
-    margin-bottom 5px
-    display block
-    color accent2
-    overflow ellipsis
-  .hypermark__bottom-bar
-    margin-top .5em
-  .hypermark__close
-    float right
-    font-size large-text
-    cursor pointer
+  padding .5rem
+
+.hypermark__link
+  font-size large-text
+  overflow ellipsis
+  // display block
+.hypermark__sani-url
+  padding-top 5px
+  font-size small-text
+  margin-bottom 5px
+  display block
+  color accent2
+  overflow ellipsis
+.hypermark__bottom-bar
+  margin-top .5em
+.hypermark__close
+  float right
+  font-size large-text
+  cursor pointer
   
 .modal-overlay
   background rgba(black, .2)

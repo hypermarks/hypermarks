@@ -28,13 +28,14 @@ block content
       if results 
         for result in results
           article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
-            .hypermark__close.js-delete
-              i.icon-remove
+            .hypermark__control.-left.js-add-to-list
+              i.icon-double-angle-left
 
-            a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
-            .hypermark__sani-url #{result._address.sani_url}
-            .hypermark__bottom-bar
-              button.btn-quiet.js-add-to-list 
-                i.icon-book
-                |&nbsp;Clone to List
+            .hypermark__content
+              .hypermark__card
+                a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
+                .hypermark__sani-url #{result._address.sani_url}
+
+            .hypermark__control.-right.js-delete
+              i.icon-trash
                

@@ -108,10 +108,10 @@ sidebar = function ($el) {
     
   modesChan.subscribe('add-to-list', function (bookmark_id) {
     $el.addClass('top');
-    $el.find('.js-fave-lists').addClass('-hoverable');
+    $el.find('.js-user-lists').addClass('-hoverable');
 
     //add bookmark to block
-    $el.on('click.temp', '.js-list', function (e) {
+    $el.on('click.temp', '.js-user-list', function (e) {
       e.preventDefault();
       var block_id = $('a', this).data('block');
       $.post('/_api/hypermarks/clone', {
