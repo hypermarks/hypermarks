@@ -12,6 +12,7 @@ var mongoose = require('mongoose')
 var bookmarkSchema = new Schema({
     _address: { type: Schema.Types.ObjectId, ref: 'Address' }
   , _user: { type: Schema.Types.ObjectId, ref: 'User' }
+  , _ancestor: Schema.Types.ObjectId
   , block: { type : String, set: blockSanitize, get: blockSanitize, default : '' }
   , chrome_extension_id : { type : Number }
   , sani_url: String
@@ -30,9 +31,14 @@ bookmarkSchema.statics = {
     var Self = this;
     Self.findById(bookmark_id, function (err, bookmark) {
       if (!bookmark) return callback(new Error('No bookmark found at this _id.'));
-      
-      var merged = _.defaults(opts, bookmark.toObject()); //TODO: Replace with lodash _.defaults
-      merged._id = undefined; //So that mongo can set this
+
+      var opts = {
+          _ancestor: bookmark_id
+        , _id: undefined
+      };
+
+      var merged = _.defaults(opts, bookmark.toObject());
+      merged._id = undefined;
 
       new Self(merged).save(callback);
     });
@@ -100,37 +106,6 @@ bookmarkSchema.statics = {
 
   ,
 
-//   //This counts the number of bookmarks in a block
-//   countBlock: function (block, callback) {
-//     this.count({block: block})
-//     .exec(callback);
-//   }
-
-// // this.aggregate(
-// //     { $match: { block: block } }
-// //   , { $group: { _id: '$_user' } }
-// // )
-
-//   ,
-
-//   //This counts the number of bookmarks in a block that ARE NOT 
-//   //from a user.
-//   countPublicBlock: function (user_id, block, callback) {
-//     this.count({ _user: { $ne: user_id }, block: block })
-//     .exec(callback);
-//   }
-
-//   ,
-
-//   //This counts the number of bookmarks in a block that ARE
-//   //from a user.
-//   countPrivateBlock: function (user_id, block, callback) {
-//     this.count({ _user: user_id, block: block })
-//     .exec(callback);
-//   }
-
-//   ,
-
   aggregatePublicBlock: function (block, callback) {
     var Self = this;
     Self.aggregate(
@@ -138,6 +113,7 @@ bookmarkSchema.statics = {
       , { $group: { _id: '$_address', count: { $sum: 1 } } }
       , { $sort: { count: -1 } }
     , function(err, results){
+      console.log('aggregatePublicBlock results 1', results)
       async.map(
         results
         , function (result, cb){
@@ -147,6 +123,7 @@ bookmarkSchema.statics = {
           });
         }
         , function(err, results){
+          console.log('aggregatePublicBlock results 2', results)
           callback(err, results);
         });
     });
@@ -210,7 +187,7 @@ bookmarkSchema.statics = {
   aggregateUserBlocks: function (user_id, callback) {
     var Self = this;
     Self.aggregate(
-      { $group: { 
+      { $group: {
         _id: '$block'
         , total_count: { $sum: 1 }
         , last_modified: { $max: '$_id' }
