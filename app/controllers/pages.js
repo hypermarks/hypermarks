@@ -2,6 +2,7 @@
 var config = require('../../config/config')()
   , mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
+  , User = mongoose.model('User')
   , Address = mongoose.model('Address')
   , stringUtils = require('../../utils/string-utils.js')
   , _ = require('lodash')
@@ -14,10 +15,20 @@ function userBlocks(user, callback) {
   if (!user) return callback(null, null);
   Bookmark.aggregateUserBlocks(user._id, function (err, results) {
     if (err) return callback(err);
-    return callback(null, results);
+      console.log( JSON.stringify( user.favorite_blocks) )
+      console.log( JSON.stringify(results) )
+    var union = _.union(user.favorite_blocks, results);
+    var unionResult=_.indexBy(union, '_id');
+    unionResult=_.map(unionResult,function(obj){
+      if (!obj.user_count)
+        obj.user_count=0;
+      if (!obj.total_count)
+        obj.total_count=0;
+      return obj;
+    });
+    return callback(null, unionResult);
   });
-}
-
+};
 
 exports.front = function (req, res) {
   var block = req.params.block
@@ -77,7 +88,7 @@ exports.publicBlock = function (req, res) {
         , favorite_blocks: results.user_blocks
         , results: results.results
         , block: block
-        , title: block
+        , title: 'public/'+block
         , page_vars: {block: block, username: username}
         , block_counts: results.block_counts
       });

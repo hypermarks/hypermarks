@@ -188,7 +188,12 @@ label.inline
     display none
   box-shadow micro-shadow
   background white
-
+  .new-list
+    padding 0px 20px
+    text-align center
+    button
+      padding-left 45px
+      padding-right 45px
 .menu
   margin-bottom 2rem
   menu-text()
@@ -216,6 +221,8 @@ label.inline
   nav-justify()
   line-height 1
   margin-bottom -1em
+  .icons
+    float right
   ._title
     font-size large-text
     display inline-block
@@ -235,8 +242,14 @@ label.inline
   cursor pointer
   padding-left gutter * .5 !important
   padding-right gutter * .5 !important
+  &:hover
+    background-color #eee
   a
     reset-link()
+   .public-link
+    &:hover
+      color brand
+      font-weight bold
   &:first-child
     border-top 1px solid medgrey
   &.-added
@@ -280,6 +293,8 @@ page-topbar-height = 4rem
     nav-justify()
     line-height 1.7
     margin-bottom 1.5em
+    .delete
+      padding 5px
     ._title
       vertical-align middle
       display inline-block
@@ -293,6 +308,8 @@ page-topbar-height = 4rem
 .results
   .results__topbar
     margin-bottom 1.5em
+    a
+      text-decoration none
   .results__divider
     label()
     border-bottom 1px solid medgrey

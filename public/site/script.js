@@ -2,10 +2,20 @@
 
 /* global airwaves, $, presentational, page_vars */
 
-var deleteListModal, flash, modal, results, hypermark, header, sidebar, authModal, bookmarkletModal, newListModal, modalOverlay, addLinkModal, flash;
+var deleteListModal, deleteList, flash, modal, results, hypermark, header, sidebar, authModal, bookmarkletModal, newListModal, modalOverlay, addLinkModal, flash;
 
 //CHANNELS
 var modesChan = new airwaves.Channel();
+
+//special Glaobla link
+$(".public-link").on("click", function(){ event.preventDefault(); window.location.href=$(this).data('href') });
+
+
+$('.copy-list').on('click', function(){
+ modesChan.broadcast('new-list');
+$('input','#new-list-modal').val($(this).data('list'));
+$('.js-submit','#new-list-modal').click();
+})
 
 
 //MIXINS
@@ -101,6 +111,7 @@ header = function ($el) {
 
 sidebar = function ($el) {
   $el.on('click', '.js-new-list', function () {
+    $('input','#new-list-modal').val('');
     modesChan.broadcast('new-list');
   });
 
@@ -181,6 +192,34 @@ newListModal = function ($el) {
     $.post('/_api/favorites/add', {
         block_id: list_name
       }, function () {
+        window.location.href=page_vars.username+'/'+list_name
+      });
+      modesChan.broadcast('exit');
+    };
+
+  $el.on('click', '.js-add-current', function () {
+    $('.js-name').val(list_name);
+  });
+
+  $el.on('click', '.js-submit', cb);
+   
+  $('input', $el).on('keypress', cb);
+};
+
+
+deleteList = function ($el) {
+  modal($el, modesChan, 'new-list');
+  var list_name = $('#page-title').text(),
+    cb = function (e) {
+      var list_name = $('.js-name').val();
+      if (e.type === 'keypress' && e.keyCode !== 13) {
+        return;
+      } //bonk out the keypress is not enter;
+
+        
+    $.post('/_api/favorites/delete', {
+        block_id: list_name
+      }, function () {
       //  window.location.reload();
       });
       modesChan.broadcast('exit');
@@ -196,34 +235,6 @@ newListModal = function ($el) {
 };
 
 
-// deleteList = function ($el) {
-//   modal($el, modesChan, 'new-list');
-//   var list_name = $('#page-title').text(),
-//     cb = function (e) {
-//       var list_name = $('.js-name').val();
-//       if (e.type === 'keypress' && e.keyCode !== 13) {
-//         return;
-//       } //bonk out the keypress is not enter;
-
-        
-//     $.post('/_api/favorites/delete', {
-//         block_id: list_name
-//       }, function () {
-//       //  window.location.reload();
-//       });
-//       modesChan.broadcast('exit');
-//     };
-
-//   $el.on('click', '.js-add-current', function () {
-//     $('.js-name').val(list_name);
-//   });
-
-//   $el.on('click', '.js-submit', cb);
-//    
-//   $('input', $el).on('keypress', cb);
-// };
-
-
 // $("#delete-list").on('click', function(){
 //     var list_name = $('#page-title').text();
 //     $.post('/_api/favorites/add', {
@@ -237,21 +248,21 @@ newListModal = function ($el) {
 
 // });
 
-// deleteList=function($el){
+deleteList=function($el){
 
-// var cb = function (e) {
+var cb = function (e) {
 
-//     $.post('/_api/favorites/delete', {
-//       block_id: page_vars.block
-//     }, function () {
-//       window.location.reload();
-//     });
+    $.post('/_api/favorites/delete', {
+      block_id: page_vars.block
+    }, function () {
+      window.location.reload();
+    });
 
   
-//   };
-//   $el.on('click', cb);
+  };
+  $el.on('click', cb);
 
-// }
+}
 
 
 bookmarkletModal = function($el) {
@@ -316,3 +327,4 @@ sidebar($('#sidebar'));
 results($('#results'));
 header($('#header'));
 hypermark($('.hypermark'));
+//deleteList($('#delete-list'));

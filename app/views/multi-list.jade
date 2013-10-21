@@ -8,14 +8,17 @@ block content
       |&nbsp;
 
     .results#results
-      .results__topbar
 
       if results && results.length
         for result in results
           article.hypermark
-            a.hypermark__link(href="/_p/#{result.block}") #{result.block}
+            a.hypermark__link(href="/public/#{result.block}") #{result.block} 
+
 
             ul
               for link in result.results
                 li
                   a(href="#{link.working_url}") #{link.title}
+            button.btn-quiet.copy-list(data-list="#{result.block} ")
+              i.icon-book
+              |&nbsp;Use This List

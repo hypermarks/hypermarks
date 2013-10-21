@@ -221,6 +221,7 @@ bookmarkSchema.statics = {
       , { $match : { _id : { $ne: '' } } }
 
       , function(err, results) {
+        console.log(results);
         callback(err, results);
       }
     );

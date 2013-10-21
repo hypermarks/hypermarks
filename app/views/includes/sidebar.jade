@@ -2,19 +2,33 @@ nav.sidebar#sidebar
   section.menu
     ul
       li.menu__item
-        i.icon-home 
-        |My Timeline
+        a(href='/')
+          div
+            i.icon-home 
+            |Home
 
   if (favorite_blocks)  
+    div.new-list
+      button.btn-quiet.js-new-list
+        |<b>+</b>&nbsp;New List
     section.menu
       .menu__topbar
+        .icons
+          i.icon-user(title="Number of Your Links") &nbsp;
+          span &bull;&nbsp;
+          i.icon-globe(title="Number of Public Links")
         ._title Lists
         |&nbsp;
+
+
         //- ._control.js-new-list + New List
-        button.btn-quiet.js-new-list
-          |<b>+</b>&nbsp;New List
       ul.js-sortable
         for favorite_block in favorite_blocks
           li.menu__item.js-favorite-block
-            a._name(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}") #{favorite_block._id}
-            span._count.js-count <i>#{favorite_block.user_count}</i> &bull; #{favorite_block.total_count}
+            a._name(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}")
+              div
+                |#{favorite_block._id}
+                ._count.js-count 
+                  span #{favorite_block.user_count} 
+                  span &bull; 
+                  span.public-link(href='javascript:null',data-href="/public/#{favorite_block._id}") #{favorite_block.total_count}
