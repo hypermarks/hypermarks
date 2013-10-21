@@ -32,10 +32,7 @@ bookmarkSchema.statics = {
     Self.findById(bookmark_id, function (err, bookmark) {
       if (!bookmark) return callback(new Error('No bookmark found at this _id.'));
 
-      var opts = {
-          _ancestor: bookmark_id
-        , _id: undefined
-      };
+      opts._ancestor=bookmark_id;
 
       var merged = _.defaults(opts, bookmark.toObject());
       merged._id = undefined;

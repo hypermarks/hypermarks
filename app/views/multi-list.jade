@@ -11,7 +11,8 @@ block content
 
       if results && results.length
         for result in results
-          article.hypermark
+          article.hypermark.front
+
             a.hypermark__link(href="/public/#{result.block}") #{result.block} 
 
 
@@ -19,6 +20,6 @@ block content
               for link in result.results
                 li
                   a(href="#{link.working_url}") #{link.title}
-            button.btn-quiet.copy-list(data-list="#{result.block} ")
-              i.icon-book
-              |&nbsp;Clone This List
+            button.btn-quiet.copy-list(data-list="#{result.block}")
+              i.icon-copy
+              |&nbsp;Follow List

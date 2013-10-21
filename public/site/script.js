@@ -122,16 +122,15 @@ sidebar = function ($el) {
     $el.find('.js-fave-lists').addClass('-hoverable');
 
     //add bookmark to block
-    $el.on('click.temp', '.js-list', function (e) {
+    $el.on('click.temp', '.js-favorite-block a', function (e) {
       e.preventDefault();
-      var block_id = $('a', this).data('block');
+      var block_id = $(this).data('block');
       $.post('/_api/hypermarks/clone', {
         bookmark_id: bookmark_id,
         block_id: block_id
       }, function () {
         window.location.reload();
       });
-      presentational.flash($(this), '-added', 1000);
       modesChan.broadcast('exit');
     });
   });
@@ -192,7 +191,7 @@ newListModal = function ($el) {
     $.post('/_api/favorites/add', {
         block_id: list_name
       }, function () {
-        window.location.href=page_vars.username+'/'+list_name
+        window.location.href='/'+page_vars.username+'/'+list_name
       });
       modesChan.broadcast('exit');
     };
