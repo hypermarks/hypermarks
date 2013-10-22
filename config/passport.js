@@ -20,7 +20,6 @@ module.exports = function(passport) {
 
   //serialize sessions
   passport.serializeUser(function(user, done) {
-//    console.log('passport.serializeUser', user.email);
     done(null, user.id);
   });
 
@@ -28,7 +27,6 @@ module.exports = function(passport) {
   passport.deserializeUser(function(id, done) {
 
     User.findById(id, function(err, user) {
-      console.log('passport.deserializeUser', user.email);
       done(err, user);
     });
   });

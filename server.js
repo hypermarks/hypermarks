@@ -4,8 +4,8 @@ var config = require('./config/config')()
   , express = require('express')
   , passport = require('passport')
   , mongoose = require('mongoose')
-  , fs = require('fs')
-;
+  , fs = require('fs');
+
 
 require('express-namespace');
 
@@ -22,12 +22,6 @@ fs.readdirSync(__dirname + '/app/models').forEach(function (file) {
 require('./config/passport')(passport, config);
 
 var app = express();
-
-// simple logger
-app.use(function(req, res, next){
-  console.log('%s %s', req.method, req.url);
-  next();
-});
 
 // Bootstrap application settings
 require('./config/express')(app, config, passport);

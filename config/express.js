@@ -7,17 +7,16 @@
 var express = require('express')
   , mongoStore = require('connect-mongo')(express)
   , helpers = require('./view-helpers.js')
-  // , pjax = require('express-pjax')
-;
+  , Mixpanel = require('mixpanel');
+
+// create an instance of the mixpanel client
+var mixpanel = Mixpanel.init('615bcde1130ab68baaf17ccd1a1846a2');
 
 /*!
  * Expose
  */
 
 module.exports = function(app, config, passport) {
-
-  // app.use(express.logger());
-
   
   // views config
   app.set('views', config.root + '/app/views');
@@ -55,6 +54,14 @@ module.exports = function(app, config, passport) {
   //CORS 
   //TODO: Refactor into middleware
   //TODO: Secure!
+ // simple logger
+  app.use(function(req, res, next){
+    mixpanel.track(req.url, {
+        user: req.user.username,
+    });
+    next();
+  });
+
   app.all('/*', function(req, res, next) {
     var header;
     if (req.header('Origin')) header=req.header('Origin'); else header="*";
@@ -67,6 +74,7 @@ module.exports = function(app, config, passport) {
   app.post('/*', function(req, res, next){
     next();
   });
+
 
   app.use(function(err, req, res, next) {
     console.error(err.stack);
