@@ -192,7 +192,6 @@ bookmarkSchema.statics = {
         , user_count: { $sum: { $cond: [ { $eq: [ '$_user', user_id ] } , 1, 0 ] } }
       }}
 
-      , { $match : { user_count : { $ne: 0 } } }
       , { $match : { _id : { $ne: '' } } }
 
       , function(err, results) {
