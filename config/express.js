@@ -6,11 +6,11 @@
 
 var express = require('express')
   , mongoStore = require('connect-mongo')(express)
-  , helpers = require('./view-helpers.js');
-  //, Mixpanel = require('mixpanel');
+  , helpers = require('./view-helpers.js')
+  , Mixpanel = require('mixpanel');
 
 // create an instance of the mixpanel client
-//var mixpanel = Mixpanel.init('615bcde1130ab68baaf17ccd1a1846a2');
+var mixpanel = Mixpanel.init('615bcde1130ab68baaf17ccd1a1846a2');
 
 /*!
  * Expose
