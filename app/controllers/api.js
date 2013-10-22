@@ -4,7 +4,7 @@ var createHypermark = require('./create-hypermark.js')
   , removeHypermark = require('./remove-hypermark.js')
   , mongoose = require('mongoose')
   , Bookmark = mongoose.model('Bookmark')
-  , Block = mongoose.model('Block')
+  //, Block = mongoose.model('Block')
   , Address = mongoose.model('Address')
   , User = mongoose.model('User')
   , Reservation = mongoose.model('Reservation')
@@ -43,9 +43,6 @@ exports.reserveUsername = function (req, res) {
 
 exports.postHypermark = function (req, res) {
   if (!req.user) return res.end('401');
-  
-
-  Block.updateCreate(req.body.block);
   var block = req.body.block;
   var opts = {
       user_url: req.body.url

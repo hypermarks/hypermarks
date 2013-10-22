@@ -65,7 +65,7 @@ bookmarkSchema.statics = {
       , sani_url: opts.sani_url
       , user_url: opts.user_url
       , chrome_extension_id: opts.chrome_extension_id
-      , block : opts.block ? opts.block: ''
+      , block : stringUtils.sanitize(opts.block) ? stringUtils.sanitize(opts.block): ''
     });
     bookmark.save(callback);
   }
@@ -88,23 +88,24 @@ bookmarkSchema.statics = {
   ,
 
   getPrivateBlock: function (user_id, block, callback) {
-    this.find({_user: user_id, block: block})
+    this.find({_user: user_id, block: stringUtils.sanitize(block)})
     .populate('_address')
     .exec(callback);
   }
 
   ,
 
-  getPublicBlock: function (block, callback) {
-    this.find({block: block})
-    .populate('_address')
-    .exec(callback);
-  }
+  // getPublicBlock: function (block, callback) {
+  //   this.find({block: stringUtils.sanitize(block)})
+  //   .populate('_address')
+  //   .exec(callback);
+  // }
 
-  ,
+  // ,
 
   aggregatePublicBlock: function (block, callback) {
-    var Self = this;
+    var Self = this,
+    block=stringUtils.sanitize(block);
     Self.aggregate(
         { $match: { block: block } }
       , { $group: { _id: '$_address', count: { $sum: 1 } } }
@@ -145,7 +146,7 @@ bookmarkSchema.statics = {
 
             // Get 5 most recently updated links in block
             Self.aggregate(
-                {$match: {block: block}}
+                {$match: {block: stringUtils.sanitize(block)}}
               , {$group: {_id: '$_address', max_date: {$max: '$_id'}}}
               , {$sort: {max_date: -1}}
               , {$limit: 5}
@@ -195,7 +196,6 @@ bookmarkSchema.statics = {
       , { $match : { _id : { $ne: '' } } }
 
       , function(err, results) {
-        console.log(results);
         callback(err, results);
       }
     );
@@ -207,7 +207,7 @@ bookmarkSchema.statics = {
     var Self = this;
     // Groups all bookmarks in block on whether or not they belong to the user.
     Self.aggregate(
-        { $match: { block: block } }
+        { $match: { block: stringUtils.sanitize(block) } }
       , { $group: {
           _id: { $eq: [ '$_user', user_id ] }
         , count: { $sum: 1 }

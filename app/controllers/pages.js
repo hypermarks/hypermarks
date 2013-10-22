@@ -15,16 +15,33 @@ function userBlocks(user, callback) {
   if (!user) return callback(null, null);
   Bookmark.aggregateUserBlocks(user._id, function (err, results) {
     if (err) return callback(err);
-      console.log( JSON.stringify( user.favorite_blocks) )
-      console.log( JSON.stringify(results) )
-    var union = _.union(user.favorite_blocks, results);
-    var unionResult=_.indexBy(union, '_id');
-    unionResult=_.map(unionResult,function(obj){
-      if (!obj.user_count)
-        obj.user_count=0;
-      if (!obj.total_count)
-        obj.total_count=0;
-      return obj;
+
+
+    //   // console.log( JSON.stringify( user.favorite_blocks) )
+    //   // console.log( JSON.stringify(results) )
+    // var favorite_blocks=user.favorite_blocks;
+    // //var union = _.union(results, favorite_blocks);
+    // // var unionResult=_.indexBy(union, '_id');
+    // //console.log(favorite_blocks)
+
+    // //console.log(results)
+    // //return    
+
+    var unionResult=_.map(user.favorite_blocks,function(fav_obj){
+
+       var where_Res=_.findWhere(results,{_id: fav_obj._id.toLowerCase() });
+         if (where_Res!==undefined)
+            fav_obj.user_count=where_Res.user_count,
+            fav_obj.total_count=where_Res.total_count,  //_.assign(where_Res, fav_obj);
+            fav_obj.date_accessed=where_Res.date_accessed;   //_.assign(where_Res, fav_obj);
+
+
+
+      if (!fav_obj.user_count)
+        fav_obj.user_count=0;
+      if (!fav_obj.total_count)
+        fav_obj.total_count=0;
+      return fav_obj;
     });
     return callback(null, unionResult);
   });

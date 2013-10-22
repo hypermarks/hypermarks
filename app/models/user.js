@@ -99,7 +99,7 @@ userSchema.statics = {
         console.log(user)
         if (blockIndex === -1) { //If the block does not yet exist
           favorite_blocks.push({
-              '_id': sanitized_block_id
+              '_id': block_id
             , 'date_accessed': new Date()
           });
         } else {
