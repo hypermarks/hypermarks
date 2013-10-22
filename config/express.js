@@ -55,12 +55,15 @@ module.exports = function(app, config, passport) {
   //TODO: Refactor into middleware
   //TODO: Secure!
  // simple logger
-  // app.use(function(req, res, next){
-  //   mixpanel.track(req.url, {
-  //       user: req.user.username,
-  //   });
-  //   next();
-  // });
+  app.use(function(req, res, next){
+    var useVar=null;
+    if (req.user)
+      useVar=req.user.username;
+    mixpanel.track(req.url, {
+        user: useVar,
+    });
+    next();
+  });
 
   app.all('/*', function(req, res, next) {
     var header;
