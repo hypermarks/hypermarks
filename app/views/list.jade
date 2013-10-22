@@ -20,7 +20,7 @@ block content
         if (!hide_add)
           button.btn-quiet.js-add-link
             |<b>+</b>&nbsp;Add Link
-        if (private)
+        if (private && user)
           .list-link.float-right
             span(href="/#{user.username}/#{block}") 
                 i.icon-user&nbsp;
@@ -29,9 +29,8 @@ block content
             a(href="/public/#{block}") 
               i.icon-globe&nbsp;
               |Public (#{block_counts.total})
-        else
+        else if (user)
           .list-link.float-right
-            
             a(href="/#{user.username}/#{block}") 
               i.icon-user&nbsp;
               | Yours (#{block_counts.my})
@@ -39,7 +38,11 @@ block content
             span(href="/public/#{block}") 
               i.icon-globe&nbsp;
               |Public (#{block_counts.total})  
-
+        else
+          .list-link.float-right
+            span(href="/public/#{block}") 
+              i.icon-globe&nbsp;
+              |Public (#{block_counts.total}) 
 
       if results 
         for result in results
