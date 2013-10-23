@@ -65,6 +65,7 @@ results = function ($el) {
 
   $el.on('click', '.js-add-link', function () {
     modesChan.broadcast('add-link');
+    setTimeout( function(){ $('input[name=url]').focus() },100);
   });
 
   $el.on('click', '.js-delete-list', function () {
@@ -132,6 +133,8 @@ sidebar = function ($el) {
   $el.on('click', '.js-new-list', function () {
     $('input','#new-list-modal').val('');
     modesChan.broadcast('new-list');
+    setTimeout( function(){ $('input[name=block]').focus() },100);
+
   });
 
   //Subscriptions
@@ -188,7 +191,8 @@ addLinkModal = function ($el) {
   };
 
   $('input', $el).on('keypress', cb);
- 
+
+
   var block = page_vars.block ? page_vars.block : null;
   $el.on('click', '.js-add-link', cb);
 };
