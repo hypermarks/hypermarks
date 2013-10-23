@@ -68,12 +68,12 @@ block content
                   .dropdown.dropdown-tip(id="dropdown-"+result._id)
                       ul.dropdown-menu
                           li
-                            a(href="/#{result.firstPoster.username}/#{page_vars.block}")
+                            a(data-href="/#{result.firstPoster.username}/#{page_vars.block}")
                               |#{result.firstPoster.username} (First Poster)
                           for allPoster in result.allPosters
                             if result.firstPoster._id!==allPoster._id                        
                               li
-                                a(href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
+                                a(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
                 a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
                 .hypermark__sani-url #{result._address.sani_url}
 
