@@ -45,7 +45,7 @@ exports.signup = function (req, res) {
 exports.logout = function (req, res) {
   req.logout();
   res.writeHead(200, { 'Content-Type':'application/json'});
-  res.end();
+  res.end('{"logout":true}');
 };
 
 /**
@@ -70,22 +70,24 @@ exports.user = function (req, res, next, id) {
 
 exports.create = function (req, res) {
   console.log(req.body);
-  var user = new User(req.body)
-  user.provider = 'local'
-  user.save(function (err) {
-    if (err) {
-      return res.render('users/signup', {
-        errors: utils.errors(err.errors),
-        user: user,
-        title: 'Sign up'
+  var input={username:req.body.username,email:req.body.username};
+  User.findByEmailorUsername(input, function(err, result){
+      if (result!==null){return res.send('Username or Email Taken! <br> <a href="javascript:history.go(-1)">< - Go Back</a>') };
+      var user = new User(req.body)
+      user.provider = 'local'
+      user.save(function (err) {
+        if (err) {
+          return res.render('users/signup', {
+            errors: utils.errors(err.errors),
+            user: user,
+            title: 'Sign up'
+          })
+        }
+        req.logIn(user, function(err) {
+          if (err) return next(err)
+          return res.redirect('/')
+        })
       })
-    }
-
-    // manually login the user once successfully signed up
-    req.logIn(user, function(err) {
-      if (err) return next(err)
-      return res.redirect('/')
-    })
-  })
+  });
 }
 

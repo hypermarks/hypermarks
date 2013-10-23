@@ -89,6 +89,42 @@ userSchema.methods = {
 
 userSchema.statics = {
 
+  findByUsername: function (user_Name, cb) {
+    this
+      .findOne({username:user_Name})
+      .exec(function(err, result){
+        if (result)
+          cb(null,result);
+        else
+          cb(null,result);
+      })
+
+  },
+
+  findByEmail: function (user_Email, cb) {
+    this
+      .findOne({email:user_Email})
+      .exec(function(err, result){
+        if (result)
+          cb(null,result);
+        else
+          cb(null,result);
+      })
+
+  },
+
+  findByEmailorUsername: function (obj, cb) {
+    this
+      .findOne({ $or:[{username:obj.username}, {email:obj.email}] })
+      .exec(function(err, result){
+        if (result)
+          cb(null,result);
+        else
+          cb(null,result);
+      })
+
+  },
+
   touchFavoriteBlock: function (user_id, block_id, cb) {
     var sanitized_block_id = stringUtils.sanitize(block_id);
     this.findById(
