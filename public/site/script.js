@@ -88,15 +88,18 @@ hypermark = function ($el) {
   });
 };
 
-
-
-header = function ($el) {
-  $el.on('click', '.js-dropdown', function () {
+  //activate all dropdowns
+  $('.js-dropdown').on('click', function () {
     $(this).toggleClass('-active');
   });
 
+header = function ($el) {
+  // $el.on('click', '.js-dropdown', function () {
+  //   $(this).toggleClass('-active');
+  // });
+
   $el.on('click', '.js-logout', function () {
-    $.post('/_auth/logout', function() {
+    $.post('/_auth/logout',{logout:true}, function() {
       window.location.reload();
     });
   });

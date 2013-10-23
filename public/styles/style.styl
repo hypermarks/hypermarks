@@ -65,6 +65,53 @@ h6
 
 
 //GLOBAL
+.dropdown
+  position relative
+  span
+    cursor pointer
+  ul
+    modal-style()
+    reset-list()
+    position absolute
+    top 2em
+    left 0
+    display none
+    z-index 1
+
+    &:after
+      content ''
+      position absolute 
+      top -5px 
+      left 30px
+      size(10px)
+      background black
+      z-index -1
+      transform rotate(45deg)
+      background lightgrey
+
+    li
+      cursor pointer
+      display block
+      padding .75em
+      menu-style()
+  ._header 
+    cursor auto
+    background lightgrey
+
+  &.-right
+    ul
+      left auto
+      right 0
+      &:after
+        left auto
+        right 30px
+      li 
+        text-align right
+
+  &.-active
+    ul
+      display block
+
 label.inline 
   & > * 
     margin-right .5em
