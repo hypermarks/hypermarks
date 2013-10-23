@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
   , _ = require('lodash')
   , async = require('async')
   , Address = mongoose.model('Address')
+  , User
 ;
 
 var bookmarkSchema = new Schema({
@@ -17,6 +18,7 @@ var bookmarkSchema = new Schema({
   , chrome_extension_id : { type : Number }
   , sani_url: String
   , user_url: String //This is the url that the user submitted the bookmark with
+  , createdAt: { type : Date, default : Date.now }
 });
 
 //SETTERS/GETTERS
@@ -104,14 +106,19 @@ bookmarkSchema.statics = {
   // ,
 
   aggregatePublicBlock: function (block, callback) {
+    if (typeof User==='undefined')
+      User = mongoose.model('User');
+
     var Self = this,
     block=stringUtils.sanitize(block);
-    Self.aggregate(
+    Self
+    .aggregate(
         { $match: { block: block } }
-      , { $group: { _id: '$_address', count: { $sum: 1 } } }
+      , { $sort : { createdAt : -1 } }
+      , { $group: { _id: '$_address', count: { $sum: 1 }, firstPoster:{$first:'$_user'}, allPosters:{$addToSet:'$_user'} } }
       , { $sort: { count: -1 } }
     , function(err, results){
-      console.log('aggregatePublicBlock results 1', results)
+      //console.log('aggregatePublicBlock results 1', results)
       async.map(
         results
         , function (result, cb){
@@ -119,15 +126,18 @@ bookmarkSchema.statics = {
             result._address = _address;
             cb(null, result);
           });
-        }
-        , function(err, results){
-          console.log('aggregatePublicBlock results 2', results)
+        }, function(err, results){
+          //console.log('aggregatePublicBlock results 2', results)
           callback(err, results);
         });
     });
   }
 
   ,
+
+         
+
+
 
   //Pretty ridiculous. Refine into one aggregation (should be possible)
   recentlyUpdatedBlocks: function (callback) {

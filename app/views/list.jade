@@ -2,6 +2,7 @@ extends layouts/default
 
 
 block content
+
   main.page#results
     .page__topbar 
       h1._title#page-title #{title}&nbsp;
@@ -14,6 +15,8 @@ block content
       //- if (typeof page_vars.block === 'string')
       //-   a.js-delete-list._delete_list#delete-list(data-listname=page_vars.block href="javscript:null;") delete
       |&nbsp;
+
+
 
     .results
       .results__topbar
@@ -43,18 +46,42 @@ block content
             span(href="/public/#{block}") 
               i.icon-globe&nbsp;
               |Public (#{block_counts.total}) 
+      
+
+
+
+
+
 
       if results 
         for result in results
           article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
             .hypermark__control.-left.js-add-to-list
               i.icon-double-angle-left
-
             .hypermark__content
               .hypermark__card
+                if (!private)
+                  a.users(href='#', data-dropdown='#dropdown-'+result._id)
+                    i.icon-user
+                    |#{result.firstPoster.username}
+
+                  .dropdown.dropdown-tip(id="dropdown-"+result._id)
+                      ul.dropdown-menu
+                          li
+                            a(href="/#{result.firstPoster.username}/#{page_vars.block}")
+                              |#{result.firstPoster.username} (First Poster)
+                          for allPoster in result.allPosters
+                            if result.firstPoster._id!==allPoster._id                        
+                              li
+                                a(href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
                 a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
                 .hypermark__sani-url #{result._address.sani_url}
 
+             
+
+
             .hypermark__control.-right.js-delete
               i.icon-trash
+
+
                

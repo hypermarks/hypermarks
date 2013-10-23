@@ -87,8 +87,35 @@ exports.publicBlock = function (req, res) {
     }
     , results: function (callback) {
       Bookmark.aggregatePublicBlock(block, function (err, results) {
-        if (err) return callback(err);
-        return callback(null, results);
+
+        async.map(
+        results
+        , function (result, cb){
+
+          User.find({_id:{$in:result.allPosters}}, function(err, _users){
+            var _firstusers=_.findWhere(_users, {_id:result.firstPoster});
+            result.firstPoster={_id:_firstusers._id, username:_firstusers.username};
+            
+            result.allPosters=_.map(result.allPosters, function(obj){
+
+
+              var _user=_.findWhere(_users, {_id:obj} );
+              return {_id:_user._id, username:_user.username};
+           });
+
+           //result.allPosters
+            
+            cb(null, result);
+          });
+        }, function(err, results){
+          //console.log('aggregatePublicBlock results 2', results)
+          if (err) return callback(err);
+          return callback(null, results);
+
+        });
+
+
+        
       });
     }
     , block_counts: function(callback) {
