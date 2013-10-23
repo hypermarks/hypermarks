@@ -57,7 +57,7 @@ block content
         for result in results
           article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}")
             .hypermark__control.-left.js-add-to-list
-              i.icon-plus
+              i.icon-plus(title="Add to your lists")
             .hypermark__content
               .hypermark__card
                 if (!private)
