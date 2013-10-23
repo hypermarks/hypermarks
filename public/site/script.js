@@ -12,6 +12,11 @@ $(".public-link").on("click", function(){ event.preventDefault(); window.locatio
 
 
 $('.copy-list').on('click', function(){
+  if (page_vars.username===null){
+    window.location.href="/_auth/login"
+    return
+  }
+    
  modesChan.broadcast('new-list');
 $('input','#new-list-modal').val($(this).data('list'));
 $('.js-submit','#new-list-modal').click();
@@ -91,7 +96,18 @@ hypermark = function ($el) {
   //activate all dropdowns
   $('.js-dropdown').on('click', function () {
     $(this).toggleClass('-active');
+
+    $(document).bind('click', unselect);
+
   });
+  
+
+  var unselect=function(){
+      if ( $(event.target).parents('.js-dropdown').length===0 ){
+        $('.js-dropdown').removeClass('-active');
+        $(this).unbind();
+      }
+  };
 
 header = function ($el) {
   // $el.on('click', '.js-dropdown', function () {
