@@ -62,28 +62,22 @@ block content
               .hypermark__card
                 if (!private)
                   .dropdown.js-dropdown.-right 
-                    a.users(href='#', data-dropdown='#dropdown-'+result._id)
-                      i.icon-user
-                      |#{result.firstPoster.username}
+                    span.users
+                      a(href='#', data-dropdown='#dropdown-'+result._id)
+                        i.icon-user
+                        |#{result.firstPoster.username} 
+                      || #{result.allPosters.length}
                     ul
                       li._header
-                        a(data-href="/#{result.firstPoster.username}/#{page_vars.block}")
+                        span(data-href="/#{result.firstPoster.username}/#{page_vars.block}")
                           |#{result.firstPoster.username} (First Poster)
                       for allPoster in result.allPosters
                         if result.firstPoster._id!==allPoster._id                        
                           li
-                            a(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username   
+                            span(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username   
 
 
-                  .dropdown.dropdown-tip(id="dropdown-"+result._id)
-                      ul.dropdown-menu
-                          li
-                            a(data-href="/#{result.firstPoster.username}/#{page_vars.block}")
-                              |#{result.firstPoster.username} (First Poster)
-                          for allPoster in result.allPosters
-                            if result.firstPoster._id!==allPoster._id                        
-                              li
-                                a(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
+    
                 a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
                 .hypermark__sani-url #{result._address.sani_url}
 
