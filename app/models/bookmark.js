@@ -29,7 +29,8 @@ function blockSanitize(block) {
 //STATICS
 bookmarkSchema.statics = {
 
-  clone: function (bookmark_id, opts, callback) {
+  clone: function (address_id, bookmark_id, callback) {
+    console.log(bookmark_id)
     var Self = this;
     Self.findById(bookmark_id, function (err, bookmark) {
       if (!bookmark) return callback(new Error('No bookmark found at this _id.'));
@@ -114,7 +115,7 @@ bookmarkSchema.statics = {
     Self
     .aggregate(
         { $match: { block: block } }
-      , { $sort : { createdAt : -1 } }
+      //, { $sort : { createdAt : -1 } }
       , { $group: { _id: '$_address', count: { $sum: 1 }, firstPoster:{$first:'$_user'}, allPosters:{$addToSet:'$_user'} } }
       , { $sort: { count: -1 } }
     , function(err, results){
@@ -128,6 +129,8 @@ bookmarkSchema.statics = {
           });
         }, function(err, results){
           //console.log('aggregatePublicBlock results 2', results)
+         // console.log(results)
+         // return
           callback(err, results);
         });
     });

@@ -57,10 +57,11 @@ modal = function ($el, channel, name) {
 results = function ($el) {
   $el.on('click', '.js-add-to-list', function () {
     var $hypermark = $(this).parents('.hypermark'),
-      bookmark_id = $hypermark.attr('data-_id');
+      bookmark_id = $hypermark.attr('data-_id'),
+      address_id = $hypermark.attr('data-address_id');
     $(this).addClass('-active');
     $hypermark.addClass('top');
-    modesChan.broadcast('add-to-list', bookmark_id);
+    modesChan.broadcast('add-to-list', bookmark_id, address_id);
   });
 
   $el.on('click', '.js-add-link', function () {
@@ -139,7 +140,7 @@ sidebar = function ($el) {
 
   //Subscriptions
     
-  modesChan.subscribe('add-to-list', function (bookmark_id) {
+  modesChan.subscribe('add-to-list', function (bookmark_id, address_id) {
     $el.addClass('top');
     $el.find('.js-fave-lists').addClass('-hoverable');
 
@@ -149,6 +150,7 @@ sidebar = function ($el) {
       var block_id = $(this).data('block');
       $.post('/_api/hypermarks/clone', {
         bookmark_id: bookmark_id,
+        address_id: address_id,
         block_id: block_id
       }, function () {
         window.location.reload();

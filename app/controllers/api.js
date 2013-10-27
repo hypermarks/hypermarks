@@ -95,18 +95,24 @@ exports.getTimeline = function (req, res) {
 
 
 exports.cloneToBlock = function (req, res) {
-  if (!req.user) return res.end('401');
-  var bookmark_id = req.body.bookmark_id;
-  var block_id = req.body.block_id;
+  var ancestor_bookmark_id = req.body.bookmark_id,
+  address_id = req.body.address_id,
+  block_id = req.body.block_id;
 
-  Bookmark.clone(bookmark_id, {
-    block: block_id
-  }, function (err, bookmark) {
-    if (err) {
-      console.log(err);
-      return res.end('500');
-    }
-    return res.json('200', bookmark);
+  // console.log(ancestor_bookmark_id, address_id, block_id)
+  // return
+
+  if (!req.user || !ancestor_bookmark_id || !ancestor_bookmark_id || !block_id) return res.end('401');
+
+
+  Address.clone(address_id, block_id, req.user._id, Bookmark, ancestor_bookmark_id, 
+    function (err, bookmark) {
+      console.log('cb', err, bookmark)
+      if (err) {
+        console.log(err);
+        return res.end('500');
+      }
+      return res.json('200', bookmark);
   });
 
 };

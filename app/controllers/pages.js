@@ -94,6 +94,10 @@ exports.publicBlock = function (req, res) {
 
           User.find({_id:{$in:result.allPosters}}, function(err, _users){
             var _firstusers=_.findWhere(_users, {_id:result.firstPoster});
+            //console.log(_.findWhere(_users, {_id:req.user._id}))
+            var current_user= req.user? _.findWhere(_users, {_id:req.user._id}):undefined;
+            result.current_user_posted= current_user? true:false;
+
             result.firstPoster={_id:_firstusers._id, username:_firstusers.username};
             
             result.allPosters=_.map(result.allPosters, function(obj){
