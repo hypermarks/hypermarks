@@ -66,6 +66,8 @@ module.exports = function (app, passport) {
 
   
   app.get('/', pages.front);
+  app.get('/feed', pages.feed);
+
 
   //app.get('/_my/uncategorized',auth.requiresLogin, pages.uncategorized);
   app.get('/_search', pages.search);

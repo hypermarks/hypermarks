@@ -1,0 +1,16 @@
+extends layouts/default
+
+
+block content
+  main.page
+    .page__topbar 
+      h1._title#page-title #{title}
+      |&nbsp;
+
+    .results#results
+
+      if feed_marks && feed_marks.length
+        for mark in feed_marks
+          article.hypermark.front
+            p=JSON.stringify(mark)
+            

@@ -47,6 +47,47 @@ function userBlocks(user, callback) {
   });
 };
 
+exports.feed = function (req, res) {
+  var block = req.params.block
+    , username = req.user ? req.user.username : null
+  ;
+  async.parallel({
+    user_blocks: function (callback) {
+      userBlocks(req.user, callback);
+     },
+     feed_marks: function (callback) {
+      if (!req.user) { callback(null, null); return; }
+
+      var blocks=_.map(req.user.favorite_blocks,function(obj){ return obj._id.toLowerCase()});
+      console.log(blocks)
+
+      Bookmark
+        .find({block:{$in:blocks}})
+        .sort('-createdAt')
+        .exec(function(err, results){
+          
+          callback(err,results);
+
+        });
+
+      //notifications(req.user, callback);
+     }
+    }
+    , function (err, results) {
+      if (err) return console.log(err);
+      return res.render('feed', {
+          user: req.user
+        , favorite_blocks: results.user_blocks
+        , feed_marks: results.feed_marks
+        , results: results.results
+        , title: 'Feed'
+        , page_vars: {block: block, username: username}
+      });
+    }
+  );
+};
+
+
 exports.front = function (req, res) {
   var block = req.params.block
     , username = req.user ? req.user.username : null
