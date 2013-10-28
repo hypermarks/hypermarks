@@ -160,13 +160,16 @@ bookmarkSchema.statics = {
             // Get 5 most recently updated links in block
             Self.aggregate(
                 {$match: {block: stringUtils.sanitize(block)}}
-              , {$group: {_id: '$_address', max_date: {$max: '$_id'}}}
-              , {$sort: {max_date: -1}}
+              , {$sort: {max_date: 1}}
+              , {$group: {sani_url: {$max:'$sani_url'}, allPosters: {$addToSet:'$_user'}, firstPoster: {$first:'$_user'}, _id: '$_address', max_date: {$max: '$_id'}}}
               , {$limit: 5}
               
               , function (err, results) {
 
                 // Retrieve addresses for results
+                //console.log(results);
+                //cb(err, results);
+
                 async.map(
                     results
                   , function (result, cb) {
@@ -174,12 +177,32 @@ bookmarkSchema.statics = {
                     .select('title working_url')
                     .exec(cb);
                   }
-                  , function (err, results) {
-                    var result = {
+                  , function (err, result) {
+                   // console.log(results, "results")
+                   // console.log(result, "result")
+
+                    var resultMerge=_.map(result, function(obj, i){
+                      var newObj={};
+                      newObj.title=obj.title;
+                      newObj.working_url=obj.working_url;
+                      newObj.allPosters=results[i].allPosters
+                      newObj.firstPoster=results[i].firstPoster
+                      newObj._id=obj._id;
+                      return newObj
+
+                      //console.log(obj,i)
+
+                    });
+
+                    //console.log(resultMerge)
+
+                    var resultloc = {
+                      //  allPosters: results[0].allPosters
+                      //, firstPoster : results[0].firstPoster
                         block: block
-                        , results: results
+                      , results: resultMerge
                     };
-                    cb(err, result);
+                    cb(err, resultloc);
                   }
                 );
               }

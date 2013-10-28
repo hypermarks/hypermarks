@@ -58,7 +58,81 @@ exports.front = function (req, res) {
     results: function (callback) {
       Bookmark.recentlyUpdatedBlocks(function (err, results) {
         if (err) return callback(err);
-        return callback(null, results);
+
+    //    console.log(results);
+
+
+        async.map(
+        results
+        , function (result, cb){
+
+
+          console.log(result.results,"res");
+          var user_ids;
+          if (result.results.length===1){
+            user_ids=result.results[0].allPosters
+          } else {
+            user_ids=_.reduce(result.results, function(memo, num){ return memo.allPosters.concat(num.allPosters) });
+          }
+
+         console.log(user_ids, "ids")
+     //     return
+
+          User.find({_id:{$in:user_ids}}, function(err, _users){
+              _users = JSON.parse(JSON.stringify(_users));
+
+
+
+            var newResult = JSON.parse(JSON.stringify(result));
+
+            newResult.results=_.map(newResult.results, function(obj){
+              
+
+              var current_user= req.user? _.findWhere(_users, {_id:String(req.user._id)}):undefined;
+              obj.current_user_posted= current_user? true:false;
+              
+              var firstPost=_.findWhere(_users, {_id:obj.firstPoster});
+              obj.firstPoster={username: firstPost.username, _id: firstPost._id};
+
+              obj.allPosters=_.map(obj.allPosters, function(objRes){
+
+                
+
+
+                var user=_.findWhere(_users, {_id:objRes});
+
+                objRes={username:user.username, _id:user._id};
+
+
+                return objRes;
+
+              });
+
+              console.log(obj.allPosters)
+
+              return obj;
+
+
+            });
+            //console.log(newResult.results[0].allPosters,"result2")
+
+            cb(null,newResult);
+
+
+          });
+
+          
+
+
+        }, function(err, results){
+          //console.log('aggregatePublicBlock results 2', results)
+          if (err) return callback(err);
+          return callback(null, results);
+
+        });
+
+
+        //return callback(null, results);
       });
     }}
     , function (err, results) {
@@ -97,12 +171,8 @@ exports.publicBlock = function (req, res) {
             //console.log(_.findWhere(_users, {_id:req.user._id}))
             var current_user= req.user? _.findWhere(_users, {_id:req.user._id}):undefined;
             result.current_user_posted= current_user? true:false;
-
             result.firstPoster={_id:_firstusers._id, username:_firstusers.username};
-            
             result.allPosters=_.map(result.allPosters, function(obj){
-
-
               var _user=_.findWhere(_users, {_id:obj} );
               return {_id:_user._id, username:_user.username};
            });

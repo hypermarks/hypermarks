@@ -12,14 +12,44 @@ block content
       if results && results.length
         for result in results
           article.hypermark.front
-
+            //p=JSON.stringify(result)
             a.hypermark__link(href="/public/#{result.block}") #{result.block} 
 
 
             ul
               for link in result.results
+                //p=JSON.stringify(link)
                 li
                   a(href="#{link.working_url}") #{link.title}
+                  .dropdown.js-dropdown.-right.float-right
+                    span.users
+                      a(href='#', data-dropdown='#dropdown-'+link._id)
+                        i.icon-user
+                        if String(user._id)===String(link.allPosters[0]._id)
+                          | Me
+                        else
+                          |#{link.allPosters[0].username}
+                      | 
+                    span
+                      || #{link.allPosters.length}
+                      if link.current_user_posted
+                        | *
+                    ul
+                      li._header
+                        span(data-href="/#{link.firstPoster.username}/#{page_vars.block}")
+                          if String(user._id)===String(link.firstPoster._id)
+                            | Me
+                          else
+                            |#{link.firstPoster.username}
+                          |  (First Poster)   
+                      for allPoster in link.allPosters
+                        if link.firstPoster._id!==allPoster._id                     
+                          li
+                            span(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
+                            if String(user._id)===String(allPoster._id)
+                              span
+                                |  * 
+
             button.btn-quiet.copy-list(data-list="#{result.block}")
               i.icon-eye-open
               |&nbsp;Follow List

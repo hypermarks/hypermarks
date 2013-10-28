@@ -27,7 +27,7 @@ block content
           .list-link.float-right
             span(href="/#{user.username}/#{block}") 
                 i.icon-user&nbsp;
-                |Yours (#{block_counts.my})
+                |Me (#{block_counts.my})
             &nbsp;/&nbsp;
             a(href="/public/#{block}") 
               i.icon-globe&nbsp;
@@ -36,7 +36,7 @@ block content
           .list-link.float-right
             a(href="/#{user.username}/#{block}") 
               i.icon-user&nbsp;
-              | Yours (#{block_counts.my})
+              | Me (#{block_counts.my})
             &nbsp;/&nbsp;
             span(href="/public/#{block}") 
               i.icon-globe&nbsp;
@@ -54,8 +54,8 @@ block content
 
 
       if results
-        if results[0]
-          p=JSON.stringify(results[0])
+        //if results[0]
+        //p=JSON.stringify(results[0])
         for result in results
           article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}", data-address_id="#{result._address._id}")
             .hypermark__control.-left.js-add-to-list
@@ -63,20 +63,23 @@ block content
             .hypermark__content
               .hypermark__card
                 if (!private)
-                  .dropdown.js-dropdown.-right 
+                  .dropdown.js-dropdown.float-right
                     span.users
                       a(href='#', data-dropdown='#dropdown-'+result._id)
                         i.icon-user
-                        |#{result.firstPoster.username}
-                        if String(user._id)===String(result.firstPoster._id)
-                          | * 
+                          if String(user._id)===String(result.allPosters[0]._id)
+                            | Me
+                          else
+                            |#{result.allPosters[0].username}
 
                     ul
                       li._header
                         span(data-href="/#{result.firstPoster.username}/#{page_vars.block}")
-                          |#{result.firstPoster.username}
                           if String(user._id)===String(result.firstPoster._id)
-                            | *
+                            | Me
+                          else
+                            |#{result.firstPoster.username}
+
                           |  (First Poster)   
                       for allPoster in result.allPosters
                         if result.firstPoster._id!==allPoster._id                     
@@ -89,8 +92,7 @@ block content
                     span
                       || #{result.allPosters.length}
                       if result.current_user_posted
-                        span.plus-me  
-                          |  (+Me)
+                        | *
 
     
                 a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
