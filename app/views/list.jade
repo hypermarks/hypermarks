@@ -20,9 +20,13 @@ block content
 
     .results
       .results__topbar
-        if (!hide_add)
+        if (!hide_add && user)
           button.btn-quiet.js-add-link
             |<b>+</b>&nbsp;Add Link
+        else
+          a(href="/_auth/login")
+            button.btn-quiet
+              |Login to add link
         if (private && user)
           .list-link.float-right
             span(href="/#{user.username}/#{block}") 
@@ -34,9 +38,14 @@ block content
               |Public (#{block_counts.total})
         else if (user)
           .list-link.float-right
-            a(href="/#{user.username}/#{block}") 
-              i.icon-user&nbsp;
-              | Me (#{block_counts.my})
+            if (!privateBlock)
+              button.btn-quiet.copy-list(data-list="#{block}")
+                i.icon-eye-open
+                |&nbsp;Follow List
+            else
+              a(href="/#{user.username}/#{block}") 
+                i.icon-user&nbsp;
+                | Me (#{block_counts.my})
             &nbsp;/&nbsp;
             span(href="/public/#{block}") 
               i.icon-globe&nbsp;
@@ -56,10 +65,48 @@ block content
       if results
         //if results[0]
         //p=JSON.stringify(results[0])
+        if results.length==0
+          artile.hypermark
+            .hypermark__content
+              .hypermark__card
+                
+                if (private)
+                  p 
+                    | You have no links in 
+                    b 
+                     |#{block} 
+                    |.
+                  p
+                    | Check out the 
+                    a(href="/public/#{block}")
+                      | public version
+                    |  or 
+                    if (user)
+                      a.js-add-link(href="#") 
+                       | add your own link.
+                else
+                  p
+                   | No one has added to this public list.
+                  if (user)
+                    p
+                      | Be the first to 
+                      a.js-add-link(href="#") 
+                         | add your own link.
+                  else
+                    p
+                      a.js-add-link(href="/_auth/login") 
+                         | login 
+                      | or 
+                      a.js-add-link(href="/_auth/signup") 
+                        | signup 
+                      |  to add your own link.
+
         for result in results
           article.hypermark(data-date_added="#{result.date_added}", data-_id="#{result._id}", data-address_id="#{result._address._id}")
+
             .hypermark__control.-left.js-add-to-list
-              i.icon-plus(title="Add to your lists")
+              if (user)
+                i.icon-plus(title="Add to your lists")
             .hypermark__content
               .hypermark__card
                 if (!private)
@@ -81,7 +128,7 @@ block content
                       span.users
                         a(href='#', data-dropdown='#dropdown-'+result._id)
                           i.icon-user
-                            if String(user._id)===String(result.allPosters[0]._id)
+                            if user && String(user._id)===String(result.allPosters[0]._id)
                               | Me
                             else
                               |#{result.allPosters[0].username}
@@ -89,7 +136,7 @@ block content
                         ul
                           li._header
                             a(href="/#{result.firstPoster.username}")
-                              if String(user._id)===String(result.firstPoster._id)
+                              if user && String(user._id)===String(result.firstPoster._id)
                                 | Me
                               else
                                 |#{result.firstPoster.username}
@@ -99,7 +146,7 @@ block content
                             if result.firstPoster._id!==allPoster._id                     
                               li
                                 a(href="/#{allPoster.username}")=allPoster.username
-                                if String(user._id)===String(allPoster._id)
+                                if user && String(user._id)===String(allPoster._id)
                                   span
                                     |  *               
 

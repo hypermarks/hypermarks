@@ -25,7 +25,7 @@ block content
                     span.users
                       a(href='#', data-dropdown='#dropdown-'+link._id)
                         i.icon-user
-                        if String(user._id)===String(link.allPosters[0]._id)
+                        if user && String(user._id)===String(link.allPosters[0]._id)
                           | Me
                         else
                           |#{link.allPosters[0].username}
@@ -36,8 +36,8 @@ block content
                         | *
                     ul
                       li._header
-                        span(data-href="/#{link.firstPoster.username}/#{page_vars.block}")
-                          if String(user._id)===String(link.firstPoster._id)
+                        a(href="/#{link.firstPoster.username}")
+                          if user && String(user._id)===String(link.firstPoster._id)
                             | Me
                           else
                             |#{link.firstPoster.username}
@@ -45,8 +45,8 @@ block content
                       for allPoster in link.allPosters
                         if link.firstPoster._id!==allPoster._id                     
                           li
-                            span(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
-                            if String(user._id)===String(allPoster._id)
+                            a(href="/#{allPoster.username}")=allPoster.username
+                            if user && String(user._id)===String(allPoster._id)
                               span
                                 |  * 
 

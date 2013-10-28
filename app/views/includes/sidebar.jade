@@ -1,11 +1,12 @@
 nav.sidebar#sidebar
   section.menu
-    ul
-      li.menu__item
-        a(href='/')
-          div
-            i.icon-home 
-            | Timeline
+    ul 
+      if (user)
+        li.menu__item
+          a(href='/')
+            div
+              i.icon-home 
+              | Timeline
       li.menu__item
         a(href='/popular')
           div
@@ -36,4 +37,3 @@ nav.sidebar#sidebar
                   span.public-link(href='javascript:null',data-href="/#{user.username}/#{favorite_block._id}") #{favorite_block.user_count} 
                   span &bull; 
                   span.public-link(href='javascript:null',data-href="/public/#{favorite_block._id}") #{favorite_block.total_count}
-                  

@@ -115,6 +115,7 @@ exports.userlist = function (req, res) {
 
 
 exports.feed = function (req, res) {
+  if (!req.user) res.redirect("/popular");
   var block = req.params.block
     , username = req.user ? req.user.username : null
     , perpage = req.param('perpage')? req.param('perpage'):10
@@ -272,8 +273,8 @@ exports.publicBlock = function (req, res) {
   var block = req.params.block
     , username = req.user ? req.user.username : null
     , user_id = req.user ? req.user._id : null
+    , privateBlock=req.user? _.find(req.user.favorite_blocks,function(fav_block){ return fav_block._id.toLowerCase()==block.toLowerCase()}):null
   ;
-
   async.parallel({
     user_blocks: function (callback) {
       userBlocks(req.user, callback);
@@ -348,6 +349,7 @@ exports.publicBlock = function (req, res) {
         , title: 'public/'+block
         , page_vars: {block: block, username: username}
         , block_counts: results.block_counts
+        , privateBlock: (privateBlock!=null) ? true:false
       });
     }
   );
