@@ -1,0 +1,30 @@
+extends layouts/default
+
+
+block content
+  main.page
+    .page__topbar 
+      h1._title#page-title #{title}
+      |&nbsp;
+
+    .results#results
+
+    .menu__topbar.float-right
+      .icons
+        i.icon-user(title="Number of Your Links") &nbsp;
+        span &bull;&nbsp;
+        i.icon-globe(title="Number of Public Links")
+    for list in lists
+      if (list._id!="")
+        article.hypermark.losts(data-date_added="#{list.date_added}", data-_id="#{list._id}", style="width: 100%")
+          .hypermark__content
+            .hypermark__card
+              a.hypermark__link(href="/public/#{list._id}") #{list._id}
+              .float-right(style="padding: 0px 1em;")
+                span=list.user_count
+                span &nbsp;&bull;&nbsp;
+                span=list.total_count
+
+     
+
+ 

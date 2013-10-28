@@ -63,34 +63,48 @@ block content
             .hypermark__content
               .hypermark__card
                 if (!private)
-                  .dropdown.js-dropdown.float-right
-                    span.users
-                      a(href='#', data-dropdown='#dropdown-'+result._id)
-                        i.icon-user
-                          if String(user._id)===String(result.allPosters[0]._id)
-                            | Me
-                          else
-                            |#{result.allPosters[0].username}
+                  .float-right
+                    span.dropdown.js-dropdown
+                      if (result.allBlocks.length>1)
+                        span.users
+                          a(href='#', data-dropdown='#dropdown-group'+result._id)
+                            i.icon-list
+                              | Lists
+                          ul
+                            for block_list_item in result.allBlocks
+                              if (block_list_item!==block.toLowerCase())
+                                li
+                                  a(href="/public/#{block_list_item}")=block_list_item
+                        ||
+                              
+                    span.dropdown.js-dropdown
+                      span.users
+                        a(href='#', data-dropdown='#dropdown-'+result._id)
+                          i.icon-user
+                            if String(user._id)===String(result.allPosters[0]._id)
+                              | Me
+                            else
+                              |#{result.allPosters[0].username}
 
-                    ul
-                      li._header
-                        span(data-href="/#{result.firstPoster.username}/#{page_vars.block}")
-                          if String(user._id)===String(result.firstPoster._id)
-                            | Me
-                          else
-                            |#{result.firstPoster.username}
+                        ul
+                          li._header
+                            a(href="/#{result.firstPoster.username}")
+                              if String(user._id)===String(result.firstPoster._id)
+                                | Me
+                              else
+                                |#{result.firstPoster.username}
 
-                          |  (First Poster)   
-                      for allPoster in result.allPosters
-                        if result.firstPoster._id!==allPoster._id                     
-                          li
-                            span(data-href="/#{allPoster.username}/#{page_vars.block}")=allPoster.username
-                            if String(user._id)===String(allPoster._id)
-                              span
-                                |  *               
+                              |  (First Poster)   
+                          for allPoster in result.allPosters
+                            if result.firstPoster._id!==allPoster._id                     
+                              li
+                                a(href="/#{allPoster.username}")=allPoster.username
+                                if String(user._id)===String(allPoster._id)
+                                  span
+                                    |  *               
 
                     span
-                      || #{result.allPosters.length}
+                      |   #{result.allPosters.length}
                       if result.current_user_posted
                         | *
 

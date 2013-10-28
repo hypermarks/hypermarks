@@ -10,7 +10,27 @@ block content
     .results#results
 
       if feed_marks && feed_marks.length
-        for mark in feed_marks
+        for result in feed_marks
           article.hypermark.front
-            p=JSON.stringify(mark)
-            
+            .float-right
+              i.icon-user&nbsp; 
+              a.hypermark__link(href="#{result._user.username}") 
+                if String(user._id)===String(result._user._id)
+                  | Me
+                else
+                  |#{result._user.username}
+              
+            a.hypermark__link(href="#{result._address.working_url}") #{result._address.title}
+            span
+              |  added to list 
+            a.hypermark__link(href="/public/#{result.block}") #{result.block}
+            .hypermark__sani-url #{result._address.sani_url}
+            abbr.timeago(title=new Date( result.createdAt ).toISOString() ).timeago
+      if (page>1)
+        a.pagecontrol(href='?perpage=#{perpage}&page='+(Number(page)-1) )
+          i.icon-angle-left 
+          |  Prev
+      | 
+      a.pagecontrol(href='?perpage=#{perpage}&page='+(Number(page)+1) )
+        |  Next 
+        i.icon-angle-right

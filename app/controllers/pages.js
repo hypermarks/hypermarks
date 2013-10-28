@@ -47,10 +47,80 @@ function userBlocks(user, callback) {
   });
 };
 
+
+exports.userlist = function (req, res) {
+  var block = req.params.block
+    , username = req.user ? req.user.username : null
+    , perpage = req.param('perpage')? req.param('perpage'):10
+    , page = req.param('page')? req.param('page'): 1
+    , other_username=req.url? req.url.slice(1):null
+
+  ;
+
+  
+
+  async.parallel({
+    user_blocks: function (callback) {
+      userBlocks(req.user, callback);
+     },
+    other_user_blocks: function (callback) {
+
+      User.findOne({username:other_username})
+        .exec(function(err, user_result){
+          if (err) return callback(err);
+          if (user_result==null) return callback(err);
+          other_username=user_result.username;
+          userBlocks(user_result, callback);
+
+        });
+      
+     }
+     
+     // feed_marks: function (callback) {
+     //  if (!req.user) { callback(null, null); return; }
+
+     //  var blocks=_.map(req.user.favorite_blocks,function(obj){ return obj._id.toLowerCase()});
+     //  console.log(blocks)
+
+     //  Bookmark
+     //    .find({block:{$in:blocks}})
+     //    .skip(perpage*(page-1))
+     //    .limit(perpage)
+     //    .populate('_user', 'username _id')
+     //    .populate('_address')
+     //    .sort('-createdAt')
+     //    .exec(function(err, results){
+          
+     //      callback(err,results);
+
+     //    });
+
+     // }
+    }
+    , function (err, results) {
+
+      console.log(results)
+      if (err) return console.log(err);
+      return res.render('userlist', {
+          user: req.user
+        , favorite_blocks: results.user_blocks
+        , lists: results.other_user_blocks
+        , results: results.results
+        , title: other_username+"'s Lists"
+        , page_vars: {block: block, username: username}
+      });
+    }
+  );
+};
+
+
 exports.feed = function (req, res) {
   var block = req.params.block
     , username = req.user ? req.user.username : null
+    , perpage = req.param('perpage')? req.param('perpage'):10
+    , page = req.param('page')? req.param('page'): 1
   ;
+
   async.parallel({
     user_blocks: function (callback) {
       userBlocks(req.user, callback);
@@ -63,6 +133,10 @@ exports.feed = function (req, res) {
 
       Bookmark
         .find({block:{$in:blocks}})
+        .skip(perpage*(page-1))
+        .limit(perpage)
+        .populate('_user', 'username _id')
+        .populate('_address')
         .sort('-createdAt')
         .exec(function(err, results){
           
@@ -80,8 +154,10 @@ exports.feed = function (req, res) {
         , favorite_blocks: results.user_blocks
         , feed_marks: results.feed_marks
         , results: results.results
-        , title: 'Feed'
+        , title: 'Timeline'
         , page_vars: {block: block, username: username}
+        , page: page
+        , perpage: perpage
       });
     }
   );
@@ -113,7 +189,9 @@ exports.front = function (req, res) {
           if (result.results.length===1){
             user_ids=result.results[0].allPosters
           } else {
-            user_ids=_.reduce(result.results, function(memo, num){ return memo.allPosters.concat(num.allPosters) });
+            //map recuce this to get all posters
+            var all=_.map(result.results,"allPosters")
+            user_ids=_.reduce(all, function(memo, num){ return memo.concat(num) });
           }
 
          console.log(user_ids, "ids")
@@ -182,7 +260,7 @@ exports.front = function (req, res) {
           user: req.user
         , favorite_blocks: results.user_blocks
         , results: results.results
-        , title: 'Front Page'
+        , title: 'Popular'
         , page_vars: {block: block, username: username}
       });
     }
@@ -218,9 +296,29 @@ exports.publicBlock = function (req, res) {
               return {_id:_user._id, username:_user.username};
            });
 
-           //result.allPosters
+           // result.allPosters
+             console.log(result._address._id)
+            Bookmark.aggregate(
+              { $match: { _address: result._address._id } },
+              { $group: {  _id: '$_address', allBlocks:{$addToSet:'$block'} } }
+               ,function(err, articleRes){
+               //console.log(articleRes, "ars")
+              // console.log(result, "ars")
+               //result=JSON.parse(JSON.stringify(result))
+               // result=_.map(result,function(obj){
+               // // obj.newstuff=true
+               //  return obj
+               // })
+
+               var aRes=_.findWhere(articleRes,{_id:result._address._id})
+               
+               console.log(aRes)
+               result.allBlocks=aRes.allBlocks;
+
+
+                cb(null, result);
+            });
             
-            cb(null, result);
           });
         }, function(err, results){
           //console.log('aggregatePublicBlock results 2', results)

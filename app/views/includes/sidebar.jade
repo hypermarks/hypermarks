@@ -5,12 +5,12 @@ nav.sidebar#sidebar
         a(href='/')
           div
             i.icon-home 
-            |Home
+            | Timeline
       li.menu__item
-        a(href='/feed')
+        a(href='/popular')
           div
-            i.icon-home 
-            |Feed
+            i.icon-group
+            |  Popular
   if (favorite_blocks)  
     div.new-list
       button.btn-quiet.js-new-list
@@ -29,10 +29,11 @@ nav.sidebar#sidebar
       ul.js-sortable
         for favorite_block in favorite_blocks
           li.menu__item.js-favorite-block
-            a._name(href="/#{user.username}/#{favorite_block._id}", data-block="#{favorite_block._id}")
+            a._name(href="/public/#{favorite_block._id}", data-block="#{favorite_block._id}")
               div
                 |#{favorite_block._id}
                 ._count.js-count 
-                  span #{favorite_block.user_count} 
+                  span.public-link(href='javascript:null',data-href="/#{user.username}/#{favorite_block._id}") #{favorite_block.user_count} 
                   span &bull; 
                   span.public-link(href='javascript:null',data-href="/public/#{favorite_block._id}") #{favorite_block.total_count}
+                  

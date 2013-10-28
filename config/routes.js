@@ -65,12 +65,14 @@ module.exports = function (app, passport) {
   //PAGES
 
   
-  app.get('/', pages.front);
-  app.get('/feed', pages.feed);
+  app.get('/', pages.feed);
+  app.get('/popular', pages.front);
 
 
   //app.get('/_my/uncategorized',auth.requiresLogin, pages.uncategorized);
   app.get('/_search', pages.search);
   app.get('/public/:block', pages.publicBlock);
+
+  app.get('/:user', pages.userlist);
   app.get('/:user/:block', pages.privateBlock);
 };
