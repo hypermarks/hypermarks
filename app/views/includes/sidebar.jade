@@ -15,6 +15,7 @@ nav.sidebar#sidebar
   if (favorite_blocks)  
     div.new-list
       button.btn-quiet.js-new-list
+        mixpanel.track("Video play");
         |<b>+</b>&nbsp;New List
     section.menu
       .menu__topbar

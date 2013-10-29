@@ -14,3 +14,12 @@ script.
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-44706016-1', 'hypermarks.org');
     ga('send', 'pageview');
+
+script(type='text/javascript').
+    var Keen=Keen||{configure:function(e){this._cf=e},addEvent:function(e,t,n,i){this._eq=this._eq||[],this._eq.push([e,t,n,i])},setGlobalProperties:function(e){this._gp=e},onChartsReady:function(e){this._ocrq=this._ocrq||[],this._ocrq.push(e)}};(function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==document.location.protocol?"https://":"http://")+"dc8na2hxrj29i.cloudfront.net/code/keen-2.1.0-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+      // Configure the Keen object with your Project ID and (optional) access keys.
+      Keen.configure({
+      projectId: "52702cbe73f4bb2c43000002",
+      writeKey: "08ae193d57102678a0c8f1b2dafbbc8ac15f5ffa78c39288069235b6842546ec566b10ad4bec9585e0e880622280627f77f5c311664c9787450f6868b5dcc895f72b9d24c8199dc366a6c8e020250c606ed45376167b88004e0a8e945eddcaf65ca98d2c1461aec3b7f99b71fd8b163d", // required for sending events
+      readKey: "1b2c4fd61f2e9903d5db2e4b0d662981269b68296df95d5208bed44a0ee432dd5206319939078c67ebdcdb3dbb46c82c240726220de667c3df5431c35e8c937a5ecffde788c08589f995db340569506934803b0be78ce4b4a8c2e8d37fadb50da10d68ca45e88dda5faf9d13f6492799"    // required for doing analysis
+      });
